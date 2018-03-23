@@ -51,6 +51,11 @@ Loading...
             <img class="game-icon-image" data-bind="visible:tournamentInfo().isTournament"  src="./assets/img/trophy-cup.svg" title="Tournament Match" />
             <img class="game-icon-image" data-bind="visible:gameInfo.isCustomServer"  src="./assets/img/customServer.png" title="Community Server" />
         </div>
+        <div class="casts-tournaments">
+            <div class="casts" data-bind="foreach:casts">
+                <a data-bind="attr:{href:link},text:user" class="cast-link"></a>
+            </div>
+        </div>
         <div class="winner" data-bind="text:'Winner: ' + winnerString()"></div>
         <div class="army-list">
             <table class="army-table">

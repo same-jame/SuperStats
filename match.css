@@ -199,3 +199,10 @@
     font-size:16px;
     vertical-align:middle;
 }
+.casts-tournaments{
+    display:flex;
+}
+.casts{
+    display:flex;
+    justify-content:space-around;
+}
