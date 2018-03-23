@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Super Stats</title>
+    <link rel="stylesheet" href="./lib/pa.css" />
+    <link rel="stylesheet" href="./global.css" />
+    <link rel="stylesheet" href="./player.css" />
+    <script src="./lib/jquery-3.3.1.min.js"></script>
+    <script src="./lib/lodash.min.js"></script>
+    <script src="./lib/knockout-3.5.0beta.js"></script>
+    <script src="./lib/knockout.mapping.js"></script>
+    <script src="./lib/moment.min.js"></script>
+    <script src="./remote.js"></script>
+    <script src="./player.js"></script>
+</head>
+<body>
+<div class="header" data-bind="remote:'./header.html'"></div>
+<div class="error404" data-bind="if:show404">Match Not Found</div>
+<div class="main" data-bind="if:data,visible:data">
+    <div class="top">
+        <div class="name">
+            <span data-bind="text:currentDisplayName"></span> <span class="expand-names clicky" data-bind="click:toggleShowKnownNames,text:showKnownNames() ? '[-]' : '[+]'"></span>
+        </div>
+    </div>
+    <div class="name-list" data-bind="visible:showKnownNames,foreach:knownDisplayNames">
+        <div class="name-in-list">
+            <span class="player-name-in-list" data-bind="text:name"></span>
+            <span class="time-name-in-list" data-bind="text:timeString"></span>
+        </div>
+    </div>
+
+    <div class="match-list">
+        <table style="table-layout:fixed;width:100%;" cellspacing="0" cellpadding="0">
+            <thead><tr class="match-list-head">
+                <td style="width:30%">Players</td>
+                <td></td>
+                <td>System</td>
+                <td>Winner</td>
+                <td>Start Time</td>
+                <td>Duration</td>
+            </tr></thead>
+            <tbody data-bind="foreach:matches">
+                <tr class="match-in-list clicky" data-bind="click:$root.redirectToMatchPage">
+                    <td data-bind="text:titleString"></td>
+                    <td class="icon-bank">
+                        <img class="game-icon-image" data-bind="visible:!info.isTitans()" src="./assets/img/classic.png" title="Classic" />
+                        <img class="game-icon-image" data-bind="visible:info.isTitans" src="./assets/img/titans.png" title="Titans" />
+                        <img class="game-icon-image" data-bind="visible:casts().length" src="./assets/img/microphone.svg" title="This game has been casted"/>
+                        <img class="game-icon-image" data-bind="visible:info.isRanked"  src="./assets/img/ranked.png" title="Ranked 1v1 Ladder" />
+                        <img class="game-icon-image" data-bind="visible:info.equilibrium"  src="./assets/img/equilibrium.svg" title="Equilibrium" />
+                        <img class="game-icon-image" data-bind="visible:info.legion"  src="./assets/img/legion.png" title="Legion" />
+                        <img class="game-icon-image" data-bind="visible:tournamentInfo.isTournament"  src="./assets/img/trophy-cup.svg" title="Tournament Match" />
+                        <img class="game-icon-image" data-bind="visible:info.isCustomServer"  src="./assets/img/customServer.png" title="Community Server" />
+                    </td>
+                    <td data-bind="text:systemName"></td>
+                    <td data-bind="text:winnerString"></td>
+                    <td data-bind="text:startTimeString"></td>
+                    <td data-bind="text:durationString"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="footer" data-bind="remote:'./footer.html'"></div>
+</body>
+</html>

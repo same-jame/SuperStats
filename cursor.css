@@ -1,0 +1,18 @@
+html{
+    cursor: url('./assets/img/cursors/cursor.png') 32 32, auto;
+}
+a{
+    cursor: url('./assets/img/cursors/cursor_link.png') 28 28 , auto;
+}
+a:active{
+    cursor: url('./assets/img/cursors/cursor_link_active.png') 28 28 , auto;
+}
+.ui-slider-handle{
+    cursor: url('./assets/img/cursors/cursor.png') 32 32, auto !important;
+}
+.clicky{
+    cursor: url('./assets/img/cursors/cursor_link.png') 28 28 , auto;
+}
+.clicky:active{
+    cursor: url('./assets/img/cursors/cursor_link_active.png') 28 28 , auto;
+}

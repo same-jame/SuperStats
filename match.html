@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Super Stats - Match</title>
+    <link rel="stylesheet" href="./lib/billboard.min.css"/>
+    <link rel="stylesheet" href="./lib/jquery-ui.min.css"/>
+    <link rel="stylesheet" href="./lib/pa.css"/>
+    <link rel="stylesheet" href="./global.css"/>
+    <link rel="stylesheet" href="./graphs.css"/>
+    <link rel="stylesheet" href="./match.css"/>
+    <script src="./lib/jquery-3.3.1.min.js"></script>
+    <script src="./lib/jquery-ui.min.js"></script>
+    <script src="./lib/lodash.min.js"></script>
+    <script src="./lib/d3.min.js"></script>
+    <script src="./lib/billboard.min.js"></script>
+    <script src="./lib/knockout-3.5.0beta.js"></script>
+    <script src="./lib/knockout.mapping.js"></script>
+    <script src="./lib/knockout-jqueryui.min.js"></script>
+    <script src="./lib/moment.min.js"></script>
+    <script src="./remote.js"></script>
+    <script src="./match.js"></script>
+
+</head>
+<body>
+<div class="header" data-bind="remote:'./header.html'">
+</div>
+<!-- ko if: !data() -->
+Loading...
+<!-- /ko -->
+<div class="error404" data-bind="if:show404">Match Not Found</div>
+<!-- ko if: data -->
+<div class="main">
+    <div class="top">
+        <div class="playerinfo" data-bind="text:titleString"></div>
+        <div class="game-info">
+            <span data-bind="text:'Build: ' + gameInfo.buildVersion()"></span>
+            <span data-bind="text:'Lobby Id: ' + gameInfo.lobbyId()"></span>
+            <span data-bind="text:'System: ' + systemName()"></span>
+            <span data-bind="text:'Start: ' + gameTimeInfo.startTimeString()"></span>
+            <span data-bind="text:'Duration (Real Time): ' + gameTimeInfo.durationString()"></span>
+            <span data-bind="text:'Duration (Game Time): ' + gameTimeInfo.gameDurationString()"></span>
+        </div>
+        <div class="game-icons">
+            <img class="game-icon-image" data-bind="visible:!gameInfo.isTitans()" src="./assets/img/classic.png" title="Classic" />
+            <img class="game-icon-image" data-bind="visible:gameInfo.isTitans" src="./assets/img/titans.png" title="Titans" />
+            <img class="game-icon-image" data-bind="visible:casts().length" src="./assets/img/microphone.svg" title="This game has been casted"/>
+            <img class="game-icon-image" data-bind="visible:gameInfo.isRanked"  src="./assets/img/ranked.png" title="Ranked 1v1 Ladder" />
+            <img class="game-icon-image" data-bind="visible:gameInfo.equilibrium"  src="./assets/img/equilibrium.svg" title="Equilibrium" />
+            <img class="game-icon-image" data-bind="visible:gameInfo.legion"  src="./assets/img/legion.png" title="Legion" />
+            <img class="game-icon-image" data-bind="visible:tournamentInfo().isTournament"  src="./assets/img/trophy-cup.svg" title="Tournament Match" />
+            <img class="game-icon-image" data-bind="visible:gameInfo.isCustomServer"  src="./assets/img/customServer.png" title="Community Server" />
+        </div>
+        <div class="winner" data-bind="text:'Winner: ' + winnerString()"></div>
+        <div class="army-list">
+            <table class="army-table">
+                <thead>
+                <tr>
+                    <td>Players</td>
+                    <td>Average Efficiency</td>
+                    <td>Metal Produced</td>
+                    <td>Metal Wasted</td>
+                    <td>Metal Used</td>
+                    <td>Energy Produced</td>
+                    <td>Energy Wasted</td>
+                    <td>Energy Used</td>
+                    <td>Average APM</td>
+                </tr>
+                </thead>
+                <tbody data-bind="foreach:armies">
+                <tr class="army">
+                    <td class="army-players-and-color">
+                        <div class="army-color-parent">
+                            <div class="army-primary-color" data-bind="style:{'background-color':primaryColor}"></div>
+                            <div class="army-secondary-color"
+                                 data-bind="style:{'background-color':secondaryColor}"></div>
+                        </div>
+                        <div class="army-players" data-bind="text:playersString"></div>
+                    </td>
+                    <td data-bind="text:averageEfficiency"></td>
+                    <td data-bind="text:metalProduced"></td>
+                    <td data-bind="text:metalWasted"></td>
+                    <td data-bind="text:metalUsedPerc"></td>
+                    <td data-bind="text:energyProduced"></td>
+                    <td data-bind="text:energyWasted"></td>
+                    <td data-bind="text:energyUsedPerc"></td>
+                    <td data-bind="text:averageApm"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="parent">
+        <div class="sidebar">
+            <div class="multi-button game-time-switcher">
+                <div data-bind="css:{pa_btn:!usingGameTime(),pa_btn_active:usingGameTime},click:usingGameTime.bind(null,true)">
+                    Game Time
+                </div>
+                <div data-bind="css:{pa_btn:usingGameTime,pa_btn_active:!usingGameTime()},click:usingGameTime.bind(null,false)">
+                    Real Time
+                </div>
+            </div>
+            <div class="stat-graph-selector-parent">
+                <table class="stat-graph-selector-table">
+                    <tbody data-bind="foreach:statInfo">
+                    <tr>
+                        <td class="stat-graph-selector"
+                            data-bind="text:displayName,click:$root.clickStatGraphButton,css:{pa_btn:$root.selectedGraphKey() !== id(),pa_btn_active:$root.selectedGraphKey() === id()}"></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="multi-button strategic-icon-switcher">
+                <div class="strategic-icon-selector"
+                     data-bind="css:{pa_btn:!usingStrategicIcons(), pa_btn_active:usingStrategicIcons},click:usingStrategicIcons.bind(null,true)">
+                    Strategic Icons
+                </div>
+                <div class="strategic-icon-selector"
+                     data-bind="css:{pa_btn:usingStrategicIcons, pa_btn_active:!usingStrategicIcons()},click:usingStrategicIcons.bind(null,false)">
+                    Build Bar Icons
+                </div>
+            </div>
+            <div class="system-viewer">
+                <div class="planet-list">
+                    <!-- ko foreach: planets -->
+                    <div class="system-viewer-planet clicky" data-bind="click:$root.selectPlanet,attr:{title:name}">
+                        <img style="width:32px;height:32px" data-bind="attr:{src:planetImg}" />
+                        <img style="width:15px;height:15px;position:absolute;right:0;bottom:0" data-bind="visible:starting"  src="./assets/img/start.png"/>
+                    </div>
+                    <!-- /ko -->
+                </div>
+                <div class="selected-planet" data-bind="if:selectedPlanetName().length">
+                    <div data-bind="text:selectedPlanet().name"></div>
+                    <div class="selected-planet-h">
+                        <div class="selected-planet-h-image">
+                            <img style="width:64px;height:64px;" data-bind="attr:{src:selectedPlanet().planetImg}" />
+                            <img style="right:0;bottom:0;position:absolute;width:30px;height:30px" data-bind="visible:selectedPlanet().starting()" src = "./assets/img/start.png"/>
+                        </div>
+                        <div class="selected-planet-img-adj">
+                            <div data-bind="text:selectedPlanet().radius() + ' Radius' "></div>
+                            <div data-bind="text:selectedPlanet().metalSpots() + ' Metal' "></div>
+                        </div>
+                    </div>
+                    <!-- knockout doesn't like empty arrays it seems -->
+                    <div data-bind="foreach:_.range(selectedPlanet().halleys() || 0)">
+                        <img src="./assets/img/halley.png" />
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="server-mod-list">
+                <table>
+                    <thead><tr><td style="font-weight:bold;">Server Mods</td></tr></thead>
+                    <tbody data-bind="foreach:serverMods">
+                    <tr><td class="server-mod" data-bind="text:display_name,attr:{title:version}"></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="content">
+            <div class="graph" data-bind="graph:selectedGraph"></div>
+            <div class="units">
+                <div class="unit-time">
+                    <span data-bind="text:currentUnitTimeString"></span>
+                    <div class="time-slider"
+                         data-bind="slider:{step:5,value:currentUnitTime,min:0,max:endUnitTime, realtime: true}"></div>
+                    <span data-bind="text:endUnitTimeString"></span>
+                </div>
+                <div class="units-list-parent">
+                    <!-- ko foreach: currentUnits -->
+                    <div class="unit-list-players" data-bind="text:playersString"></div>
+                    <div class="unit-list">
+                        <!-- ko foreach: data -->
+                        <a class="unit-list-unit" data-bind="attr:{href:unitDb}" target="_blank">
+                            <!-- ko if: $root.usingStrategicIcons -->
+                            <img  data-bind="attr:{src:shadowUrl}"/>
+                            <div class="unit-list-unit-mask" data-bind="style:{'background-color':$parent.primaryColor,'mask-image':primaryUrl}"></div>
+                            <!-- /ko -->
+                            <!-- ko if: !$root.usingStrategicIcons() -->
+                            <img data-bind="attr:{src:buildBarUrl}" />
+                            <!-- /ko -->
+                            <div class="unit-list-unit-count" data-bind="text:count"></div>
+                        </a>
+                        <!-- /ko -->
+                    </div>
+                    <!-- /ko -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!-- /ko -->
+<div class="footer" data-bind="remote:'./footer.html'"></div>
+</body>
+</html>

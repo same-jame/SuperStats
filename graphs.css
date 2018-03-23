@@ -1,0 +1,44 @@
+td.value,td.name{
+    color: #fff;
+}
+.tick{
+    fill:white;
+}
+.bb-ygrid-lines{
+    fill:white;
+    stroke:white;
+}
+path.domain{
+    stroke:white;
+}
+.bb-legend-item{
+    fill:white;
+    cursor:url('./assets/img/cursors/cursor_link.png') 28 28 , auto !important;
+}
+.bb-event-rect{
+    cursor: url('./assets/img/cursors/cursor.png') 32 32, auto !important;
+}
+g.tick > line {
+    fill:white;
+    stroke:white;
+}
+.bb-tooltip > tbody > tr{
+    background-color: rgba(0,0,0,0.4);
+    border:0;
+    box-shadow:none;
+}
+.bb-tooltip > tbody > tr > th,.bb-tooltip > tbody > tr > td , table.bb-tooltip{
+    background-color: rgba(0,0,0,0);
+    border:0;
+    box-shadow:none;
+}
+.bb-axis-x-label, .bb-axis-y-label{
+    fill:white;
+}
+.bb-xgrid, .bb-ygrid{
+    stroke-dasharray:none;
+    opacity:0.5;
+}
+.bb-line{
+    stroke-width:2px;
+}

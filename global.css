@@ -1,0 +1,52 @@
+
+@import url('./cursor.css');
+
+@font-face{
+    font-family:"Source-Sans";
+    src:url('./assets/fonts/SourceSansPro-Regular.ttf.woff')
+}
+body{
+    background-image:url('./assets/img/background.png');
+    color:#fff;
+    padding:0;
+    margin:0;
+    font-family:'Source-Sans', sans-serif;
+    height:100vh;
+}
+.footer{
+    width:100%;
+    font-size:16px;
+    height:20px;
+    text-align:center;
+}
+a:active{
+    color:#00c8ff;
+    text-decoration: none;
+}
+a:link{
+    color:#00c8ff;
+    text-decoration: none;
+}
+a:visited{
+    color: #00c8ff;
+    text-decoration: none;
+}
+a:hover{
+    color: #58fffd;
+    text-decoration: none;
+}
+::-moz-selection{
+    background-color: rgba(255, 255, 255, 0.99);
+    color: #00b9ef;
+    text-shadow:0 0 1px #00fffb;
+}
+::selection{
+    background-color: rgba(255, 255, 255, 0.99);
+    color: #00b9ef;
+    text-shadow:0 0 1px #00fffb;
+}
+.error404{
+	text-align:center;
+	padding-top:20px;
+	font-size:48px;
+}

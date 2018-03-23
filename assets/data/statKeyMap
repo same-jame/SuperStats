@@ -1,0 +1,22 @@
+{
+	'metalProd': 'Metal Income',
+	'metalLoss': 'Metal Usage',
+	'metalStorage': 'Max Metal',
+	'metalStored': 'Metal Stored',
+	'energyProd': 'Energy Income',
+	'energyLoss': 'Energy Usage',
+	'energyStorage': 'Max Energy',
+	'energyStored': 'Energy Stored',
+	'simSpeed': 'Sim Speed',
+	'metalSpent': 'Metal Spent',
+	'metalWasted': 'Metal Wasted',
+	'energySpent': 'Energy Spent',
+	'energyWasted': 'Energy Wasted',
+	'energyProduced': 'Energy Produced',
+	'metalProduced': 'Metal Produced',
+	'netMetal': 'Net Metal Income',
+	'netEnergy': 'Net Energy Income',
+	'mEff': 'Metal Efficiency',
+	'eEff': 'Energy Efficiency',
+	'eff': 'Efficiency'
+}

@@ -1,0 +1,71 @@
+.main{
+    width:80%;
+    background-color: rgba(0, 0, 0, 0.90);
+    min-height:800px;
+    box-sizing:border-box;
+    flex-direction:column;
+    margin:40px auto 20px auto;
+}
+.top{
+    width:100%;
+}
+.name{
+    width:100%;
+    display:flex;
+    justify-content:center;
+    font-size:32px;
+	font-weight:bold;
+}
+.expand-names{
+    color:#00B3FF;
+    margin-left:5px;
+}
+.name-list{
+    display:flex;
+    justify-content:center;
+    font-size:18px;
+}
+.name-in-list{
+    transition-duration: .3s;
+    transition-timing-function: linear;
+    animation: fadeout;
+    padding:3px;
+}
+.name-in-list:hover{
+    background-color: #00d0ff;
+    color:white;
+}
+.player-name-in-list{
+    font-weight:bold;
+}
+.match-list-head{
+    font-weight:bold;
+    font-size:18px;
+}
+.match-list{
+    text-align:center;
+    margin-top:20px;
+}
+.match-in-list{
+    font-size:16px;
+    transition-duration: .3s;
+    transition-timing-function: linear;
+    animation: fadeout;
+}
+.match-in-list>td{
+    padding:3px 0 3px 0;
+    /* to make the thing clicky so I don't do a billion data-binds */
+    z-index:-1;
+}
+.match-in-list:hover{
+    background-color: #00d0ff;
+}
+.icon-bank{
+    display:flex;
+    justify-content:center;
+}
+.game-icon-image{
+    width:20px;
+    height:20px;
+    margin-right:3px;
+}

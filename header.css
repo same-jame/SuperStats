@@ -1,0 +1,9 @@
+.header-main{
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    font-size:16px;
+    height:80px;
+    width:100%;
+    background-color: rgba(6, 45, 52, 0.6);
+}
