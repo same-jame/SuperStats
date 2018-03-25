@@ -1,3 +1,9 @@
+ko.bindingHandlers.setPageTitle = {
+	update: function (el, va, ab, vm, binding) {
+		var k = ko.unwrap(va());
+		document.querySelector('title').innerHTML = k;
+	}
+};
 var model = new (function () {
 	var self = this;
 	self.getData = function (q) {
@@ -24,7 +30,7 @@ var model = new (function () {
 		return ko.mapping.fromJS(n)();
 	});
 	self.matches = ko.computed(function () {
-		if(!self.data()){
+		if (!self.data()) {
 			return;
 		}
 		var n = _.cloneDeep(self.data().matches);
@@ -51,7 +57,7 @@ var model = new (function () {
 				}
 				return out.substring(0, out.length - 1);
 			})(x.armies);
-			x.winnerString = (function(match){
+			x.winnerString = (function (match) {
 				for (var x of match.armies) {
 					if (x.teamId === match.winner) {
 						var dnames = [];
@@ -68,8 +74,12 @@ var model = new (function () {
 				that.isTitans = match.isTitans;
 				that.isRanked = match.isRanked;
 				that.isCustomServer = match.isCustomServer;
-				that.equilibrium = match.serverMods.map( r => {return r.identifier.includes('com.pa.n30n.equilibrium')} ).includes(true);
-				that.legion = match.serverMods.map( r => {return r.identifier.includes('com.pa.legion-expansion-server')} ).includes(true);
+				that.equilibrium = match.serverMods.map(r => {
+					return r.identifier.includes('com.pa.n30n.equilibrium')
+				}).includes(true);
+				that.legion = match.serverMods.map(r => {
+					return r.identifier.includes('com.pa.legion-expansion-server')
+				}).includes(true);
 			})(x);
 			x.startTimeString = moment(x.gameStartTime).format('DD/MM/YYYY HH:mm:ss');
 			x.durationString = x.gameEndTime ? moment(x.gameEndTime - x.gameStartTime).format('mm:ss') : 'Unknown';
@@ -77,17 +87,17 @@ var model = new (function () {
 		}
 		return ko.mapping.fromJS(n)();
 	});
-	self.redirectToMatchPage = function(){
+	self.redirectToMatchPage = function () {
 		var that = this;
 		window.open('./match.html?match=' + that.lobbyId());
 	};
 	self.showKnownNames = ko.observable(false);
-	self.toggleShowKnownNames = function(){
+	self.toggleShowKnownNames = function () {
 		self.showKnownNames(!self.showKnownNames());
 	};
 	self.show404 = ko.observable(false);
 	self.getData(qs.match).then(function (q) {
-		if(!q || q.error){
+		if (!q || q.error) {
 			self.show404(true);
 			return;
 		}

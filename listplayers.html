@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Super Stats - Players</title>
+    <link rel="stylesheet" href="./lib/pa.css"/>
+    <link rel="stylesheet" href="./global.css"/>
+    <link rel="stylesheet" href="./listplayers.css"/>
+    <script src="./lib/jquery-3.3.1.min.js"></script>
+    <script src="./lib/lodash.min.js"></script>
+    <script src="./lib/knockout-3.5.0beta.js"></script>
+    <script src="./lib/knockout.mapping.js"></script>
+    <script src="./remote.js"></script>
+    <script src="./listplayers.js"></script>
+</head>
+<body>
+<div class="header" data-bind="remote:'./header.html'"></div>
+<div class="main" data-bind="if:data">
+    <div class="opts">
+        <input type="text" data-bind="textInput:searchString" placeholder="Search" />
+        <label>Show Uber Ids</label>
+        <input type="checkbox" data-bind="checked:showUberIds" />
+    </div>
+    <div class="player-list-parent" data-bind="foreach:sortedData">
+        <div class="player">
+            <div data-bind="text:displayName,click:$root.redirectToPlayerPage,style:{'margin-right':$root.showUberIds() ? '10px' : '0'}"  class="clicky"></div>
+            <div data-bind="text:uberId,visible:$root.showUberIds"></div>
+        </div>
+    </div>
+</div>
+<div class="footer" data-bind="remote:'./footer.html'"></div>
+</body>
+</html>
