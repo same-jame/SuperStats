@@ -1,4 +1,4 @@
-#Super Stats
+# Super Stats
 
 Super Stats is the community statistics tracker for Planetary Annihilation Titans & Classic.
 
