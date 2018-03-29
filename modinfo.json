@@ -9,7 +9,7 @@
 	"forum":"do_this_later",
 	"identifier":"com.flubbateios.stats",
 	"signature":"TakeASeatYoungSkywalker",
-	"version":"1.0.0",
+	"version":"0.1",
 	"priority":101,
 	"scenes":{
 		"live_game":["coui://ui/mods/com.flubbateios.stats/live_game.js"],
