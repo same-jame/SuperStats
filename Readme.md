@@ -1,5 +1,5 @@
-# Super Stats
+# Super Stats Server
 
-Super Stats is the community statistics tracker for Planetary Annihilation Titans & Classic.
+DEV branch
 
-See the other branches for the actual source code.
+Not tested

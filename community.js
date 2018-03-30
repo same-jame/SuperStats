@@ -1,0 +1,108 @@
+const url = require("url");
+module.exports = function(self){
+	self.app.use('/api/matches/:game/cast', self.permissionMiddleware('cast'));
+	self.app.post('/api/matches/:game/cast',function(req,res){
+		var data =req.body || false;
+		if(!(data && data.link.constructor === String && data.user.constructor === String)){
+			res.send({error:'malformed-query'});
+			return;
+		}
+		var link= data.link.substr(0,80);
+		var user= data.user.substr(0,35);
+		var q = url.parse(link.toLowerCase());
+		var valid = false;
+		if(q.hostname === "youtube.com" || q.hostname === "gaming.youtube.com" ){
+			if(q.pathname === "/watch"){
+				valid = true;
+			}
+		}
+		if(q.hostname === "twitch.tv"){
+			if(q.pathname.startsWith('/videos/')){
+				valid = true;
+			}
+		}
+		if(!valid){
+			res.send({error:'invalid-link'});
+			return;
+		}
+		var add = {link:link,user:user};
+		self.database.collection('matches').updateOne({lobbyId:req.params.game},{$addToSet:{casts:add}}).then(function(r){
+			if(!r.n){
+				res.json({error:'not-real-match'});
+				return;
+			}
+			if(!r.nModified){
+				res.json({error:'already-added'});
+				return;
+			}
+			res.json({success:true,lobbyId:req.params.game})
+		});
+	});
+	self.app.use('/api/tournaments/modify_or_add', self.permissionMiddleware('tournament'));
+	self.app.post('/api/tournaments/modify_or_add',function(req,res){
+		var data = req.body;
+		delete data.apiKey;
+		//validator probably not necessary but if tournament data is expanded then could be useful
+		//Identifier will be used for URls so it MUST be alphanumeric
+		var v = new Validator();
+		var schema = {
+			type:"object",
+			required:["identifier","name"],
+			properties:{
+				identifier:{
+					type:"string",
+					format:"alpha-numeric",
+					maxLength:40,
+					minLength:4
+				},
+				name:{
+					type:"string",
+					maxLength:100,
+					minLength:6
+				},
+				date:{
+					type:"integer"
+				},
+				link:{
+					type:"string",
+					maxLength:150
+				}
+			}
+		};
+		var valid = v.validate(data, schema);
+		if (valid.errors.length) {
+			res.json({
+				error: 'malformed-query'
+			});
+			return;
+		}
+		self.database.collection('tournaments').updateOne({identifier:valid.identifier},data,{upsert:true}).then(function(){
+			res.json({success:true})
+		});
+
+	});
+	self.app.use('/api/matches/:game/tournament', self.permissionMiddleware('tournament'));
+	self.app.post('/api/matches/:game/tournament',function(req,res){
+		//pending rewrite
+		var data =req.body || false;
+		if(!(data && data.link.constructor === String && data.identifier.constructor === String && data.name.constructor === String)){
+			res.send({error:'malformed-query'});
+			return;
+		}
+		var identifier = data.identifier.toLowerCase().substr(0,30);
+		var link = data.link.substr(0,100);
+		var name = data.name.substr(0,100);
+		self.database.collection('matches').updateOne({lobbyId:req.params.game},{$set:{'tournamentInfo.isTournament':true,'tournamentInfo.link':link,'tournamentInfo.identifier':identifier,'tournamentInfo.name':name}}).then(function(r){
+			if(!r.n){
+				res.json({error:'not-real-match'});
+				return;
+			}
+			if(!r.nModified){
+				res.json({error:'already-added'});
+				return;
+			}
+			res.json({success:true,lobbyId:req.params.game})
+		});
+
+	});
+};
