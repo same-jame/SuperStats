@@ -1,0 +1,10 @@
+.main{
+    width:70%;
+    background-color: #14293d;
+    opacity:0.95;
+    padding:3px 0 3px 10px;
+    max-width:1200px;
+    border: #0089b4 1px solid;
+    box-sizing:border-box;
+    margin:10px auto 10px auto;
+}
