@@ -1,0 +1,112 @@
+.main {
+    width: 80%;
+    background-color: rgba(0, 0, 0, 0.90);
+    min-height: 800px;
+    box-sizing: border-box;
+    flex-direction: column;
+    margin: 40px auto 20px auto;
+}
+
+.match-list {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.match-in-list {
+    font-size: 16px;
+    transition-duration: .3s;
+    transition-timing-function: linear;
+    animation: fadeout;
+}
+
+.match-in-list > td {
+    padding: 3px 0 3px 0;
+}
+
+.match-in-list > td > a {
+    color: white;
+    display: block;
+}
+
+.match-in-list:hover {
+    background-color: #00d0ff;
+}
+
+.icon-bank {
+    display: flex;
+    justify-content: center;
+}
+
+.game-icon-image {
+    width: 20px;
+    height: 20px;
+    margin-right: 3px;
+}
+
+.top {
+    display: flex;
+}
+
+.backbutton, .forwardbutton {
+    width: 41px;
+    height: 37px;
+}
+
+.page {
+    display: flex;
+    margin: 10px 0 10px 20px;
+}
+
+.icon-bank > a {
+    width: 100%;
+}
+
+.search {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0 0 10px;
+    width: 100%;
+}
+
+.search-row {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    flex-direction: row;
+    margin-bottom: 10px;
+}
+
+input[type=text], input[type=password] {
+    font-size: 20px;
+    height: 25px;
+    box-sizing: border-box;
+}
+
+.player-list-parent {
+    display: flex;
+    flex-direction: row;
+    font-size: 17px;
+}
+
+.added-players {
+    margin-left: 10px;
+}
+
+input[type="submit"] {
+    width: 50px;
+    height: 30px;
+    display:none;
+}
+
+input[type=checkbox] {
+    outline: 0;
+    background-color: #343434;
+
+}
+
+.search-btn {
+    height: 30px;
+    font-size: 25px;
+    border: 1px solid rgba(0,0,0,0);
+    vertical-align:center;
+}
