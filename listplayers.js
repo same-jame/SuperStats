@@ -2,8 +2,8 @@ var model = new (function(){
 	var self = this;
 	//Using this getData function because I have a static testing file
 	self.getData = function () {
-		return $.getJSON('./testPlayerList.json')
-		//return $.getJSON('./api/player/list');
+		//return $.getJSON('./testPlayerList.json')
+		return $.getJSON('./api/player/list');
 	};
 	self.data = ko.observable(false);
 	self.showUberIds = ko.observable(false);
@@ -25,11 +25,6 @@ var model = new (function(){
 		}
 		return ko.mapping.fromJS(n)();
 	});
-	self.redirectToPlayerPage = function(){
-		var that = this;
-		var link = './player.html?player=' + that.uberId();
-		window.open(link);
-	};
 	self.getData().then(function(r){
 		self.data(r);
 	});
