@@ -66,6 +66,10 @@ module.exports = function(self){
 				link:{
 					type:"string",
 					maxLength:150
+				},
+				cast:{
+					type:"string",
+					maxLength:150
 				}
 			}
 		};
@@ -79,30 +83,31 @@ module.exports = function(self){
 		self.database.collection('tournaments').updateOne({identifier:valid.identifier},data,{upsert:true}).then(function(){
 			res.json({success:true})
 		});
-
 	});
 	self.app.use('/api/matches/:game/tournament', self.permissionMiddleware('tournament'));
 	self.app.post('/api/matches/:game/tournament',function(req,res){
-		//pending rewrite
 		var data =req.body || false;
-		if(!(data && data.link.constructor === String && data.identifier.constructor === String && data.name.constructor === String)){
-			res.send({error:'malformed-query'});
-			return;
+		if(!(data && data.identifier.constructor === String)){
+			res.json({error:'malformed-query'});
 		}
-		var identifier = data.identifier.toLowerCase().substr(0,30);
-		var link = data.link.substr(0,100);
-		var name = data.name.substr(0,100);
-		self.database.collection('matches').updateOne({lobbyId:req.params.game},{$set:{'tournamentInfo.isTournament':true,'tournamentInfo.link':link,'tournamentInfo.identifier':identifier,'tournamentInfo.name':name}}).then(function(r){
-			if(!r.n){
-				res.json({error:'not-real-match'});
+		self.database.collection('tournaments').findOne({identifier:data.identifier}).then(function(t){
+			if(!t){
+				res.json({error:'no-tournament'});
 				return;
 			}
-			if(!r.nModified){
-				res.json({error:'already-added'});
-				return;
-			}
-			res.json({success:true,lobbyId:req.params.game})
+			self.database.collection('matches').updateOne({lobbyId:req.params.game},{$set:{'tournamentInfo.isTournament':true,'tournamentInfo.identifier':identifier}}).then(function(r){
+				if(!r.n){
+					res.json({error:'not-real-match'});
+					return;
+				}
+				if(!r.nModified){
+					res.json({error:'already-added'});
+					return;
+				}
+				res.json({success:true,lobbyId:req.params.game})
+			});
 		});
+
 
 	});
 };
