@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="./lib/pa.css" />
+    <link rel="stylesheet" href="./global.css" />
+    <link rel="stylesheet" href="./make_acct.css" />
+    <script src="./lib/jquery-3.3.1.min.js"></script>
+    <script src="./lib/knockout-3.5.0beta.js"></script>
+    <script src="./remote.js"></script>
+    <script src="./make_acct.js"></script>
+    <title>Super Stats - Sign Up</title>
+</head>
+<body>
+<div class="header" data-bind="remote:'./header.html'"></div>
+<div class="main">
+    <h1>Sign Up</h1>
+    <!-- ko if: signingUp -->
+    <h3>Unless you've been asked to sign up, you don't need an account for Super Stats.
+        They have no functionality until permissions are assigned. Accounts are for casters & tournament organisers.
+    </h3>
+    <input class="in-field" type="text" data-bind="textInput:username" placeholder="Username" maxlength="20" style="margin:0;"/>
+    <h3>Never re-use passwords!</h3>
+    <input class="in-field" type="password" data-bind="textInput:password" placeholder="Password" maxlength="100"/>
+    <input class="in-field" type="password" data-bind="textInput:confirmPassword" placeholder="Confirm Password" maxlength="100"/>
+    <div data-bind="visible:(!passwordIsLongEnough()) && password().length">Password isn't long enough</div>
+    <div data-bind="visible:!match()">Passwords don't match.</div>
+    <div class="pa_btn" style="width:200px;font-size:22px;" data-bind="visible:readyToSignUp,click:signUp">Sign Up</div>
+    <!-- /ko -->
+    <!-- ko if: !signingUp() -->
+    <div data-bind="visible:error">Something went wrong!</div>
+    <div data-bind="visible:error,text:'Error: ' + error()"></div>
+    <div data-bind="visible:!error()">
+        <span>Signed up successfully.</span><br/>
+        <span>Username: </span><span data-bind="text:username"></span><br/>
+        <a href="./index.html">Home</a>
+    </div>
+    <!-- /ko -->
+</div>
+<div class="footer" data-bind="remote:'./footer.html'"></div>
+</body>
+</html>
