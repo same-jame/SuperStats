@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Super Stats - Add Cast</title>
+    <link rel="stylesheet" href="./lib/pa.css"/>
+    <link rel="stylesheet" href="./global.css"/>
+    <link rel="stylesheet" href="./tournaments_casts.css" />
+    <script src="./lib/jquery-3.3.1.min.js"></script>
+    <script src="./lib/lodash.min.js"></script>
+    <script src="./lib/knockout-3.5.0beta.js"></script>
+    <script src="./lib/knockout.mapping.js"></script>
+    <script src="./remote.js"></script>
+    <script src="./cast_add.js"></script>
+</head>
+<body>
+<div class="header" data-bind="remote:'./header.html'"></div>
+<div class="main">
+    <h1>Add Cast</h1>
+    <div>Your link must point to Youtube, Youtube Gaming or Twitch.
+        If your link is to a past stream, make sure your link goes to the right time in the VOD.
+        Make sure that you link to youtube<b>.com</b> and that your link does not include the playlist parameters etc...
+    </div><br/>
+    <input type="text" placeholder="Lobby Id" data-bind="textInput:lobbyId,disable:lobbyIdDisabled() || submitted()"/>
+    <input type="text" placeholder="Link" data-bind="textInput:link,disable:submitted"/>
+    <input type="text" placeholder="Username" data-bind="textInput:username,disable:submitted" maxlength="35"/>
+    <div class="pa_btn submit" data-bind="click:submitCast,visible:canSubmit">Submit</div>
+    <div data-bind="visible:submitted() && msg().length,text:msg"></div>
+</div>
+<div class="footer" data-bind="remote:'./footer.html'"></div>
+</body>
+</html>

@@ -1,0 +1,20 @@
+.main{
+    width:65%;
+    display:flex;
+    background-color: rgba(0, 0, 0, 0.90);
+    box-sizing:border-box;
+    flex-direction:column;
+    margin:40px auto 5px auto;
+    font-size:16px;
+    text-align:center;
+    padding:10px;
+    align-items:center;
+}
+input[type=text]{
+    margin-bottom:10px;
+    width:40%;
+}
+.submit{
+    font-size:25px;
+    padding:2px;
+}
