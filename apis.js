@@ -1,4 +1,3 @@
-
 const Validator = require('jsonschema').Validator;
 const request = require('request');
 module.exports = function (self) {
@@ -60,75 +59,77 @@ module.exports = function (self) {
 			res.json(q);
 		});
 	});
-	self.app.post('/api/matches/advancedsearch',function(req,res){
+	self.app.post('/api/matches/advancedsearch', function (req, res) {
 		var v = new Validator();
 		var schema = {
-			type:"object",
-			properties:{
-				systemName:{
-					type:'string',
-					maxLength:100
+			type: "object",
+			properties: {
+				systemName: {
+					type: 'string',
+					maxLength: 100
 				},
-				participatingIds:{
-					type:"array",
-					items:{
-						type:"string",
-						minLength:15,
-						maxLength:25
+				participatingIds: {
+					type: "array",
+					items: {
+						type: "string",
+						minLength: 15,
+						maxLength: 25
 					}
 				},
-				serverMods:{
-					type:"array",
-					items:{
-						type:"string",
-						maxLength:100
+				serverMods: {
+					type: "array",
+					items: {
+						type: "string",
+						maxLength: 100
 					}
 				},
-				tournament:{
-					type:"string",
-					maxLength:30
+				tournament: {
+					type: "string",
+					maxLength: 30
 				},
-				casted:{
-					type:"boolean"
-				,
-				min:{
-					type:'integer'
+				casted: {
+					type: "boolean"
 				},
-				max:{
-					type:'integer'
+				min: {
+					type: 'integer'
 				},
-				isTournament:{
-					type:'boolean'
+				max: {
+					type: 'integer'
+				},
+				isTournament: {
+					type: 'boolean'
 				}
 			}
 		};
-		var invalid = v.validate(req.body,schema).errors.length;
-		if(invalid){
-			res.json({error:'malformed-query'});
+		var invalid = v.validate(req.body, schema).errors.length;
+		if (invalid) {
+			res.json({error: 'malformed-query'});
 			return;
 		}
 		var query = {};
-		if(req.body.casted){
-			query['casts.0']={$exists:true};
+		if (req.body.casted) {
+			query['casts.0'] = {$exists: true};
 		}
-		if(req.body.systemName){
+		if (req.body.systemName) {
 			query['systemInfo.name'] = req.body.systemName;
 		}
-		if(req.body.participatingIds){
-			query['participatingIds'] = {$all:req.body.participatingIds};
+		if (req.body.participatingIds) {
+			query['participatingIds'] = {$all: req.body.participatingIds};
 		}
-		if(req.body.serverMods){
-			query['serverMods'] = {$all:req.body.serverMods};
+		if (req.body.serverMods) {
+			query['serverMods'] = {$all: req.body.serverMods};
 		}
-		if(req.body.tournament){}{
-			query['tournamentInfo.identifier']=req.body.tournament;
+		if (req.body.tournament) {
 		}
-		if(req.body.isTournament){
+		{
+			query['tournamentInfo.identifier'] = req.body.tournament;
+		}
+		if (req.body.isTournament) {
 			query[tournamentInfo.isTournament] = true;
 		}
 		var min = req.body.min ? req.body.min : 0;
 		var max = req.body.max ? req.body.max : 100;
-		self.database.collection('matches').find(query).skip(min).limit(max).toArray().then(function(q){
+		self.database.collection('matches').find(query).skip(min).limit(max).toArray().then(function (q) {
 			for (var x of q) {
 				for (var y of x.armies) {
 					delete y.dataPointsUnit;
@@ -202,6 +203,36 @@ module.exports = function (self) {
 			}
 		});
 	});
+	self.app.get('/api/tournaments/list', function (req, res) {
+		self.database.collection('tournaments').find().sort({time: -1}).toArray().then(function (r) {
+			var promises = [];
+			for (var x of r) {
+				delete x._id;
+				var prom = self.database.collection('matches').find({
+					'tournamentInfo.identifier': x.identifier
+				}).toArray();
+				promises.push(prom);
+			}
+			Promise.all(promises).then(function (z) {
+				for(var g in z){
+					var c =r[g];
+					var i = z[g];
+					for(var k of i){
+						for(var j of k.armies){
+							delete j.dataPointsStats;
+							delete j.dataPointsApm;
+							delete j.dataPointsUnit;
+						}
+						delete k._id;
+					}
+					c.matches = i;
+				}
+				res.json(r);
+			});
+
+		})
+	});
+	/*
 	self.app.post('/api/misc/proxyUserNames', function (req, res) {
 		var v = new Validator();
 		var schema = {
@@ -221,7 +252,7 @@ module.exports = function (self) {
 			}, function (a, b, resp) {
 				var k = JSON.parse(resp);
 				if (resp.ErrorCode) {
-					res.json(false)
+					res.json(false);
 				} else {
 					res.json(k.Users);
 				}
@@ -232,4 +263,5 @@ module.exports = function (self) {
 			});
 		}
 	});
+	*/
 };
