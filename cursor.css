@@ -7,6 +7,9 @@ a{
 a:active{
     cursor: url('./assets/img/cursors/cursor_link_active.png') 28 28 , auto;
 }
+label{
+    cursor: url('./assets/img/cursors/cursor.png') 32 32, auto;
+}
 .ui-slider-handle{
     cursor: url('./assets/img/cursors/cursor.png') 32 32, auto !important;
 }
@@ -15,4 +18,7 @@ a:active{
 }
 .clicky:active{
     cursor: url('./assets/img/cursors/cursor_link_active.png') 28 28 , auto;
+}
+.cool-cursor{
+    cursor: url('./assets/img/cursors/cursor.png') 32 32, auto !important;
 }

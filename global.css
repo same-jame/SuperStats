@@ -50,3 +50,45 @@ a:hover{
 	padding-top:20px;
 	font-size:48px;
 }
+.forwardbutton,.backbutton{
+    width:82px;
+    height:74px;
+    display:inline-block;
+    background-size:cover;
+}
+.forwardbutton{
+    background-image: url('./assets/img/buttons/btn_forward.png');
+}
+.forwardbutton:hover{
+    background-image: url('./assets/img/buttons/btn_forward_hover.png');
+}
+.forwardbutton:active{
+    background-image: url('./assets/img/buttons/btn_forward_active.png');
+}
+.backbutton{
+    background-image: url('./assets/img/buttons/btn_back.png');
+}
+.backbutton:hover{
+    background-image: url('./assets/img/buttons/btn_back_hover.png');
+}
+.backbutton:active{
+    background-image: url('./assets/img/buttons/btn_back_active.png');
+}
+input:focus{
+    outline:1px solid #a8a8a8;
+}
+input[type="submit"]{
+    background:none;
+    border:0;
+    outline:0;
+    box-shadow:none;
+    color: #009aff;
+    font-size:22px;
+    box-sizing:border-box;
+}
+input[type=text],input[type=password]{
+    background-color: #343434;
+    color:#ffffff;
+    border: 1px solid #666666;
+    font-size:18px;
+}
