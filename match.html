@@ -32,7 +32,15 @@ Loading...
 <!-- ko if: data -->
 <div class="main">
     <div class="top">
-        <div class="playerinfo" data-bind="text:titleString"></div>
+        <div class="playerinfo" data-bind="foreach:titleContents">
+            <!-- ko if: !link() -->
+            <!-- the html binding looks risky but all usernames are links - we just need the nbsp to work. -->
+            <span data-bind="html:text"></span>
+            <!-- /ko -->
+            <!-- ko if: link -->
+            <a data-bind="attr:{href:link},text:text"></a>
+            <!-- /ko -->
+        </div>
         <div class="game-info">
             <span data-bind="text:'Build: ' + gameInfo.buildVersion()"></span>
             <span data-bind="text:'Lobby Id: ' + gameInfo.lobbyId()"></span>
@@ -42,14 +50,14 @@ Loading...
             <span data-bind="text:'Duration (Game Time): ' + gameTimeInfo.gameDurationString()"></span>
         </div>
         <div class="game-icons">
-            <img class="game-icon-image" data-bind="visible:!gameInfo.isTitans()" src="./assets/img/classic.png" title="Classic" />
-            <img class="game-icon-image" data-bind="visible:gameInfo.isTitans" src="./assets/img/titans.png" title="Titans" />
-            <img class="game-icon-image" data-bind="visible:casts().length" src="./assets/img/microphone.svg" title="This game has been casted"/>
-            <img class="game-icon-image" data-bind="visible:gameInfo.isRanked"  src="./assets/img/ranked.png" title="Ranked 1v1 Ladder" />
-            <img class="game-icon-image" data-bind="visible:gameInfo.equilibrium"  src="./assets/img/equilibrium.svg" title="Equilibrium" />
-            <img class="game-icon-image" data-bind="visible:gameInfo.legion"  src="./assets/img/legion.png" title="Legion" />
-            <img class="game-icon-image" data-bind="visible:tournamentInfo().isTournament"  src="./assets/img/trophy-cup.svg" title="Tournament Match" />
-            <img class="game-icon-image" data-bind="visible:gameInfo.isCustomServer"  src="./assets/img/customServer.png" title="Community Server" />
+            <img class="game-icon-image" data-bind="visible:!gameInfo.isTitans()" src="./assets/img/icon-bank/classic.png" title="Classic" />
+            <img class="game-icon-image" data-bind="visible:gameInfo.isTitans" src="./assets/img/icon-bank/titans.png" title="Titans" />
+            <img class="game-icon-image" data-bind="visible:casts().length" src="./assets/img/icon-bank/microphone.svg" title="This game has been casted"/>
+            <img class="game-icon-image" data-bind="visible:gameInfo.isRanked"  src="./assets/img/icon-bank/ranked.png" title="Ranked 1v1 Ladder" />
+            <img class="game-icon-image" data-bind="visible:gameInfo.equilibrium"  src="./assets/img/icon-bank/equilibrium.svg" title="Equilibrium" />
+            <img class="game-icon-image" data-bind="visible:gameInfo.legion"  src="./assets/img/icon-bank/legion.png" title="Legion" />
+            <img class="game-icon-image" data-bind="visible:tournamentInfo().isTournament"  src="./assets/img/icon-bank/trophy-cup.svg" title="Tournament Match" />
+            <img class="game-icon-image" data-bind="visible:gameInfo.isCustomServer"  src="./assets/img/icon-bank/customServer.png" title="Community Server" />
         </div>
         <div class="casts-tournaments">
             <div class="casts" data-bind="foreach:casts">

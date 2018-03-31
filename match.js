@@ -15,7 +15,7 @@ ko.bindingHandlers.graph = {
 var model = new (function () {
 	var self = this;
 	self.getData = function (q) {
-		return $.getJSON('./test.json')
+		return $.getJSON('./test.json');
 		//return $.getJSON('./api/match/' + q);
 	};
 	self.data = ko.observable(false);
@@ -132,7 +132,6 @@ var model = new (function () {
 				}
 				return o;
 			}
-
 			//initialize the unit data timings thing whatever
 			for (var y of x.dataPointsUnit) {
 				var f = false;
@@ -298,29 +297,34 @@ var model = new (function () {
 	self.serverMods = ko.computed(function () {
 		return self.data() ? ko.mapping.fromJS(self.data().serverMods)() : false;
 	});
-	self.titleString = ko.computed(function () {
-		if (!self.data()) {
-			return false;
+	self.titleContents = ko.computed(function(){
+		if(!self.data()){
+			return;
 		}
-		var out = '';
+		var out = [];
 		var teams = {};
-		for (var x of self.armies()) {
-			if (!teams[x.teamId().toString()]) {
-				teams[x.teamId().toString()] = [];
+		for (var x of self.rawArmies()) {
+			if (!teams[x.teamId.toString()]) {
+				teams[x.teamId.toString()] = [];
 			}
-			for (var y of x.extendedPlayers()) {
-				teams[x.teamId().toString()].push(y.displayName());
+			for (var y of x.extendedPlayers) {
+				teams[x.teamId.toString()].push({displayName:y.displayName,uberId:y.uberId});
 			}
 		}
 		for (var x of Object.keys(teams)) {
 			var t = teams[x];
-			if (out) {
-				out += 'vs ';
+			if (out.length) {
+				out.push({text:'vs ',link:false});
 			}
-			out += t.join(', ');
-			out += ' ';
+			for(var y of t){
+				out.push({text:y.displayName,link:'./player.html?player='+y.uberId});
+				out.push({text:', ', link:false});
+			}
+			out = out.slice(0,-1);
+			out.push({text:'&nbsp;',link:false});
 		}
-		return out.substring(0, out.length - 1);
+		return ko.mapping.fromJS(out.slice(0,-1))();
+
 	});
 	self.winnerString = ko.computed(function () {
 		if (!self.data()) {
@@ -368,7 +372,7 @@ var model = new (function () {
 			}
 		}
 
-		var out = {xs: {}, columns: []/* ,xFormat:'%S' */, colors: {}, selection: {grouped: true}};
+		var out = {xs: {}, columns: [], colors: {}, selection: {grouped: true}};
 		for (var x of self.rawArmies()) {
 			for (var y of Object.keys(x.dataPointsApm)) {
 				var apmPoints = x.dataPointsApm[y];
@@ -705,15 +709,17 @@ var model = new (function () {
 	});
 	self.show404 = ko.observable(false);
 	self.unitLists.init().then(function () {
-		return self.getData(qs.match)
+		return self.getData(qs.match);
 	}).then(function (r) {
 		if (!r || r.error) {
 			self.show404(true);
 			return;
 		}
 		self.data(r);
+	}).catch(function(){
+		self.show404(true);
 	});
 })();
 $(document).ready(function () {
-	ko.applyBindings(model)
+	ko.applyBindings(model);
 });

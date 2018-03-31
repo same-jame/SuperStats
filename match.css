@@ -24,6 +24,11 @@
     text-align:center;
 }
 .playerinfo{
+    font-size:0;
+}
+.playerinfo>a,.playerinfo>span{
+    margin:0;
+    padding:0;
     font-size:22px;
 }
 .winner{
