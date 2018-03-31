@@ -7,8 +7,8 @@ ko.bindingHandlers.setPageTitle = {
 var model = new (function () {
 	var self = this;
 	self.getData = function (q) {
-		return $.getJSON('./testPlayer.json')
-		//return $.getJSON('./api/player/' + q);
+		//return $.getJSON('./testPlayer.json')
+		return $.getJSON('./api/player/' + q);
 	};
 	self.data = ko.observable(false);
 	self.currentDisplayName = ko.computed(function () {
@@ -84,24 +84,23 @@ var model = new (function () {
 			x.startTimeString = moment(x.gameStartTime).format('DD/MM/YYYY HH:mm:ss');
 			x.durationString = x.gameEndTime ? moment(x.gameEndTime - x.gameStartTime).format('mm:ss') : 'Unknown';
 			x.systemName = x.systemInfo.name;
+			x.link = './match.html?match=' + x.lobbyId;
 		}
 		return ko.mapping.fromJS(n)();
 	});
-	self.redirectToMatchPage = function () {
-		var that = this;
-		window.open('./match.html?match=' + that.lobbyId());
-	};
 	self.showKnownNames = ko.observable(false);
 	self.toggleShowKnownNames = function () {
 		self.showKnownNames(!self.showKnownNames());
 	};
 	self.show404 = ko.observable(false);
-	self.getData(qs.match).then(function (q) {
+	self.getData(qs.player).then(function (q) {
 		if (!q || q.error) {
 			self.show404(true);
 			return;
 		}
 		self.data(q);
+	}).catch(function(){
+		self.show404(true);
 	});
 })();
 $(document).ready(function () {

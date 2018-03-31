@@ -54,8 +54,6 @@
 }
 .match-in-list>td{
     padding:3px 0 3px 0;
-    /* to make the thing clicky so I don't do a billion data-binds */
-    z-index:-1;
 }
 .match-in-list:hover{
     background-color: #00d0ff;
@@ -68,4 +66,11 @@
     width:20px;
     height:20px;
     margin-right:3px;
+}
+.match-in-list>td>a{
+    color:white;
+    display:block;
+}
+.icon-bank>a{
+    width:100%;
 }
