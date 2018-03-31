@@ -1,12 +1,17 @@
-/* PA-UI by Uber Entertainment is licensed under MIT https://github.com/UberEnt/pa-ui/blob/master/LICENSE */
+/* 
+	This is a modified version of the btn_std_ix css from PA-UI.
+	PA-UI by Uber Entertainment is licensed under MIT https://github.com/UberEnt/pa-ui/blob/master/LICENSE 
+*/
 .pa_btn {
     color: #00B3FF;
     text-shadow: 0 0 10px #00B3FF;
     border: 1px solid rgba(0,179,255,0.6);
     box-shadow: none;
+    transition:background-color , color;
     transition-duration: .3s;
     transition-timing-function: linear;
     animation: fadeout;
+    box-sizing:border-box;
 }
 
 .pa_btn:hover {
@@ -15,8 +20,6 @@
     background: #1E7AA1;
     border: 1px solid #00B3FF;
     box-shadow: inset 0 0 10px #00B3FF;
-    animation: none;
-    transition: none;
 }
 
 .pa_btn:active {
