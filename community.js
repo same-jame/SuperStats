@@ -70,6 +70,9 @@ module.exports = function(self){
 				cast:{
 					type:"string",
 					maxLength:150
+				},
+				live:{
+					type:"boolean"
 				}
 			}
 		};
