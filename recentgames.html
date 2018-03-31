@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Super Stats - Recent</title>
+    <link rel="stylesheet" href="./lib/pa.css" />
+    <link rel="stylesheet" href="./global.css" />
+    <link rel="stylesheet" href="./recentgames.css" />
+    <script src="./lib/jquery-3.3.1.min.js"></script>
+    <script src="./lib/lodash.min.js"></script>
+    <script src="./lib/knockout-3.5.0beta.js"></script>
+    <script src="./lib/knockout.mapping.js"></script>
+    <script src="./lib/moment.min.js"></script>
+    <script src="./remote.js"></script>
+    <script src="./recentgames.js"></script>
+</head>
+<body>
+<div class="header" data-bind="remote:'./header.html'"></div>
+<!-- ko if: data -->
+<div class="main">
+    <div class="top">
+        <div class="page">
+            <div class="backbutton" data-bind="visibility:page() > 1,click:incrementPage.bind(null,-1)"></div>
+            <div data-bind="text:page" style="font-size:20px;font-weight:bold;"></div>
+            <div class="forwardbutton" data-bind="visibility:matchLength() === perPage()"></div>
+        </div>
+    </div>
+    <div class="match-list">
+        <table style="table-layout:fixed;width:100%;" cellspacing="0" cellpadding="0">
+            <thead><tr class="match-list-head">
+                <td style="width:30%">Players</td>
+                <td></td>
+                <td>System</td>
+                <td>Winner</td>
+                <td>Start Time</td>
+                <td>Duration</td>
+            </tr></thead>
+            <tbody data-bind="foreach:matches">
+            <tr class="match-in-list">
+                <!-- the alternative to repeating all these databinds is using a click binding which means no open in new tab -->
+                <td>
+                    <a data-bind="attr:{href:link},text:titleString"></a>
+                </td>
+                <td class="icon-bank">
+                    <a data-bind="attr:{href:link}">
+                        <img class="game-icon-image" data-bind="visible:!info.isTitans()" src="./assets/img/icon-bank/classic.png" title="Classic" />
+                        <img class="game-icon-image" data-bind="visible:info.isTitans" src="./assets/img/icon-bank/titans.png" title="Titans" />
+                        <img class="game-icon-image" data-bind="visible:casts().length" src="./assets/img/icon-bank/microphone.svg" title="This game has been casted"/>
+                        <img class="game-icon-image" data-bind="visible:info.isRanked"  src="./assets/img/icon-bank/ranked.png" title="Ranked 1v1 Ladder" />
+                        <img class="game-icon-image" data-bind="visible:info.equilibrium"  src="./assets/img/icon-bank/equilibrium.svg" title="Equilibrium" />
+                        <img class="game-icon-image" data-bind="visible:info.legion"  src="./assets/img/icon-bank/legion.png" title="Legion" />
+                        <img class="game-icon-image" data-bind="visible:tournamentInfo.isTournament"  src="./assets/img/icon-bank/trophy-cup.svg" title="Tournament Match" />
+                        <img class="game-icon-image" data-bind="visible:info.isCustomServer"  src="./assets/img/icon-bank/customServer.png" title="Community Server" />
+                    </a>
+                </td>
+                <td>
+                    <a data-bind="attr:{href:link},text:systemName"></a>
+                </td>
+                <td>
+                    <a data-bind="attr:{href:link},text:winnerString"></a>
+                </td>
+                <td>
+                    <a data-bind="attr:{href:link},text:startTimeString"></a>
+                </td>
+                <td>
+                    <a data-bind="attr:{href:link},text:durationString"></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- /ko -->
+<div class="footer" data-bind="remote:'./footer.html'"></div>
+</body>
+</html>
