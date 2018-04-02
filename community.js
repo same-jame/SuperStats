@@ -1,4 +1,5 @@
 const url = require("url");
+const Validator = require('jsonschema').Validator;
 module.exports = function(self){
 	self.app.use('/api/matches/:game/cast', self.permissionMiddleware('cast'));
 	self.app.post('/api/matches/:game/cast',function(req,res){
@@ -47,7 +48,7 @@ module.exports = function(self){
 		var v = new Validator();
 		var schema = {
 			type:"object",
-			required:["identifier","name"],
+			required:["identifier","name","date"],
 			properties:{
 				identifier:{
 					type:"string",
