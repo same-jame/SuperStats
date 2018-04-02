@@ -208,28 +208,26 @@ module.exports = function (self) {
 			var promises = [];
 			for (var x of r) {
 				delete x._id;
-				var prom = self.database.collection('matches').find({
-					'tournamentInfo.identifier': x.identifier
-				}).toArray();
-				promises.push(prom);
+				(function (X) {
+					promises.push(new Promise(function (res, rej) {
+						self.database.collection('matches').find({'tournamentInfo.identifier': x.identifier}).toArray().then(function (q) {
+							for (var z of q) {
+								for (var y of z.armies) {
+									delete y.dataPointsUnit;
+									delete y.dataPointsStats;
+									delete y.dataPointsApm;
+								}
+							}
+							delete z._id;
+							X.matches = q;
+							res()
+						})
+					}));
+				})(x)
 			}
-			Promise.all(promises).then(function (z) {
-				for(var g in z){
-					var c =r[g];
-					var i = z[g];
-					for(var k of i){
-						for(var j of k.armies){
-							delete j.dataPointsStats;
-							delete j.dataPointsApm;
-							delete j.dataPointsUnit;
-						}
-						delete k._id;
-					}
-					c.matches = i;
-				}
+			Promise.all(promises).then(function(){
 				res.json(r);
-			});
-
+			})
 		})
 	});
 	/*
