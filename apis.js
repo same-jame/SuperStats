@@ -47,6 +47,8 @@ module.exports = function (self) {
 		}
 		self.database.collection('matches').find({
 			gameStartTime: query
+		}).sort({
+			gameStartTime: -1
 		}).toArray().then(function (q) {
 			for (var x of q) {
 				for (var y of x.armies) {
@@ -72,7 +74,7 @@ module.exports = function (self) {
 					type: "array",
 					items: {
 						type: "string",
-						minLength: 15,
+						minLength: 1,
 						maxLength: 25
 					}
 				},
@@ -117,19 +119,19 @@ module.exports = function (self) {
 			query['participatingIds'] = {$all: req.body.participatingIds};
 		}
 		if (req.body.serverMods) {
-			query['serverMods'] = {$all: req.body.serverMods};
+			query['serverMods.identifier'] = {$all: req.body.serverMods};
 		}
 		if (req.body.tournament) {
-		}
-		{
 			query['tournamentInfo.identifier'] = req.body.tournament;
 		}
 		if (req.body.isTournament) {
-			query[tournamentInfo.isTournament] = true;
+			query['tournamentInfo.isTournament'] = true;
 		}
 		var min = req.body.min ? req.body.min : 0;
 		var max = req.body.max ? req.body.max : 100;
-		self.database.collection('matches').find(query).skip(min).limit(max).toArray().then(function (q) {
+		self.database.collection('matches').find(query).sort({
+			gameStartTime: -1
+		}).skip(min).limit(max).toArray().then(function (q) {
 			for (var x of q) {
 				for (var y of x.armies) {
 					delete y.dataPointsUnit;
@@ -152,6 +154,12 @@ module.exports = function (self) {
 		self.database.collection('matches').findOne({
 			lobbyId: match
 		}).then(function (r) {
+			if(!r){
+				res.json({
+					error: "not-a-real-lobby-id"
+				});
+				return;
+			}
 			delete r._id;
 			res.json(r);
 		})
@@ -184,6 +192,8 @@ module.exports = function (self) {
 				delete r._id;
 				self.database.collection('matches').find({
 					participatingIds: player
+				}).sort({
+					gameStartTime: -1
 				}).toArray().then(function (q) {
 					for (var x of q) {
 						for (var y of x.armies) {
@@ -204,7 +214,7 @@ module.exports = function (self) {
 		});
 	});
 	self.app.get('/api/tournaments/list', function (req, res) {
-		self.database.collection('tournaments').find().sort({time: -1}).toArray().then(function (r) {
+		self.database.collection('tournaments').find().sort({date: -1}).toArray().then(function (r) {
 			var promises = [];
 			for (var x of r) {
 				delete x._id;
@@ -218,7 +228,7 @@ module.exports = function (self) {
 									delete y.dataPointsApm;
 								}
 							}
-							delete z._id;
+							delete q._id;
 							X.matches = q;
 							res()
 						})
