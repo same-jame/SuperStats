@@ -3,6 +3,7 @@ const io = require('socket.io');
 const MongoClient = require('mongodb').MongoClient;
 const http = require('http');
 const bodyParser = require('body-parser');
+const scrypt = require('scrypt-async');
 const UberConverter = require('./convert.js');
 const wsHandler = require('./ws.js');
 const publicapis = require('./apis.js');
@@ -22,6 +23,7 @@ module.exports = function (data) {
 		port: '27017'
 	};
 	self.PABuildVersion = data.PABuildVersion || 108271;
+	self.initialUser = data.initialUser || false;
 	self.converter = new UberConverter(data.APIUberName, data.APIUberPass);
 	self.dbAuth = data.dbAuth || false;
 	self.app = express();
@@ -64,7 +66,7 @@ module.exports = function (data) {
 				res.json({error:'not-authenticated'});
 				return;
 			}
-			if(self.apiKeys[apiKey].permissions.includes(permission)){
+			if(self.apiKeys[apiKey].permissions.includes(permission) || self.apiKeys[apiKey].permissions.includes('root')){
 				next();
 			}else{
 				res.json({error:'permission-denied'})
@@ -108,6 +110,26 @@ module.exports = function (data) {
 			self.database.collection('info').findOne({tag: 'bannedIPs'}).then(function (r) {
 				self.bannedIPs = r ? r.content : [];
 			});
+			if(self.initialUser && !Object.keys(self.users).length){
+				self.apiKeys[self.initialUser.apiKey] = {
+					info:'initialUser',
+					permissions:['root']
+				};
+				self.users[self.initialUser.username] = {
+					salt:self.initialUser.salt,
+					apiKey:self.initialUser.apiKey
+				};
+				scrypt(self.initialUser.password, self.initialUser.salt, {
+					encoding: 'hex',
+					N: 16384,
+					r: 8,
+					p: 1
+				},function(e){
+					self.users[self.initialUser.username].hash = e;
+					self.synchronizeWithInfoDB('users');
+					self.synchronizeWithInfoDB('apiKeys');
+				})
+			}
 		});
 		self.converter.authenticate();
 		self.server.listen(self.webServerInfo.hostport, self.webServerInfo.hostname);
