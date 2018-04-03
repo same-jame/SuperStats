@@ -96,6 +96,7 @@ module.exports = function (self) {
 			res.json({
 				error: 'no-user'
 			});
+			return;
 		}
 		var salt = self.users[username].salt;
 		scrypt(password, salt, {
@@ -105,6 +106,7 @@ module.exports = function (self) {
 			p: 1
 		}, function (q) {
 			var hash = self.users[username].hash;
+			
 			if (hash !== q) {
 				res.json({
 					error: 'wrong-password'
@@ -118,18 +120,20 @@ module.exports = function (self) {
 		});
 	});
 	self.app.get('/api/users/roles', function (req, res) {
-		var key = req.params.key;
+		var key = req.query.key;
 		if (!key) {
 			res.json({
 				error: 'malformed-query'
 			});
+			return;
 		}
 		var user = self.apiKeys[key];
 		if (!user) {
 			res.json({
 				error: 'fake-api-key'
 			});
+			return;
 		}
-		res.json(user.permissions);
+		res.json({permissions:user.permissions});
 	})
 };

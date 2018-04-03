@@ -177,7 +177,7 @@ module.exports = function (r, converter) {
 			var v = new Validator();
 			var schema = {
 				"id": "/DataPoint",
-				"type": "Object",
+				"type": "object",
 				"required": ["metalProd", "metalLoss", "metalStorage", "metalStored", "energyProd", "energyLoss", "energyStorage", "energyStored", "simSpeed", "time", "realTime"],
 				"properties": {
 					"metalProd": {type: "integer"},
@@ -203,20 +203,22 @@ module.exports = function (r, converter) {
 			var a = self.getArmyById(socket.shake.armyId);
 			var v = new Validator();
 			var schema = {
-				'id': "/UnitData",
+				"id": "/UnitData",
 				"type": "array",
 				"items": {
 					"type": "object",
-					"required": ["delta,unit,realTime,time"],
+					//the required flag didn't work here from testing. 
+					//Switched to this version and it worked but it is inconsistent with other pieces of validation code.
 					"properties": {
-						"delta": {type: "integer"},
-						"unit":{type:"string",maxLength:180},
-						"realTime":{type:"integer"},
-						"time":{type:"integer"}
+						"delta": {type: "integer",required:true},
+						"unit":{type:"string",maxLength:180,required:true},
+						"realTime":{type:"integer",required:true},
+						"time":{type:"integer",required:true}
 					}
 				}
 			};
-			if (v.validate(point, schema).errors.length) {
+			var invalid = v.validate(point, schema).errors.length;
+			if (invalid) {
 				return;
 			}
 			for (var y of point) {

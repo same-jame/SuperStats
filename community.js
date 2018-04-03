@@ -12,12 +12,12 @@ module.exports = function(self){
 		var user= data.user.substr(0,35);
 		var q = url.parse(link.toLowerCase());
 		var valid = false;
-		if(q.hostname === "youtube.com" || q.hostname === "gaming.youtube.com" ){
+		if(q.hostname === "youtube.com" || q.hostname === "gaming.youtube.com" || q.hostname === "www.youtube.com" ){
 			if(q.pathname === "/watch"){
 				valid = true;
 			}
 		}
-		if(q.hostname === "twitch.tv"){
+		if(q.hostname === "twitch.tv"|| q.hostname === "www.twitch.tv"){
 			if(q.pathname.startsWith('/videos/')){
 				valid = true;
 			}
@@ -27,12 +27,19 @@ module.exports = function(self){
 			return;
 		}
 		var add = {link:link,user:user};
-		self.database.collection('matches').updateOne({lobbyId:req.params.game},{$addToSet:{casts:add}}).then(function(r){
-			if(!r.n){
+		var match = req.params.game;
+		if (!(match && (match.constructor.name === "String") && (match.length < 50) && (match.length > 5))) {
+			res.json({
+				error: "not-a-real-lobby-id"
+			});
+			return;
+		}
+		self.database.collection('matches').update({lobbyId:match},{$addToSet:{casts:add}}).then(function(r){
+			if(!r.result.n){
 				res.json({error:'not-real-match'});
 				return;
 			}
-			if(!r.nModified){
+			if(!r.result.nModified){
 				res.json({error:'already-added'});
 				return;
 			}
@@ -84,7 +91,7 @@ module.exports = function(self){
 			});
 			return;
 		}
-		self.database.collection('tournaments').updateOne({identifier:valid.identifier},data,{upsert:true}).then(function(){
+		self.database.collection('tournaments').updateOne({identifier:data.identifier},data,{upsert:true}).then(function(){
 			res.json({success:true})
 		});
 	});
@@ -93,18 +100,19 @@ module.exports = function(self){
 		var data =req.body || false;
 		if(!(data && data.identifier.constructor === String)){
 			res.json({error:'malformed-query'});
+			return;
 		}
 		self.database.collection('tournaments').findOne({identifier:data.identifier}).then(function(t){
 			if(!t){
 				res.json({error:'no-tournament'});
 				return;
 			}
-			self.database.collection('matches').updateOne({lobbyId:req.params.game},{$set:{'tournamentInfo.isTournament':true,'tournamentInfo.identifier':identifier}}).then(function(r){
-				if(!r.n){
+			self.database.collection('matches').updateOne({lobbyId:req.params.game},{$set:{'tournamentInfo.isTournament':true,'tournamentInfo.identifier':data.identifier}}).then(function(r){
+				if(!r.result.n){
 					res.json({error:'not-real-match'});
 					return;
 				}
-				if(!r.nModified){
+				if(!r.result.nModified){
 					res.json({error:'already-added'});
 					return;
 				}
