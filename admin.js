@@ -158,8 +158,8 @@ module.exports = function (self) {
 		})
 
 	});
-	self.app.use('/api/admin/roles/remove', self.permissionMiddleware('roles'));
-	self.app.post('/api/admin/roles/remove', function (req, res) {
+	self.app.use('/api/admin/key/remove', self.permissionMiddleware('roles'));
+	self.app.post('/api/admin/key/remove', function (req, res) {
 		var apiKey = req.body ? req.body.key : false;
 		if(!(apiKey && (apiKey.constructor === String))){
 			res.json({error:'malformed-query'});
@@ -252,5 +252,44 @@ module.exports = function (self) {
 			res.json({success:true})
 		});
 
-	})
+	});
+	self.app.use('/api/matches/:game/cast/delete',self.permissionMiddleware('community-mod'));
+	self.app.post('/api/matches/:game/cast/delete',function(req,res){
+		var g =req.params.game;
+		var l = req.body.link;
+		if(!(g && g.constructor===String && g.length > 5 && g.length<40 && l && l.constructor === String)){
+			res.json({error:'malformed-query'});
+			return;
+		}
+		self.database.collection('matches').updateOne({lobbyId:g},{'$pull':{link:req.body.link}}).then(function(r){
+			if(!r.results.n){
+				res.json({error:'not-real-match'});
+				return;
+			}
+			if(!r.results.nModified){
+				res.json({error:'not-real-link'});
+				return;
+			}
+			res.json({success:true});
+		});
+	});
+	self.app.use('/api/matches/:game/tournament/delete',self.permissionMiddleware('community-mod'));
+	self.app.use('/api/matches/:game/tournament/delete',function(req,res){
+		var g =req.params.game;
+		if(!(g && g.constructor===String && g.length > 5 && g.length<40 && l && l.constructor === String)){
+			res.json({error:'malformed-query'});
+			return;
+		}
+		self.database.collection('matches').updateOne({lobbyId:req.params.game},{$set:{'tournamentInfo.isTournament':false,'tournamentInfo.identifier':false}}).then(function(r){
+			if(!r.result.n){
+				res.json({error:'not-real-match'});
+				return;
+			}
+			if(!r.result.nModified){
+				res.json({error:'not-actually-tournament'});
+				return;
+			}
+			res.json({success:true,lobbyId:req.params.game});
+		});
+	});
 };
