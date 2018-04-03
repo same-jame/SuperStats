@@ -174,8 +174,8 @@ module.exports = function (self) {
 			res.json({success:true,error:false,apiKey:newKey});
 		})
 	});
-	self.app.use('/api/admin/roles/add', self.permissionMiddleware('roles'));
-	self.app.post('/api/admin/roles/add', function (req, res) {
+	self.app.use('/api/admin/keys/add', self.permissionMiddleware('roles'));
+	self.app.post('/api/admin/keys/add', function (req, res) {
 		delete req.body.apiKey;
 		var v = new Validator();
 		var schema = {
