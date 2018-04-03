@@ -1,15 +1,15 @@
 ko.bindingHandlers.visibility = {
-	update:function(el,va){
+	update: function (el, va) {
 		var q = ko.unwrap(va());
 		el.style.visibility = q ? 'visible' : 'hidden'
 	}
 };
-var model = new (function(){
+var model = new (function () {
 	var self = this;
 	self.perPage = ko.observable(100);
 	self.data = ko.observable(false);
-	self.getData = function(skip){
-		return $.getJSON('./api/matches/mostrecent?' + $.param({min:skip,max:self.perPage()})).done(function(r){
+	self.getData = function (skip) {
+		return $.getJSON('./api/matches/mostrecent?' + $.param({min: skip, max: self.perPage()})).done(function (r) {
 			self.data(r);
 		});
 	};
@@ -72,19 +72,19 @@ var model = new (function(){
 		}
 		return ko.mapping.fromJS(n)();
 	});
-	self.matchLength = ko.computed(function(){
+	self.matchLength = ko.computed(function () {
 		return self.matches() ? self.matches().length : 0;
 	});
 	self.page = ko.observable(1);
-	self.incrementPage = function(s){
+	self.incrementPage = function (s) {
 		self.page(self.page() + s);
 	};
-	self.skip = ko.computed(function(){
-		return (self.page()-1) * self.perPage();
+	self.skip = ko.computed(function () {
+		return (self.page() - 1) * self.perPage();
 	});
 	self.skip.subscribe(self.getData);
 	self.getData(0);
 })();
-$(document).ready(function(){
+$(document).ready(function () {
 	ko.applyBindings(model);
 });

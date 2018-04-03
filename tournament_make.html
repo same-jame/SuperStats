@@ -1,25 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Super Stats - Create/Update Tournament</title>
-    <link rel="stylesheet" href="./lib/pa.css"/>
-    <link rel="stylesheet" href="./global.css"/>
-    <link rel="stylesheet" href="./tournaments_casts.css"/>
-    <script src="./lib/jquery-3.3.1.min.js"></script>
-    <script src="./lib/jquery-ui.min.js"></script>
-    <script src="./lib/lodash.min.js"></script>
-    <script src="./lib/knockout-3.5.0beta.js"></script>
-    <script src="./lib/knockout.mapping.js"></script>
-    <script src="./remote.js"></script>
-    <script src="tournament_make.js"></script>
+	<meta charset="UTF-8">
+	<title>Super Stats - Create/Update Tournament</title>
+	<link rel="stylesheet" href="./lib/pa.css"/>
+	<link rel="stylesheet" href="./global.css"/>
+	<link rel="stylesheet" href="./tournaments_casts.css"/>
+	<script src="./lib/jquery-3.3.1.min.js"></script>
+	<script src="./lib/lodash.min.js"></script>
+	<script src="./lib/knockout-3.5.0beta.js"></script>
+	<script src="./remote.js"></script>
+	<script src="tournament_make.js"></script>
 </head>
 <body>
 <div class="header" data-bind="remote:'./header.html'"></div>
 <div class="main">
-    <h1>Create/Update Tournament</h1>
-    <input type="text" data-bind="textInput:identifier,disable:outsideData" placeholder="Identifier (required)"/>
-    <input type="text" data-bind="textInput:name" placeholder="Tournament Name (required)" />
+	<h1>Create/Update Tournament</h1>
+	<input type="text" data-bind="textInput:identifier,disable:outsideData() || submitted()"
+		   placeholder="Identifier (required)" maxlength="40"/>
+	<input type="text" data-bind="textInput:name,disable:submitted" placeholder="Tournament Name (required)"
+		   maxlength="100"/>
+	<input type="text" data-bind="textInput:link,disable:submitted" placeholder="Link" maxlength="150"/>
+	<input type="text" data-bind="textInput:cast,disable:submitted" placeholder="Cast" maxlength="150"/>
+	<div class="date" data-bind="with:time,display:!$root.submitted()">
+		<div class="year-month-day">
+			<input type="number" min="1" max="31" placeholder="DD" data-bind="textInput:day"/> /
+			<input type="number" min="1" max="12" placeholder="MM" data-bind="textInput:month"/> /
+			<input type="number" min="2010" max="3000" placeholder="YYYY" data-bind="textInput:year"
+				   style="width:60px;"/>
+		</div>
+		<div class="time">
+			<!--
+			<input type ="number" min="0" max="23"  placeholder="HH" data-bind="textInput:hour"/> :
+			<input type ="number" min="1" max="60"  placeholder="MM" data-bind="textInput:minute"/>
+			-->
+			<input type="time" data-bind="textInput:timeString">
+		</div>
+	</div>
+	<div class="t-make-live" data-bind="display:!submitted()">
+		<label>Live? </label>
+		<input type="checkbox" data-bind="checked:live"/>
+	</div>
+	<br/>
+	<div class="pa_btn submit" data-bind="click:submit,visible:canSubmit">Submit</div>
+	<div data-bind="visible:error().length">
+		<span>Error: </span>
+		<span data-bind="text:error"></span>
+	</div>
+
 </div>
 <div class="footer" data-bind="remote:'./footer.html'"></div>
 </body>

@@ -5,11 +5,12 @@
 	box-sizing: border-box;
 	flex-direction: column;
 	margin: 40px auto 20px auto;
+	padding-top: 20px;
 }
 
 .match-list {
 	text-align: center;
-	margin-top: 20px;
+	margin-top: 5px;
 }
 
 .match-in-list {
@@ -43,20 +44,21 @@
 	margin-right: 3px;
 }
 
-.top {
-	display: flex;
-}
-
-.backbutton, .forwardbutton {
-	width: 41px;
-	height: 37px;
-}
-
-.page {
-	display: flex;
-	margin: 10px 0 10px 20px;
-}
-
 .icon-bank > a {
 	width: 100%;
+}
+
+.tournament {
+	margin-bottom: 20px;
+}
+
+.tournament-top-row {
+	display: flex;
+	justify-content: center;
+}
+
+.tournament-top-row-b {
+	display: flex;
+	justify-content: space-around;
+	font-size: 22px;
 }

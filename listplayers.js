@@ -1,4 +1,4 @@
-var model = new (function(){
+var model = new (function () {
 	var self = this;
 	//Using this getData function because I have a static testing file
 	self.getData = function () {
@@ -8,27 +8,27 @@ var model = new (function(){
 	self.data = ko.observable(false);
 	self.showUberIds = ko.observable(false);
 	self.searchString = ko.observable('');
-	self.searchStringProcessed = ko.computed(function(){
+	self.searchStringProcessed = ko.computed(function () {
 		return self.searchString().replace(/[^A-Za-z0-9]/g, '').toLowerCase();
 	});
-	self.sortedData = ko.computed(function(){
-		if(!self.data()){
+	self.sortedData = ko.computed(function () {
+		if (!self.data()) {
 			return false;
 		}
 		var d = _.cloneDeep(self.data());
 		var n = [];
-		for(var x of d){
+		for (var x of d) {
 			var search_test = x.displayName.replace(/[^A-Za-z0-9]/g, '').toLowerCase();
-			if(search_test.includes(self.searchStringProcessed())){
+			if (search_test.includes(self.searchStringProcessed())) {
 				n.push(x);
 			}
 		}
 		return ko.mapping.fromJS(n)();
 	});
-	self.getData().then(function(r){
+	self.getData().then(function (r) {
 		self.data(r);
 	});
 })();
-$(document).ready(function(){
+$(document).ready(function () {
 	ko.applyBindings(model);
 });

@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Super Stats - Sign In</title>
-    <link rel="stylesheet" href="./lib/pa.css" />
-    <link rel="stylesheet" href="./global.css" />
-    <link rel="stylesheet" href="./make_acct.css" />
-    <script src="./lib/jquery-3.3.1.min.js"></script>
-    <script src="./lib/knockout-3.5.0beta.js"></script>
-    <script src="./remote.js"></script>
-    <script src="./signin.js"></script>
+	<meta charset="UTF-8">
+	<title>Super Stats - Sign In</title>
+	<link rel="stylesheet" href="./lib/pa.css"/>
+	<link rel="stylesheet" href="./global.css"/>
+	<link rel="stylesheet" href="./make_acct.css"/>
+	<script src="./lib/jquery-3.3.1.min.js"></script>
+	<script src="./lib/knockout-3.5.0beta.js"></script>
+	<script src="./remote.js"></script>
+	<script src="./signin.js"></script>
 </head>
 <body>
 <div class="header" data-bind="remote:'./header.html'"></div>
 <div class="main">
-    <h1>Sign In</h1>
-    <!-- ko if: !signedIn() -->
-    <input class="in-field" type="text" data-bind="textInput:username" placeholder="Username" maxlength="20"/>
-    <input class="in-field" type="password" data-bind="textInput:password" placeholder="Password" maxlength="100"/>
-    <div class="pa_btn" style="width:150px;font-size:24px;" data-bind="visible:canSignIn,click:signIn">Sign In</div>
-    <!-- /ko -->
-    <!-- ko if: error -->
-    <h3 data-bind="text:error"></h3>
-    <!-- /ko -->
+	<h1>Sign In</h1>
+	<!-- ko if: !signedIn() -->
+	<input class="in-field" type="text" data-bind="textInput:username" placeholder="Username" maxlength="20"/>
+	<input class="in-field" type="password" data-bind="textInput:password" placeholder="Password" maxlength="100"/>
+	<div class="pa_btn" style="width:150px;font-size:24px;" data-bind="visible:canSignIn,click:signIn">Sign In</div>
+	<!-- /ko -->
+	<!-- ko if: error -->
+	<h3 data-bind="text:error"></h3>
+	<!-- /ko -->
 </div>
 <div class="footer" data-bind="remote:'./footer.html'"></div>
 </body>

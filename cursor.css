@@ -1,24 +1,35 @@
-html{
-    cursor: url('./assets/img/cursors/cursor.png') 32 32, auto;
+html {
+	cursor: url('./assets/img/cursors/cursor.png') 32 32, auto;
 }
-a{
-    cursor: url('./assets/img/cursors/cursor_link.png') 28 28 , auto;
+
+a {
+	cursor: url('./assets/img/cursors/cursor_link.png') 28 28, auto;
 }
-a:active{
-    cursor: url('./assets/img/cursors/cursor_link_active.png') 28 28 , auto;
+
+a:active {
+	cursor: url('./assets/img/cursors/cursor_link_active.png') 28 28, auto;
 }
-label{
-    cursor: url('./assets/img/cursors/cursor.png') 32 32, auto;
+
+label {
+	cursor: url('./assets/img/cursors/cursor.png') 32 32, auto;
 }
-.ui-slider-handle{
-    cursor: url('./assets/img/cursors/cursor.png') 32 32, auto !important;
+
+.ui-slider-handle {
+	cursor: url('./assets/img/cursors/cursor.png') 32 32, auto !important;
 }
-.clicky{
-    cursor: url('./assets/img/cursors/cursor_link.png') 28 28 , auto;
+
+.clicky {
+	cursor: url('./assets/img/cursors/cursor_link.png') 28 28, auto;
 }
-.clicky:active{
-    cursor: url('./assets/img/cursors/cursor_link_active.png') 28 28 , auto;
+
+.clicky:active {
+	cursor: url('./assets/img/cursors/cursor_link_active.png') 28 28, auto;
 }
-.cool-cursor{
-    cursor: url('./assets/img/cursors/cursor.png') 32 32, auto !important;
+
+.cool-cursor {
+	cursor: url('./assets/img/cursors/cursor.png') 32 32, auto !important;
+}
+
+input:hover {
+	cursor: url('./assets/img/cursors/cursor.png') 32 32, auto;
 }

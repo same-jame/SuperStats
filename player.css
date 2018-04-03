@@ -1,76 +1,92 @@
-.main{
-    width:80%;
-    background-color: rgba(0, 0, 0, 0.90);
-    min-height:800px;
-    box-sizing:border-box;
-    flex-direction:column;
-    margin:40px auto 20px auto;
+.main {
+	width: 80%;
+	background-color: rgba(0, 0, 0, 0.90);
+	min-height: 800px;
+	box-sizing: border-box;
+	flex-direction: column;
+	margin: 40px auto 20px auto;
 }
-.top{
-    width:100%;
+
+.top {
+	width: 100%;
 }
-.name{
-    width:100%;
-    display:flex;
-    justify-content:center;
-    font-size:32px;
-	font-weight:bold;
+
+.name {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	font-size: 32px;
+	font-weight: bold;
 }
-.expand-names{
-    color:#00B3FF;
-    margin-left:5px;
+
+.expand-names {
+	color: #00B3FF;
+	margin-left: 5px;
 }
-.name-list{
-    display:flex;
-    justify-content:center;
-    font-size:18px;
+
+.name-list {
+	display: flex;
+	justify-content: center;
+	font-size: 18px;
 }
-.name-in-list{
-    transition-duration: .3s;
-    transition-timing-function: linear;
-    animation: fadeout;
-    padding:3px;
+
+.name-in-list {
+	transition-duration: .3s;
+	transition-timing-function: linear;
+	animation: fadeout;
+	padding: 3px;
 }
-.name-in-list:hover{
-    background-color: #00d0ff;
-    color:white;
+
+.name-in-list:hover {
+	background-color: #00d0ff;
+	color: white;
 }
-.player-name-in-list{
-    font-weight:bold;
+
+.player-name-in-list {
+	font-weight: bold;
 }
-.match-list-head{
-    font-weight:bold;
-    font-size:18px;
+
+.match-list-head {
+	font-weight: bold;
+	font-size: 18px;
 }
-.match-list{
-    text-align:center;
-    margin-top:20px;
+
+.match-list {
+	text-align: center;
+	margin-top: 20px;
 }
-.match-in-list{
-    font-size:16px;
-    transition-duration: .3s;
-    transition-timing-function: linear;
-    animation: fadeout;
+
+.match-in-list {
+	font-size: 16px;
+	transition-duration: .3s;
+	transition-timing-function: linear;
+	animation: fadeout;
 }
-.match-in-list>td{
-    padding:3px 0 3px 0;
+
+.match-in-list > td {
+	padding: 3px 0 3px 0;
 }
-.match-in-list:hover{
-    background-color: #00d0ff;
+
+.match-in-list:hover {
+	background-color: #00d0ff;
 }
-.icon-bank{
-    display:flex;
-    justify-content:center;
+
+.icon-bank {
+	display: flex;
+	justify-content: center;
 }
-.game-icon-image{
-    width:20px;
-    height:20px;
-    margin-right:3px;
+
+.game-icon-image {
+	width: 20px;
+	height: 20px;
+	margin-right: 3px;
 }
-.match-in-list>td>a{
-    color:white;
-    display:block;
+
+.match-in-list > td > a {
+	color: white;
+	display: block;
 }
-.icon-bank>a{
-    width:100%;
+
+.icon-bank > a {
+	width: 100%;
 }

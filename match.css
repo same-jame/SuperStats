@@ -1,213 +1,276 @@
-.main{
-    width:100%;
-    display:flex;
-    background-color: rgba(0, 0, 0, 0.90);
-    min-height:800px;
-    box-sizing:border-box;
-    flex-direction:column;
-    margin:40px 0 20px 0;
-}
-.sidebar{
-    width:200px;
-    box-sizing:border-box;
-    padding-left:10px;
-}
-.content{
-    width:calc( 100% - 200px );
-}
-.parent{
-    width:100%;
-    display:flex;
-    flex-direction:row;
-}
-.top{
-    text-align:center;
-}
-.playerinfo{
-    font-size:0;
-}
-.playerinfo>a,.playerinfo>span{
-    margin:0;
-    padding:0;
-    font-size:22px;
-}
-.winner{
-    font-size:17px;
-}
-.stat-graph-selector{
-    font-size:20px;
-    padding-left:5px;
-    box-sizing:border-box;
-    height:30px;
-    width:200px;
-}
-.graph{
-    height:600px;
-}
-.game-info{
-    display:flex;
-    justify-content:space-around;
-    margin:10px 0 10px 0;
-}
-.game-info>span{
-    text-align:center;
-    font-size:16px;
-}
-.multi-button{
-    display:flex;
-}
-.multi-button>div{
-    text-align:center;
-    width:100px;
-    font-size:18px;
-}
-.stat-graph-selector-parent{
-    margin-bottom:10px;
-}
-.stat-graph-selector-table{
-    border-collapse:collapse;
-}
-.army-list{
-    width:100%;
-}
-.army{
-    margin-bottom:6px;
-    font-size:18px;
-}
-.army-color-parent{
-    display:flex;
-    flex-direction:row;
-    margin-right:10px;
-}
-.army-primary-color{
-    width:60px;
-    height:25px;
-}
-.army-secondary-color{
-    width:15px;
-    height:25px;
-}
-.army-players-and-color{
-    display:flex;
-    flex-direction:row;
-    justify-content:center;
-}
-.army-table{
-    width:100%;
-    margin:20px 0 14px 0;
-}
-.army-table>thead{
-    font-weight:bold;
-}
-.game-time-switcher{
-    margin-bottom:10px;
-}
-.strategic-icon-switcher{
-    margin-bottom:20px;
-}
-.game-icons{
-    display:flex;
-    flex-direction:row;
-    justify-content:center;
-    width:100%;
+.main {
+	width: 100%;
+	display: flex;
+	background-color: rgba(0, 0, 0, 0.90);
+	min-height: 800px;
+	box-sizing: border-box;
+	flex-direction: column;
+	margin: 40px 0 20px 0;
 }
 
-.game-icons>img {
-    width: 24px;
-    height: 24px;
-}
-.units{
-    margin: 70px 0 50px 0;
-}
-.unit-time{
-    width:100%;
-    display:flex;
-    justify-content:center;
-}
-.time-slider{
-    width:75%;
-    margin:0 10px 0 10px;
-}
-.units-list-parent{
-    margin-left:20px;
-}
-.unit-list-players{
-    font-size:20px;
-}
-.unit-list-unit{
-    display:inline-block;
-    width:70px;
-    height:70px;
-    border: 1px solid #00B3FF;
-    position:relative;
-}
-.unit-list-unit-mask{
-    position:absolute;
-    width:52px;
-    height:52px;
-}
-.unit-list-unit > img{
-    position:absolute;
-    width:52px;
-    height:52px;
+.sidebar {
+	width: 200px;
+	box-sizing: border-box;
+	padding-left: 10px;
 }
 
-.unit-list-unit-count{
-    position:absolute;
-    bottom:0;
-    right:3px;
-    color:#fff;
+.content {
+	width: calc(100% - 200px);
 }
-.game-icon-image{
-    width:32px;
-    height:32px;
-    margin: 0 2px 0 2px;
+
+.parent {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
 }
-.system-viewer-planet{
-    display:inline-block;
-    position:relative;
+
+.top {
+	text-align: center;
 }
-.selected-planet-h{
-    display:flex;
+
+.playerinfo {
+	font-size: 0;
 }
-.selected-planet{
-    margin:20px 0 20px 0;
-    border:1px solid #00B3FF;
-    padding:3px 0 3px 4px;
-    font-size:18px;
+
+.playerinfo > a, .playerinfo > span {
+	margin: 0;
+	padding: 0;
+	font-size: 22px;
 }
-.selected-planet-img-adj{
-    margin-left:10px;
+
+.winner {
+	font-size: 17px;
 }
-.selected-planet-h-image{
-    position:relative;
+
+.stat-graph-selector {
+	font-size: 20px;
+	padding-left: 5px;
+	box-sizing: border-box;
+	height: 30px;
+	width: 200px;
 }
-.planet-list{
-    border:1px solid #00B3FF;
-    padding:6px;
-    box-sizing:border-box;
-    width:100%;
+
+.graph {
+	height: 600px;
 }
-.server-mod-list{
-    border:1px solid #00B3FF;
-    text-align:center;
-    margin-bottom:20px;
+
+.game-info {
+	display: flex;
+	justify-content: space-around;
+	margin: 10px 0 10px 0;
 }
-.server-mod-list>table{
-    border-collapse:collapse;
+
+.game-info > span {
+	text-align: center;
+	font-size: 16px;
 }
-.server-mod-list>table>tbody>tr{
-    border:1px solid #00B3FF;
+
+.multi-button {
+	display: flex;
 }
-.server-mod{
-    margin-bottom:5px;
-    font-size:16px;
-    vertical-align:middle;
+
+.multi-button > div {
+	text-align: center;
+	width: 100px;
+	font-size: 18px;
 }
-.casts-tournaments{
-    display:flex;
+
+.stat-graph-selector-parent {
+	margin-bottom: 10px;
 }
-.casts{
-    display:flex;
-    justify-content:space-around;
+
+.stat-graph-selector-table {
+	border-collapse: collapse;
+}
+
+.army-list {
+	width: 100%;
+}
+
+.army {
+	margin-bottom: 6px;
+	font-size: 18px;
+}
+
+.army-color-parent {
+	display: flex;
+	flex-direction: row;
+	margin-right: 10px;
+}
+
+.army-primary-color {
+	width: 60px;
+	height: 25px;
+}
+
+.army-secondary-color {
+	width: 15px;
+	height: 25px;
+}
+
+.army-players-and-color {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+.army-table {
+	width: 100%;
+	margin: 20px 0 14px 0;
+}
+
+.army-table > thead {
+	font-weight: bold;
+}
+
+.game-time-switcher {
+	margin-bottom: 10px;
+}
+
+.strategic-icon-switcher {
+	margin-bottom: 20px;
+}
+
+.game-icons {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	width: 100%;
+}
+
+.game-icons > img {
+	width: 24px;
+	height: 24px;
+}
+
+.units {
+	margin: 70px 0 50px 0;
+}
+
+.unit-time {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+.time-slider {
+	width: 75%;
+	margin: 0 10px 0 10px;
+}
+
+.units-list-parent {
+	margin-left: 20px;
+}
+
+.unit-list-players {
+	font-size: 20px;
+}
+
+.unit-list-unit {
+	display: inline-block;
+	width: 70px;
+	height: 70px;
+	border: 1px solid #00B3FF;
+	position: relative;
+}
+
+.unit-list-unit-mask {
+	position: absolute;
+	width: 52px;
+	height: 52px;
+}
+
+.unit-list-unit > img {
+	position: absolute;
+	width: 52px;
+	height: 52px;
+}
+
+.unit-list-unit-count {
+	position: absolute;
+	bottom: 0;
+	right: 3px;
+	color: #fff;
+}
+
+.game-icon-image {
+	width: 32px;
+	height: 32px;
+	margin: 0 2px 0 2px;
+}
+
+.system-viewer-planet {
+	display: inline-block;
+	position: relative;
+}
+
+.selected-planet-h {
+	display: flex;
+}
+
+.selected-planet {
+	margin: 20px 0 20px 0;
+	border: 1px solid #00B3FF;
+	padding: 3px 0 3px 4px;
+	font-size: 18px;
+}
+
+.selected-planet-img-adj {
+	margin-left: 10px;
+}
+
+.selected-planet-h-image {
+	position: relative;
+}
+
+.planet-list {
+	border: 1px solid #00B3FF;
+	padding: 6px;
+	box-sizing: border-box;
+	width: 100%;
+}
+
+.server-mod-list {
+	border: 1px solid #00B3FF;
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.server-mod-list > table {
+	border-collapse: collapse;
+}
+
+.server-mod-list > table > tbody > tr {
+	border: 1px solid #00B3FF;
+}
+
+.server-mod {
+	margin-bottom: 5px;
+	font-size: 16px;
+	vertical-align: middle;
+}
+
+.casts-tournaments {
+	display: flex;
+	width: 100%;
+}
+
+.casts {
+	display: flex;
+	justify-content: space-around;
+	width: 100%;
+}
+
+.cast-tournament-btns {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.cast-tournament-btns > a {
+	font-size: 20px;
+	width: 100%;
+	padding: 2px;
+	box-sizing: border-box;
+	text-align: center;
 }

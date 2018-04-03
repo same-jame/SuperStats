@@ -7,26 +7,26 @@ var model = new (function () {
 	self.match = ko.computed(function () {
 		return self.password() === self.confirmPassword();
 	});
-	self.passwordIsLongEnough = ko.computed(function(){
+	self.passwordIsLongEnough = ko.computed(function () {
 		return self.password().length >= 7;
 	});
-	self.readyToSignUp = ko.computed(function(){
+	self.readyToSignUp = ko.computed(function () {
 		return self.match() && self.password().length && self.username().split(' ').join('').length && self.passwordIsLongEnough();
 	});
 	self.error = ko.observable(false);
-	self.signUp = function(){
+	self.signUp = function () {
 		self.signingUp(false);
 		var postItem = JSON.stringify({
-			username:self.username(),
-			password:self.password()
+			username: self.username(),
+			password: self.password()
 		});
 		$.ajax({
-			method:'POST',
-			url:'./api/users/create',
-			dataType:'json',
-			contentType:'application/json',
-			data:postItem
-		}).then(function(r){
+			method: 'POST',
+			url: './api/users/create',
+			dataType: 'json',
+			contentType: 'application/json',
+			data: postItem
+		}).then(function (r) {
 			self.error(r.error);
 		});
 	}

@@ -1,50 +1,50 @@
-<link rel="stylesheet" href ="./header.css" />
-<div class ="header-main" style="display:flex">
-    <img src="./assets/own/logo.png" style="width:80px;height:80px" />
-    <div class="h-buttons-parent">
-        <a class="h-button pa_btn" href="./index.html">
-            Home
-        </a>
-        <a class="h-button pa_btn" href="./listplayers.html">
-            Players
-        </a>
-        <a class="h-button pa_btn" href="./recentgames.html">
-            Recent Games
-        </a>
-        <a class="h-button pa_btn" href="./advancedsearch.html">
-            Advanced Search
-        </a>
-        <a class="h-button pa_btn" data-bind="click:signOut,visible:isSignedIn">
-            Sign Out
-        </a>
-        <a class="h-button pa_btn" data-bind="visible:!isSignedIn,attr:{href:'./signin.html?return=' + encodeURIComponent(window.location.pathname)}">
-            Sign In
-        </a>
-    </div>
-    <span data-bind="visible:isSignedIn,text:signedInString" style="margin-left:10px;"></span>
+<link rel="stylesheet" href="./header.css"/>
+<div class="header-main" style="display:flex">
+	<img src="./assets/img/logo.png" style="width:80px;height:80px"/>
+	<div class="h-buttons-parent">
+		<a class="h-button pa_btn" href="./index.html">
+			Home
+		</a>
+		<a class="h-button pa_btn" href="./listplayers.html">
+			Players
+		</a>
+		<a class="h-button pa_btn" href="./recentgames.html">
+			Recent Games
+		</a>
+		<a class="h-button pa_btn" href="./tournaments.html">
+			Tournaments
+		</a>
+		<a class="h-button pa_btn" href="./advancedsearch.html">
+			Advanced Search
+		</a>
+		<a class="h-button pa_btn" data-bind="click:signOut,visible:isSignedIn">
+			Sign Out
+		</a>
+
+	</div>
+	<span data-bind="visible:isSignedIn,text:signedInString" style="margin-left:10px;"></span>
 </div>
 <script>
-    //JQuery makes a synchronous AJAX call if this is in a remote file. Synchronous AJAX is bad for your health so it's here now.
-	ko.applyBindings(new (function(){
+	//JQuery makes a synchronous AJAX call if this is in a remote file. Synchronous AJAX is bad for your health so it's here now.
+	var headerModel = new (function () {
 		var self = this;
 		self.signedInString = localStorage.getItem('apiKey') ? 'Signed in as: ' + localStorage.getItem('username') : '';
 		self.isSignedIn = !!localStorage.getItem('apiKey');
-		self.signOut = function(){
+		self.signOut = function () {
 			localStorage.removeItem('apiKey');
 			localStorage.removeItem('username');
 			localStorage.removeItem('permissions');
 			window.location.reload();
 		};
-		if(localStorage.getItem('apiKey')){
-			$.get('./api/users/roles?key=' + localStorage.getItem('apiKey'), false, function (q) {
-				var e = JSON.parse(q);
-				if(e.error || (!e.permissions.length)){
-                    self.signOut();
+		if (localStorage.getItem('apiKey')) {
+			$.getJSON('./api/users/roles?key=' + localStorage.getItem('apiKey')).done(function (e) {
+				if (e.error || (!e.permissions.length)) {
+					self.signOut();
+					return;
 				}
-				localStorage.setItem('permissions', JSON.stringify(q));
-			}, 'text');
+				localStorage.setItem('permissions', JSON.stringify(e.permissions));
+			});
 		}
-	})(),document.querySelector('.header-main'));
-
-
+	})();
+	ko.applyBindings(headerModel, document.querySelector('.header-main'));
 </script>

@@ -3,37 +3,37 @@
 	PA-UI by Uber Entertainment is licensed under MIT https://github.com/UberEnt/pa-ui/blob/master/LICENSE 
 */
 .pa_btn {
-    color: #00B3FF;
-    text-shadow: 0 0 10px #00B3FF;
-    border: 1px solid rgba(0,179,255,0.6);
-    box-shadow: none;
-    transition:background-color , color;
-    transition-duration: .3s;
-    transition-timing-function: linear;
-    animation: fadeout;
-    box-sizing:border-box;
+	color: #00B3FF;
+	text-shadow: 0 0 10px #00B3FF;
+	border: 1px solid rgba(0, 179, 255, 0.6);
+	box-shadow: none;
+	transition: background-color, color;
+	transition-duration: .3s;
+	transition-timing-function: linear;
+	animation: fadeout;
+	box-sizing: border-box;
 }
 
 .pa_btn:hover {
-    color: #FFFFFF;
-    text-shadow: 0 0 10px #FFFFFF;
-    background: #1E7AA1;
-    border: 1px solid #00B3FF;
-    box-shadow: inset 0 0 10px #00B3FF;
+	color: #FFFFFF;
+	text-shadow: 0 0 10px #FFFFFF;
+	background: #1E7AA1;
+	border: 1px solid #00B3FF;
+	box-shadow: inset 0 0 10px #00B3FF;
 }
 
 .pa_btn:active {
-    color: #FFFFFF;
-    text-shadow: 0 0 10px #FFFFFF;
-    background: #00B3FF;
-    border: 1px solid #00B3FF;
-    box-shadow: 0 0 20px #00B3FF;
+	color: #FFFFFF;
+	text-shadow: 0 0 10px #FFFFFF;
+	background: #00B3FF;
+	border: 1px solid #00B3FF;
+	box-shadow: 0 0 20px #00B3FF;
 }
 
 .pa_btn_active {
-    color: #FFFFFF;
-    text-shadow: 0 0 10px #FFFFFF;
-    background: #1e7aa1;
-    border: 1px solid #00B3FF;
-    box-shadow: inset 0 0 10px #00B3FF;
+	color: #FFFFFF;
+	text-shadow: 0 0 10px #FFFFFF;
+	background: #1e7aa1;
+	border: 1px solid #00B3FF;
+	box-shadow: inset 0 0 10px #00B3FF;
 }

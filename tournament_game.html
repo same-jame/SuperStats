@@ -6,16 +6,28 @@
 	<title>Super Stats</title>
 	<link rel="stylesheet" href="./lib/pa.css"/>
 	<link rel="stylesheet" href="./global.css"/>
+	<link rel="stylesheet" href="./tournaments_casts.css"/>
 	<script src="./lib/jquery-3.3.1.min.js"></script>
 	<script src="./lib/jquery-ui.min.js"></script>
 	<script src="./lib/lodash.min.js"></script>
 	<script src="./lib/knockout-3.5.0beta.js"></script>
 	<script src="./lib/knockout.mapping.js"></script>
 	<script src="./remote.js"></script>
+	<script src="./tournament_game.js"></script>
 </head>
 <body>
 <div class="header" data-bind="remote:'./header.html'"></div>
 <div class="main">
+	<h1>Add Match To Tournament</h1>
+	<input type="text" placeholder="Lobby Id" data-bind="textInput:lobbyId,disable:cantEditLobbyId() || submitted()"/>
+	<select data-bind="options:mappedTournaments,optionsText:'name',optionsValue:'identifier',value:identifier,disable:submitted"></select>
+	<div class="pa_btn submit" data-bind="click:submit">Add</div>
+	<div data-bind="visible:error().length">
+		<span>Error: </span>
+		<span data-bind="text:error"></span>
+	</div>
+	<a href="./tournament_make.html">Make a tournament instead</a>
+
 </div>
 <div class="footer" data-bind="remote:'./footer.html'"></div>
 </body>

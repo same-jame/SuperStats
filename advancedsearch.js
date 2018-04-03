@@ -1,58 +1,61 @@
 ko.bindingHandlers.visibility = {
-	update:function(el,va){
+	update: function (el, va) {
 		var q = ko.unwrap(va());
 		el.style.visibility = q ? 'visible' : 'hidden'
 	}
 };
-var model = new (function(){
+var model = new (function () {
 	var self = this;
 	//The search criteria will not actually change from the model input. Instead, clicking apply will redirect to the same page with GET parameters so the link can be shared.
 	self.perPage = ko.observable(100);
 	self.data = ko.observable(false);
 	self.searchData = ko.observable(false);
-	self.searchCriteria = new(function(){
+	self.searchCriteria = new (function () {
 		var that = this;
 		var info = {};
-		try{
+		try {
 			info = JSON.parse(qs.search);
-		}catch(e){}
-		that.findPlayersById = function(ids){
+		} catch (e) {
+		}
+		that.findPlayersById = function (ids) {
 			var out = [];
-			if(!self.searchData()){
+			if (!self.searchData()) {
 				return out;
 			}
-			for(var x of self.searchData()){
-				if(ids.includes(x.uberId)){
+			for (var x of self.searchData()) {
+				if (ids.includes(x.uberId)) {
 					out.push(x.displayName);
 				}
 			}
 			return out;
 		};
-		that.findPlayersByName = function(n){
+		that.findPlayersByName = function (n) {
 			var out = [];
-			if(!self.searchData()){
+			if (!self.searchData()) {
 				return out;
 			}
-			for(var x of self.searchData()){
-				if(n.includes(x.displayName)){
+			for (var x of self.searchData()) {
+				if (n.includes(x.displayName)) {
 					out.push(x.uberId);
 				}
 			}
 			return out;
 		};
-		that.displayNames = ko.computed(function(){
-			if(!self.searchData()){
+		that.displayNames = ko.computed(function () {
+			if (!self.searchData()) {
 				return false;
 			}
-			return self.searchData().map(r => {return r.displayName})
+			return self.searchData().map(r => {
+				return r.displayName
+			})
 		});
-		that.visibleDisplayNames = ko.computed(function(){
-			if(!self.searchData()){
+		that.visibleDisplayNames = ko.computed(function () {
+			if (!self.searchData()) {
 				return false;
 			}
 			var n = [];
-			for(var x of that.displayNames()){
-				if(!that.participatingNames().includes(x)){
+			for (var x of that.displayNames()) {
+				if (!that.participatingNames().includes(x)) {
 					n.push(x)
 				}
 			}
@@ -60,10 +63,10 @@ var model = new (function(){
 		});
 		that.participatingNames = ko.observableArray();
 		that.participatingIds = ko.computed({
-			read:function(){
+			read: function () {
 				return that.findPlayersByName(that.participatingNames());
 			},
-			write:function(q){
+			write: function (q) {
 				that.participatingNames(that.findPlayersById(q));
 			}
 		});
@@ -73,19 +76,19 @@ var model = new (function(){
 		that.legion = ko.observable(info.serverMods ? info.serverMods.includes('com.pa.legion-expansion-server') : false);
 		that.otherServerMods = ko.observableArray();
 		that.serverMods = ko.computed({
-			read:function(){
+			read: function () {
 				var z = _.cloneDeep(that.otherServerMods());
 				that.legion() && z.push('com.pa.legion-expansion-server');
 				that.equilibrium() && z.push('com.pa.n30n.equilibrium');
 				return z;
 			},
-			write:function(q){
+			write: function (q) {
 				that.equilibrium(q.includes('com.pa.n30n.equilibrium'));
 				that.legion(q.includes('com.pa.legion-expansion-server'));
 				var n = [];
-				for(var x of q){
+				for (var x of q) {
 					// just in case more mods get added and the that.legion and that.equilibrium turns into that.knownMods or smth like that.
-					if(!(['com.pa.n30n.equilibrium','com.pa.legion-expansion-server'].includes(x))){
+					if (!(['com.pa.n30n.equilibrium', 'com.pa.legion-expansion-server'].includes(x))) {
 						n.push(x);
 					}
 				}
@@ -94,88 +97,92 @@ var model = new (function(){
 		});
 		that.isTournament = ko.observable(info.isTournament || false);
 		that.casted = ko.observable(info.casted || false);
-		that.search = function(){
+		that.search = function () {
 			var url = window.location.origin + window.location.pathname + '?search=';
 			var q = {};
-			if(that.systemName()){
+			if (that.systemName()) {
 				q.systemName = that.systemName()
 			}
-			if(that.participatingIds().length){
+			if (that.participatingIds().length) {
 				q.participatingIds = that.participatingIds();
 			}
-			if(that.serverMods().length){
+			if (that.serverMods().length) {
 				q.serverMods = that.serverMods();
 			}
-			if(that.casted()){
+			if (that.casted()) {
 				q.casted = that.casted();
 			}
-			if(that.isTournament()){
+			if (that.isTournament()) {
 				q.isTournament = that.isTournament();
 			}
 			url += encodeURIComponent(JSON.stringify(q));
 			window.location.href = url;
 		};
 		that.currentPlayer = ko.observable('');
-		that.addPlayerToList = function(){
-			if(!that.currentPlayer().split(' ').join('').length){
+		that.addPlayerToList = function () {
+			if (!that.currentPlayer().split(' ').join('').length) {
 				return;
 			}
-			if(!that.visibleDisplayNames().includes(that.currentPlayer())){
+			if (!that.visibleDisplayNames().includes(that.currentPlayer())) {
 				return;
 			}
 			that.participatingNames.push(that.currentPlayer());
 			that.currentPlayer('')
 		};
-		that.removePlayerFromList = function(){
+		that.removePlayerFromList = function () {
 			var user = this;
-			that.participatingNames.splice(that.participatingNames().indexOf(user),1)
+			that.participatingNames.splice(that.participatingNames().indexOf(user), 1)
 		};
 		that.currentOtherMod = ko.observable('');
-		that.addServerModToList = function(){
-			if(!that.currentOtherMod().split(' ').join('').length){
+		that.addServerModToList = function () {
+			if (!that.currentOtherMod().split(' ').join('').length) {
 				return;
 			}
-			if(that.serverMods().includes(that.currentOtherMod())){
+			if (that.serverMods().includes(that.currentOtherMod())) {
 				return;
 			}
 			that.otherServerMods.push(that.currentOtherMod());
 			that.currentOtherMod('');
 		};
-		that.removeServerModFromList = function(){
+		that.removeServerModFromList = function () {
 			var mod = this;
-			that.otherServerMods.splice(that.otherServerMods().indexOf(mod),1)
+			that.otherServerMods.splice(that.otherServerMods().indexOf(mod), 1)
 		};
-		that.getSearchData = function(){
-			/*
-			return $.getJSON('./api/player/list').then(function(r){
+		that.getSearchData = function () {
+
+			return $.getJSON('./api/player/list').then(function (r) {
 				self.searchData(r);
 				that.participatingIds(info.participatingIds || []);
 			});
-			*/
+			/*
 			return $.getJSON('./testPlayerList.json').then(function(r){
 				self.searchData(r);
 				that.participatingIds(info.participatingIds || []);
 			});
+			*/
 		};
 	});
-	self.getData = function(skip){
+	self.getData = function (skip) {
 		var info = false;
-		try{
+		try {
 			info = JSON.parse(qs.search);
-		}catch(e){}
-		if(!info){return;}
+		} catch (e) {
+		}
+		if (!info) {
+			return;
+		}
 		var postItem = {
-			min:skip,
-			max:self.perPage()
+			min: skip,
+			max: self.perPage()
 		};
-		$.extend(postItem,info);
+		$.extend(postItem, info);
 		$.ajax({
-			method:'POST',
-			url:'./api/matches/advancedsearch',
-			dataType:'json',
-			contentType:'application/json',
-			data:JSON.stringify(postItem)
-		}).then(function(r){
+			method: 'POST',
+			url: './api/matches/advancedsearch',
+			dataType: 'json',
+			contentType: 'application/json',
+			data: JSON.stringify(postItem)
+		}).then(function (r) {
 			self.data(r);
 		});
 	};
@@ -238,20 +245,20 @@ var model = new (function(){
 		}
 		return ko.mapping.fromJS(n)();
 	});
-	self.matchLength = ko.computed(function(){
+	self.matchLength = ko.computed(function () {
 		return self.matches() ? self.matches().length : 0;
 	});
 	self.page = ko.observable(1);
-	self.incrementPage = function(s){
+	self.incrementPage = function (s) {
 		self.page(self.page() + s);
 	};
-	self.skip = ko.computed(function(){
-		return (self.page()-1) * self.perPage();
+	self.skip = ko.computed(function () {
+		return (self.page() - 1) * self.perPage();
 	});
 	self.skip.subscribe(self.getData);
 	self.searchCriteria.getSearchData();
 	self.getData(0);
 })();
-$(document).ready(function(){
+$(document).ready(function () {
 	ko.applyBindings(model);
 });

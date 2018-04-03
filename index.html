@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Super Stats</title>
-    <link rel="stylesheet" href="./lib/pa.css"/>
-    <link rel="stylesheet" href="./global.css"/>
-    <link rel="stylesheet" href="./index.css"/>
-    <script src="./lib/jquery-3.3.1.min.js"></script>
-    <script src="./lib/knockout-3.5.0beta.js"></script>
-    <script src="./remote.js"></script>
-    <script>
+	<meta charset="UTF-8">
+	<title>Super Stats</title>
+	<link rel="stylesheet" href="./lib/pa.css"/>
+	<link rel="stylesheet" href="./global.css"/>
+	<link rel="stylesheet" href="./index.css"/>
+	<script src="./lib/jquery-3.3.1.min.js"></script>
+	<script src="./lib/knockout-3.5.0beta.js"></script>
+	<script src="./remote.js"></script>
+	<script>
 		$(document).ready(function () {
 			ko.applyBindings({})
 		})
-    </script>
+	</script>
 </head>
 <body>
 <div class="parent">
-    <div class="header" data-bind="remote:'./header.html'"></div>
-    <div class="main">
-        <div class="content">
-            <h1>Welcome to Super Stats!</h1>
-            <h2>REPLACE WITH FORUM POST CONTENT</h2>
-        </div>
-    </div>
-    <div class="footer" data-bind="remote:'./footer.html'"></div>
+	<div class="header" data-bind="remote:'./header.html'"></div>
+	<div class="main">
+		<div class="content">
+			<h1>Welcome to Super Stats!</h1>
+			<h2>REPLACE WITH FORUM POST CONTENT</h2>
+		</div>
+	</div>
+	<div class="footer" data-bind="remote:'./footer.html'"></div>
 </div>
 </body>
 </html>

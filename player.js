@@ -99,7 +99,7 @@ var model = new (function () {
 			return;
 		}
 		self.data(q);
-	}).catch(function(){
+	}).catch(function () {
 		self.show404(true);
 	});
 })();

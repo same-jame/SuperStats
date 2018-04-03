@@ -1,23 +1,25 @@
-.header-main{
-    display:flex;
-    flex-direction:row;
-    align-items:center;
-    font-size:16px;
-    height:80px;
-    width:100%;
-    background-color: rgba(6, 45, 52, 0.6);
+.header-main {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	font-size: 16px;
+	height: 80px;
+	width: 100%;
+	background-color: rgba(6, 45, 52, 0.6);
 }
-.h-buttons-parent{
-    display:flex;
-    align-items:center;
+
+.h-buttons-parent {
+	display: flex;
+	align-items: center;
 }
-.h-button{
-    margin:2px 3px 2px 3px;
-    display:block;
-    height:40px;
-    text-align:center;
-    vertical-align:center;
-    font-size:24px;
-    padding:2px 3px 0 3px;
-    box-sizing:border-box;
+
+.h-button {
+	margin: 2px 3px 2px 3px;
+	display: block;
+	height: 40px;
+	text-align: center;
+	vertical-align: center;
+	font-size: 24px;
+	padding: 2px 3px 0 3px;
+	box-sizing: border-box;
 }

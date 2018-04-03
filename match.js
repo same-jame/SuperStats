@@ -15,8 +15,8 @@ ko.bindingHandlers.graph = {
 var model = new (function () {
 	var self = this;
 	self.getData = function (q) {
-		return $.getJSON('./test.json');
-		//return $.getJSON('./api/match/' + q);
+		//return $.getJSON('./test.json');
+		return $.getJSON('./api/match/' + q);
 	};
 	self.data = ko.observable(false);
 	self.unitLists = new (function () {
@@ -55,12 +55,16 @@ var model = new (function () {
 		that.buildVersion = ko.computed(function () {
 			return self.data().buildVersion;
 		});
-		that.equilibrium = ko.computed(function(){
-			return self.data() && self.data().serverMods.map( r => {return r.identifier.includes('com.pa.n30n.equilibrium')} ).includes(true)
+		that.equilibrium = ko.computed(function () {
+			return self.data() && self.data().serverMods.map(r => {
+				return r.identifier.includes('com.pa.n30n.equilibrium')
+			}).includes(true)
 		});
-		that.legion = ko.computed(function(){
+		that.legion = ko.computed(function () {
 			//accounts for balance branches
-			return self.data() && self.data().serverMods.map( r => {return r.identifier.includes('com.pa.legion-expansion-server')} ).includes(true)
+			return self.data() && self.data().serverMods.map(r => {
+				return r.identifier.includes('com.pa.legion-expansion-server')
+			}).includes(true)
 		})
 	})();
 	self.gameTimeInfo = new (function () {
@@ -87,15 +91,15 @@ var model = new (function () {
 			return moment(self.data().gameStartTime).format('DD/MM/YYYY HH:mm:ss');
 		});
 		//These durations will be slightly different. On 100% sim speed, It will be approximately 5 seconds out due to the landing sequence.
-		that.gameDuration = ko.computed(function(){
-			if(!self.data()){
+		that.gameDuration = ko.computed(function () {
+			if (!self.data()) {
 				return false
 			}
 			var highest = 0;
-			for(var x of self.rawArmies()){
-				if(x.dataPointsStats.length){
-					for(var y of x.dataPointsStats){
-						if (y.time > highest){
+			for (var x of self.rawArmies()) {
+				if (x.dataPointsStats.length) {
+					for (var y of x.dataPointsStats) {
+						if (y.time > highest) {
 							highest = y.time;
 						}
 					}
@@ -103,8 +107,8 @@ var model = new (function () {
 			}
 			return highest;
 		});
-		that.gameDurationString = ko.computed(function(){
-			if(!self.data()){
+		that.gameDurationString = ko.computed(function () {
+			if (!self.data()) {
 				return '0'
 			}
 			return moment(that.gameDuration() * 1000).format('mm:ss')
@@ -132,6 +136,7 @@ var model = new (function () {
 				}
 				return o;
 			}
+
 			//initialize the unit data timings thing whatever
 			for (var y of x.dataPointsUnit) {
 				var f = false;
@@ -195,6 +200,7 @@ var model = new (function () {
 				}
 				return latest;
 			}
+
 			for (var y in x.dataPointsStats) {
 				var A = x.dataPointsStats[y];
 				var B = (y - 1 >= 0) ? x.dataPointsStats[y - 1] : {
@@ -271,18 +277,18 @@ var model = new (function () {
 					}
 				}
 				//we round this time because graphs look bad otherwise
-				A.realTime = Math.round(A.realTime/5000) * 5000;
+				A.realTime = Math.round(A.realTime / 5000) * 5000;
 			}
 			x.averageEfficiency = x.dataPointsStats.length ? Math.round((100 * totalEff) / effPoints) / 100 + '%' : 0;
 			x.metalProduced = x.dataPointsStats.length ? x.dataPointsStats[x.dataPointsStats.length - 1].metalProduced : 0;
 			x.energyProduced = x.dataPointsStats.length ? x.dataPointsStats[x.dataPointsStats.length - 1].energyProduced : 0;
 			x.metalWasted = x.dataPointsStats.length ? x.dataPointsStats[x.dataPointsStats.length - 1].metalWasted : 0;
 			x.energyWasted = x.dataPointsStats.length ? x.dataPointsStats[x.dataPointsStats.length - 1].energyWasted : 0;
-			var muPercByProd = Math.round((x.dataPointsStats[x.dataPointsStats.length - 1].metalSpent / x.dataPointsStats[x.dataPointsStats.length - 1].metalProduced) * 10000) / 100;
-			var muPercByWaste = 100 - Math.round((x.dataPointsStats[x.dataPointsStats.length - 1].metalWasted / x.dataPointsStats[x.dataPointsStats.length - 1].metalProduced) * 10000) / 100;
+			var muPercByProd = x.dataPointsStats.length ? Math.round((x.dataPointsStats[x.dataPointsStats.length - 1].metalSpent / x.dataPointsStats[x.dataPointsStats.length - 1].metalProduced) * 10000) / 100 : 0;
+			var muPercByWaste = x.dataPointsStats.length ? 100 - Math.round((x.dataPointsStats[x.dataPointsStats.length - 1].metalWasted / x.dataPointsStats[x.dataPointsStats.length - 1].metalProduced) * 10000) / 100 : 0;
 			x.metalUsedPerc = x.dataPointsStats.length ? Math.min(100, muPercByProd, muPercByWaste) + '%' : 0;
-			var euPercByProd = Math.round((x.dataPointsStats[x.dataPointsStats.length - 1].energySpent / x.dataPointsStats[x.dataPointsStats.length - 1].energyProduced) * 10000) / 100;
-			var euPercByWaste = 100 - Math.round((x.dataPointsStats[x.dataPointsStats.length - 1].energyWasted / x.dataPointsStats[x.dataPointsStats.length - 1].energyProduced) * 10000) / 100;
+			var euPercByProd = x.dataPointsStats.length ? Math.round((x.dataPointsStats[x.dataPointsStats.length - 1].energySpent / x.dataPointsStats[x.dataPointsStats.length - 1].energyProduced) * 10000) / 100 : 0;
+			var euPercByWaste = x.dataPointsStats.length ? 100 - Math.round((x.dataPointsStats[x.dataPointsStats.length - 1].energyWasted / x.dataPointsStats[x.dataPointsStats.length - 1].energyProduced) * 10000) / 100 : 0;
 			x.energyUsedPerc = x.dataPointsStats.length ? Math.min(100, euPercByProd, euPercByWaste) + '%' : 0;
 			x.playersString = x.extendedPlayers.map((r) => {
 				return r.displayName
@@ -297,8 +303,8 @@ var model = new (function () {
 	self.serverMods = ko.computed(function () {
 		return self.data() ? ko.mapping.fromJS(self.data().serverMods)() : false;
 	});
-	self.titleContents = ko.computed(function(){
-		if(!self.data()){
+	self.titleContents = ko.computed(function () {
+		if (!self.data()) {
 			return;
 		}
 		var out = [];
@@ -308,22 +314,22 @@ var model = new (function () {
 				teams[x.teamId.toString()] = [];
 			}
 			for (var y of x.extendedPlayers) {
-				teams[x.teamId.toString()].push({displayName:y.displayName,uberId:y.uberId});
+				teams[x.teamId.toString()].push({displayName: y.displayName, uberId: y.uberId});
 			}
 		}
 		for (var x of Object.keys(teams)) {
 			var t = teams[x];
 			if (out.length) {
-				out.push({text:'vs ',link:false});
+				out.push({text: 'vs ', link: false});
 			}
-			for(var y of t){
-				out.push({text:y.displayName,link:'./player.html?player='+y.uberId});
-				out.push({text:', ', link:false});
+			for (var y of t) {
+				out.push({text: y.displayName, link: './player.html?player=' + y.uberId});
+				out.push({text: ', ', link: false});
 			}
-			out = out.slice(0,-1);
-			out.push({text:'&nbsp;',link:false});
+			out = out.slice(0, -1);
+			out.push({text: '&nbsp;', link: false});
 		}
-		return ko.mapping.fromJS(out.slice(0,-1))();
+		return ko.mapping.fromJS(out.slice(0, -1))();
 
 	});
 	self.winnerString = ko.computed(function () {
@@ -345,12 +351,12 @@ var model = new (function () {
 		return self.data().casts || [];
 	});
 	self.planets = ko.computed(function () {
-		if(!self.data()){
+		if (!self.data()) {
 			return [];
 		}
 		var p = _.cloneDeep(self.data().systemInfo.planets);
-		var knownBiomes = ['asteroid','desert','earth','gas','ice','ice-boss','lava','metal','metal-boss','moon','sandbox','tropical'];
-		for(var x of p){
+		var knownBiomes = ['asteroid', 'desert', 'earth', 'gas', 'ice', 'ice-boss', 'lava', 'metal', 'metal-boss', 'moon', 'sandbox', 'tropical'];
+		for (var x of p) {
 			x.planetImg = knownBiomes.includes(x.biome) ? `./assets/img/planets/${x.biome}.png` : './assets/img/planets/unknown.png'
 		}
 		return ko.mapping.fromJS(p)();
@@ -412,11 +418,11 @@ var model = new (function () {
 			}*/
 		}
 	});
-	self.statInfo = ko.mapping.fromJS([ {
+	self.statInfo = ko.mapping.fromJS([{
 		"id": "unitCount",
 		"displayName": "Total Units",
 		"yAxis": 0
-	},{
+	}, {
 		"id": "eff",
 		"displayName": "Efficiency",
 		"yAxis": 0
@@ -492,19 +498,19 @@ var model = new (function () {
 		"id": "netEnergy",
 		"displayName": "Net Energy Income",
 		"yAxis": false
-	},{
+	}, {
 		"id": "mobileUnits",
 		"displayName": "Mobile Units",
 		"yAxis": 0
-	},{
+	}, {
 		"id": "fabbers",
 		"displayName": "Fabbers",
 		"yAxis": 0
-	},{
+	}, {
 		"id": "factories",
 		"displayName": "Factories",
 		"yAxis": 0
-	},{
+	}, {
 		"id": "defensiveUnits",
 		"displayName": "Static Defence",
 		"yAxis": 0
@@ -587,22 +593,23 @@ var model = new (function () {
 		};
 	});
 	self.selectedGraphKey = ko.observable('unitCount');
-	self.selectedGraph = ko.computed(function(){
-		function getGraphInfo(k){
-			for(var x of self.statInfo()){
-				if(x.id() === k){
+	self.selectedGraph = ko.computed(function () {
+		function getGraphInfo(k) {
+			for (var x of self.statInfo()) {
+				if (x.id() === k) {
 					return ko.mapping.toJS(x)
 				}
 			}
 		}
+
 		var graphKey = self.selectedGraphKey();
-		if(graphKey === 'avgApm'){
+		if (graphKey === 'avgApm') {
 			return self.avgApmGraph();
-		}else if(graphKey === 'apm'){
+		} else if (graphKey === 'apm') {
 			return self.graphApmData()
-		}else{
-			var info  =  getGraphInfo(graphKey);
-			return self.generateStatGraph(info.id,info.displayName,info.yAxis)
+		} else {
+			var info = getGraphInfo(graphKey);
+			return self.generateStatGraph(info.id, info.displayName, info.yAxis)
 		}
 
 	});
@@ -612,42 +619,42 @@ var model = new (function () {
 	};
 	self.usingStrategicIcons = ko.observable(true);
 	self.currentUnitTime = ko.observable(0);
-	self.searchTime = ko.computed(function(){
+	self.searchTime = ko.computed(function () {
 		return self.usingGameTime() ? self.currentUnitTime() : self.currentUnitTime() * 1000;
 	});
-	self.endUnitTimeString = ko.computed(function(){
+	self.endUnitTimeString = ko.computed(function () {
 		return self.usingGameTime() ? self.gameTimeInfo.gameDurationString() : self.gameTimeInfo.durationString();
 	});
-	self.endUnitTime = ko.computed(function(){
-		return self.usingGameTime() ? self.gameTimeInfo.gameDuration() : self.gameTimeInfo.duration()/1000;
+	self.endUnitTime = ko.computed(function () {
+		return self.usingGameTime() ? self.gameTimeInfo.gameDuration() : self.gameTimeInfo.duration() / 1000;
 	});
-	self.currentUnitTimeString = ko.computed(function(){
+	self.currentUnitTimeString = ko.computed(function () {
 		return moment(self.currentUnitTime() * 1000).format('mm:ss')
 	});
 	self.strategicIconOverrides = {
-		'com.pa.n30n.equilibrium':{base:'equilibrium_',units:['orbital_probe']}
+		'com.pa.n30n.equilibrium': {base: 'equilibrium_', units: ['orbital_probe']}
 	};
-	self.generateStrategicIconUrl = function(unit){
+	self.generateStrategicIconUrl = function (unit) {
 		var url = './assets/strategic_icons/';
-		var u = unit.split('/').pop().replace('.json','');
-		for(var x of self.data().serverMods){
-			if(self.strategicIconOverrides[x.identifier]){
-				if(self.strategicIconOverrides[x.identifier]['units'].includes(u)){
+		var u = unit.split('/').pop().replace('.json', '');
+		for (var x of self.data().serverMods) {
+			if (self.strategicIconOverrides[x.identifier]) {
+				if (self.strategicIconOverrides[x.identifier]['units'].includes(u)) {
 					url += self.strategicIconOverrides[x.identifier].base;
 				}
 			}
 		}
 		var p_url = url + 'primary/icon_si_' + u + '.png';
 		var s_url = url + 'shadow/icon_si_' + u + '.png';
-		return {primary:p_url,shadow:s_url};
+		return {primary: p_url, shadow: s_url};
 	};
 	self.buildBarIconOverrides = {};
-	self.generateBuildBarIconUrl = function(unit){
-		var u = unit.split('/').pop().replace('.json','');
+	self.generateBuildBarIconUrl = function (unit) {
+		var u = unit.split('/').pop().replace('.json', '');
 		var url = './assets/build_bar_icons/';
-		for(var x of self.data().serverMods){
-			if(self.buildBarIconOverrides[x.identifier]){
-				if(self.buildBarIconOverrides[x.identifier]['units'].includes(u)){
+		for (var x of self.data().serverMods) {
+			if (self.buildBarIconOverrides[x.identifier]) {
+				if (self.buildBarIconOverrides[x.identifier]['units'].includes(u)) {
 					url += self.buildBarIconOverrides[x.identifier].base;
 				}
 			}
@@ -655,8 +662,8 @@ var model = new (function () {
 		url += ('icons/' + u + '.png');
 		return url;
 	};
-	self.generateUnitDbUrl = function(unit){
-		var u = unit.split('/').pop().replace('.json','');
+	self.generateUnitDbUrl = function (unit) {
+		var u = unit.split('/').pop().replace('.json', '');
 		return 'https://flubbateios.com/equilibrium/db/unit/' + u;
 	};
 	self.currentUnits = ko.computed(function () {
@@ -664,7 +671,7 @@ var model = new (function () {
 		var q = _.cloneDeep(self.rawArmies());
 		for (var x of q) {
 			var equal = false;
-			var highest = {time: 0, realTime: 0,units:[]};
+			var highest = {time: 0, realTime: 0, units: []};
 			for (var y of x.fullUnitData) {
 				var time = self.usingGameTime() ? y.time : y.realTime;
 				if (time > highest.time && time <= self.searchTime()) {
@@ -674,12 +681,12 @@ var model = new (function () {
 					equal = true;
 				}
 			}
-			for(var z of highest.units){
+			for (var z of highest.units) {
 				z.buildBarUrl = self.generateBuildBarIconUrl(z.unit);
 				var k = self.generateStrategicIconUrl(z.unit);
-				z.shadowUrl =k.shadow;
+				z.shadowUrl = k.shadow;
 				//this gets used in a CSS mask so we need a url() wrapper
-				z.primaryUrl = 'url(' +  k.primary + ')' ;
+				z.primaryUrl = 'url(' + k.primary + ')';
 				z.unitDb = self.generateUnitDbUrl(z.unit);
 			}
 			out.push({
@@ -693,20 +700,22 @@ var model = new (function () {
 		return ko.mapping.fromJS(out)();
 	});
 	self.selectedPlanetName = ko.observable('');
-	self.selectPlanet = function(){
+	self.selectPlanet = function () {
 		var that = this;
 		self.selectedPlanetName(that.name())
 	};
-	self.planets.subscribe(function(){
+	self.planets.subscribe(function () {
 		self.selectedPlanetName(self.planets()[0].name());
 	});
-	self.selectedPlanet = ko.computed(function(){
-		for(var x of self.planets()){
-			if(x.name() === self.selectedPlanetName()){
+	self.selectedPlanet = ko.computed(function () {
+		for (var x of self.planets()) {
+			if (x.name() === self.selectedPlanetName()) {
 				return x;
 			}
 		}
 	});
+	self.showTournamentButton = localStorage.getItem('apiKey') ? JSON.parse(localStorage.getItem('permissions')).includes('tournament') || JSON.parse(localStorage.getItem('permissions')).includes('root') : false;
+	self.showCastButton = localStorage.getItem('apiKey') ? JSON.parse(localStorage.getItem('permissions')).includes('cast') || JSON.parse(localStorage.getItem('permissions')).includes('root') : false;
 	self.show404 = ko.observable(false);
 	self.unitLists.init().then(function () {
 		return self.getData(qs.match);
@@ -716,7 +725,7 @@ var model = new (function () {
 			return;
 		}
 		self.data(r);
-	}).catch(function(){
+	}).catch(function () {
 		self.show404(true);
 	});
 })();

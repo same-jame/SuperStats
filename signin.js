@@ -48,9 +48,13 @@ var model = new (function () {
 			localStorage.setItem('username', r.username);
 			localStorage.setItem('apiKey', r.apiKey);
 			//Initial permission set here
-			$.get('./api/users/roles?key=' + r.apiKey, false, function (q) {
-				localStorage.setItem('permissions', JSON.stringify(q));
-			}, 'text');
+			$.getJSON('./api/users/roles?key=' + localStorage.getItem('apiKey')).done(function (e) {
+				if (e.error || (!e.permissions.length)) {
+					self.signOut();
+					return;
+				}
+				localStorage.setItem('permissions', JSON.stringify(e.permissions));
+			});
 			window.location.href = self.redirectUrl;
 		}).catch(function (e) {
 			switch (e.status) {
