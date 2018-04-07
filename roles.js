@@ -61,7 +61,7 @@ var model = new (function () {
 			method: 'POST',
 			contentType: 'application/json',
 			dataType: 'json',
-			data: JSON.stringify({apiKey: localStorage.getItem('apiKey'), user: self.info()})
+			data: JSON.stringify({apiKey: localStorage.getItem('apiKey'), info: self.info()})
 		}).then(function (e) {
 			self.latestKey(e.apiKey);
 			self.getKeys();

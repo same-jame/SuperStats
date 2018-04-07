@@ -49,7 +49,9 @@ var model = new (function () {
 			if (r.error) {
 				return;
 			}
-			self.getBanData();
+			self.getBanData().then(function(r){
+				self.banned(r);
+			});
 		})
 	};
 	self.unban = function () {
@@ -64,7 +66,9 @@ var model = new (function () {
 			if (r.error) {
 				return;
 			}
-			self.getBanData();
+			self.getBanData().then(function(r){
+				self.banned(r);
+			});
 		})
 	};
 	if (self.canBan) {

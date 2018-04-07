@@ -17,6 +17,12 @@
 		<a class="h-button pa_btn" href="./advancedsearch.html">
 			Advanced Search
 		</a>
+		<a class="h-button pa_btn" data-bind="visible:canSeeRoleStuff" href="./roles.html">
+			Roles
+		</a>
+		<a class="h-button pa_btn" data-bind="visible:canSeeRoleStuff" href="./blockip.html">
+			Block IPs
+		</a>
 		<a class="h-button pa_btn" data-bind="click:signOut,visible:isSignedIn">
 			Sign Out
 		</a>
@@ -29,6 +35,7 @@
 	var headerModel = new (function () {
 		var self = this;
 		self.signedInString = localStorage.getItem('apiKey') ? 'Signed in as: ' + localStorage.getItem('username') : '';
+		self.canSeeRoleStuff = localStorage.getItem('apiKey') ? JSON.parse(localStorage.getItem('permissions')).includes('root') || JSON.parse(localStorage.getItem('permissions')).includes('roles') : false;
 		self.isSignedIn = !!localStorage.getItem('apiKey');
 		self.signOut = function () {
 			localStorage.removeItem('apiKey');

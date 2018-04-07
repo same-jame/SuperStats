@@ -20,7 +20,7 @@
 		<!-- ko foreach: linkedUsers -->
 		<div class="user">
 			<span data-bind="text:username"></span><a href="javascript:void(0);" data-bind="event:{dblclick:$root.deleteUser}">Delete</a><br data-bind="display:apiKey().length"/>
-			<span data-bind="text:apiKey"></span>
+			<span data-bind="text:info"></span>
 		</div>
 		<!-- /ko -->
 	</div>
@@ -33,7 +33,7 @@
 			<select data-bind="options:keys,optionsText:'info',optionsValue:'apiKey',value:selectedKey"></select><br/><br/>
 			<select multiple data-bind="options:permissions,selectedOptions:selectedPermissions"></select><br/><br/>
 			<input type="text" data-bind="textInput:modifiedInfo" placeholder="Tag"/><br/><br/>
-			<div class="pa_btn submit">Apply</div>
+			<div class="pa_btn submit" data-bind="click:applyPermissions">Apply</div>
 		</div>
 		<div class="link-keys">
 			<select data-bind="options:users,optionsText:'username',optionsValue:'username',value:selectedLinkUser"></select><br/><br/>
@@ -47,7 +47,7 @@
 					<span data-bind="text:info"></span>
 					<span data-bind="text:apiKey"></span><br/>
 					<div data-bind="foreach:permissions">
-						<span data-bind="text:$data"></span><span data-bind="visible:$index < permissions().length - 1">,</span>
+						<span data-bind="text:$data"></span><span data-bind="visible:$index < $parent.permissions().length - 1">,</span>
 					</div>
 					<a href="javascript:void(0);" data-bind="event:{dblclick:$root.deleteKey}">Delete</a>
 				</div>
