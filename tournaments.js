@@ -2,6 +2,7 @@ var model = new (function () {
 	var self = this;
 	self.showTournamentMakeButton = localStorage.getItem('apiKey') ?
 		JSON.parse(localStorage.getItem('permissions')).includes('tournament') || JSON.parse(localStorage.getItem('permissions')).includes('root') : false;
+	self.canDeleteTournament = localStorage.getItem('apiKey') ? JSON.parse(localStorage.getItem('permissions')).includes('root') || JSON.parse(localStorage.getItem('permissions')).includes('community-mod') : false;
 	self.data = ko.observable([]);
 	self.processedData = ko.computed(function () {
 		var m = self.data().map(function (A) {
@@ -74,6 +75,20 @@ var model = new (function () {
 			C.addLink = './tournament_make.html?info=' + encodeURIComponent(JSON.stringify(toModify));
 			C.link = C.link || '';
 			C.cast = C.cast || '';
+			C.deleteTournament = function () {
+				$.ajax({
+					method: 'POST',
+					data: JSON.stringify({
+						apiKey: localStorage.getItem('apiKey'),
+						tournament: C.identifier
+					}),
+					dataType: 'json',
+					contentType: 'application/json',
+					url: './api/tournaments/delete'
+				}).done(function () {
+					window.location.reload();
+				})
+			};
 			return C;
 		});
 		return ko.mapping.fromJS(m)();

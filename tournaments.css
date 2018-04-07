@@ -55,10 +55,17 @@
 .tournament-top-row {
 	display: flex;
 	justify-content: center;
+	align-items: center;
 }
 
 .tournament-top-row-b {
 	display: flex;
 	justify-content: space-around;
 	font-size: 22px;
+}
+
+.no-tournaments {
+	width: 100%;
+	display: flex;
+	justify-content: center;
 }
