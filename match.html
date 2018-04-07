@@ -167,7 +167,7 @@
 						</div>
 						<div class="selected-planet-img-adj">
 							<div data-bind="text:selectedPlanet().radius() + ' Radius' "></div>
-							<div data-bind="text:selectedPlanet().metalSpots() + ' Metal' "></div>
+							<div data-bind="text:selectedPlanet().metalSpots() + ' Metal',visible:selectedPlanet().biome() !== 'gas' "></div>
 						</div>
 					</div>
 					<!-- knockout doesn't like empty arrays it seems -->
@@ -204,6 +204,7 @@
 				</div>
 				<div class="units-list-parent">
 					<!-- ko foreach: currentUnits -->
+					<!-- ko if: data().length -->
 					<div class="unit-list-players" data-bind="text:playersString"></div>
 					<div class="unit-list">
 						<!-- ko foreach: data -->
@@ -220,6 +221,7 @@
 						</a>
 						<!-- /ko -->
 					</div>
+					<!-- /ko -->
 					<!-- /ko -->
 				</div>
 			</div>
