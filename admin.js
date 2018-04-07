@@ -115,18 +115,7 @@ module.exports = function (self) {
 				res.json({error: "no-game"});
 				return;
 			}
-			self.database.collection('players').find({matches: game}).toArray().then(function (q) {
-				var bulkOperations = [];
-				for (var x of q) {
-					q.matches.splice(q.matches.indexOf(game));
-					bulkOperations.push({updateOne: {filter: {uberId: x.uberId}, update: x}});
-				}
-				return self.database.collection('players').bulkWrite(bulkOperations)
-			}).then(function (q) {
-				console.log('test bulkwrite');
-				console.log(q);
-				res.json({error: false, success: true})
-			});
+			res.json({success:true});
 		});
 	});
 	self.app.use('/api/admin/roles/listkeys', self.permissionMiddleware('roles'));
