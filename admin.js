@@ -297,7 +297,6 @@ module.exports = function (self) {
 		p[0] = self.database.collection('tournaments').removeOne({identifier:data.tournament});
 		p[1] = self.database.collection('matches').update({'tournamentInfo.identifier':data.tournament},{$set:{'tournamentInfo.identifier':false,'tournamentInfo.isTournament':false}});
 		Promise.all(p).then(function(q){
-			console.log(q[0]);
 			if(!q[0].result.n){
 				res.json({error:'no-tournament'});
 				return;
