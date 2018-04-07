@@ -28,6 +28,7 @@ window.superStats = new(function () {
 		var lobbyId = model.lobbyId();
 		model.lobbyId.subscribe(function (r) {
 			lobbyId = r;
+			api.Panel.message('game_over_panel',r);
 		});
 		self.willReport = true;
 		var wsURL = 'https://flubbateios.com';
@@ -159,7 +160,6 @@ window.superStats = new(function () {
 			self.reporting = false;
 			
 		};
-		self.startingTime = 0;
 		self.reporting = false;
 		var stats = self.currentStats;
 		self.seenUnitIds = [];
@@ -225,10 +225,10 @@ window.superStats = new(function () {
 			self.socket.emit('death', narr);
 			OldHandlersArmyState(r);
 		};
-		var currentTime = 0;
+		var currentTime = -1;
 		var OldTime = handlers.time || function () {};
-		handlers.time = function (pay) {
-			var time = pay.current_time - self.startingTime;
+		handlers.time = function (pay) { 
+			var time = pay.current_time;
 			stats.time = Math.floor(time);
 			stats.simSpeed = pay.server_rate * 100;
 			if (((stats.time % self.sendFrequency) === 0) && (stats.time !== currentTime) && self.reporting) {
@@ -283,6 +283,8 @@ window.superStats = new(function () {
 		});
 		self.startReporting = function () {
 			api.Panel.message("message",'superStatsCheckbox',false);
+			api.Panel.message('game_over_panel','lobbyId',lobbyId);
+			api.Panel.message('game_over_panel','superStatsInfo',{reported:self.willReport && model.superStatsCanReport()});
 			if (self.reporting) {
 				return;
 			}
@@ -301,7 +303,6 @@ window.superStats = new(function () {
 					self.currentStats.apm = 60 * 1000 * (self.keyPressCount / self.apmFrequency);
 					self.keyPressCount = 0;
 				}, self.apmFrequency);
-			self.startingTime = stats.time;
 			self.startingRealTime = Date.now();
 			self.reporting = true;
 			self.compileInitialPacket().done(function (r) {
@@ -318,8 +319,10 @@ window.superStats = new(function () {
 			setTimeout(setupListeners,2000 * q);
 		}
 		setupListeners();
+		
 		self.init = function () {
 			api.Panel.message("message",'superStatsCanReport',model.superStatsCanReport());
+			api.Panel.message('game_over_panel','lobbyId',lobbyId);
 			$(document).bindFirst("keyup", function (e) {
 				self.keyPressCount += 1
 			});

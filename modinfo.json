@@ -8,12 +8,13 @@
 	"display_name":"Super Stats",
 	"forum":"do_this_later",
 	"identifier":"com.flubbateios.stats",
-	"signature":"TakeASeatYoungSkywalker",
+	"signature":"DontLetYourMemesBeDreams",
 	"version":"0.1",
 	"priority":101,
 	"scenes":{
 		"live_game":["coui://ui/mods/com.flubbateios.stats/live_game.js"],
 		"live_game_unit_alert":["coui://ui/mods/com.flubbateios.stats/unit_alert.js"],
-		"live_game_message":["coui://ui/mods/com.flubbateios.stats/live_game_message.js"]
+		"live_game_message":["coui://ui/mods/com.flubbateios.stats/live_game_message.js"],
+		"game_over":["coui://ui/mods/com.flubbateios.stats/game_over.js"]
 	}
 }
