@@ -8,8 +8,8 @@ ko.bindingHandlers.remote = {
 var qs = (function (a) {
 	if (a === "") return {};
 	var b = {};
-	for (var i = 0; i < a.length; ++i) {
-		var p = a[i].split('=', 2);
+	for (i of a) {
+		var p = i.split('=', 2);
 		if (p.length === 1)
 			b[p[0]] = "";
 		else

@@ -90,7 +90,7 @@ var model = new (function () {
 			}
 			return moment(self.data().gameStartTime).format('DD/MM/YYYY HH:mm:ss');
 		});
-		//These durations will be slightly different. On 100% sim speed, It will be approximately 5 seconds out due to the landing sequence.
+		//These durations will be slightly different. On 100% sim speed, they'll be out by the amount of time it took to land.
 		that.gameDuration = ko.computed(function () {
 			if (!self.data()) {
 				return false
@@ -348,7 +348,7 @@ var model = new (function () {
 		return 'unkown';
 	});
 	self.casts = ko.computed(function () {
-		return self.data().casts || [];
+		return ko.mapping.fromJS(self.data().casts)() || [];
 	});
 	self.planets = ko.computed(function () {
 		if (!self.data()) {
@@ -716,6 +716,44 @@ var model = new (function () {
 	});
 	self.showTournamentButton = localStorage.getItem('apiKey') ? JSON.parse(localStorage.getItem('permissions')).includes('tournament') || JSON.parse(localStorage.getItem('permissions')).includes('root') : false;
 	self.showCastButton = localStorage.getItem('apiKey') ? JSON.parse(localStorage.getItem('permissions')).includes('cast') || JSON.parse(localStorage.getItem('permissions')).includes('root') : false;
+	self.showCastRemove = localStorage.getItem('apiKey') ? JSON.parse(localStorage.getItem('permissions')).includes('community-mod') || JSON.parse(localStorage.getItem('permissions')).includes('root') : false;
+	self.removeCast = function () {
+		var that = this;
+		$.ajax({
+			method: 'POST',
+			contentType: 'application/json',
+			dataType: 'json',
+			data: JSON.stringify({link: that.link(), apiKey: localStorage.getItem('apiKey')}),
+			url: `./api/matches/${self.gameInfo.lobbyId()}/cast/delete`
+		}).then(function (e) {
+			console.log(e);
+			if (e.error) {
+				return;
+			}
+			self.getData(qs.match).then(function (r) {
+				if (!r || r.error) {
+					self.show404(true);
+					return;
+				}
+				self.data(r);
+			});
+		});
+	};
+	self.showGameDestroy = localStorage.getItem('apiKey') ? JSON.parse(localStorage.getItem('permissions')).includes('alter-matches') || JSON.parse(localStorage.getItem('permissions')).includes('root') : false;
+	self.destroyGame = function () {
+		$.ajax({
+			method: 'POST',
+			contentType: 'application/json',
+			dataType: 'json',
+			data: JSON.stringify({game: self.gameInfo.lobbyId(), apiKey: localStorage.getItem('apiKey')}),
+			url: './api/admin/game/purge'
+		}).then(function (e) {
+			if (e.error) {
+				return;
+			}
+			window.location.href = './recentgames.html';
+		})
+	};
 	self.show404 = ko.observable(false);
 	self.unitLists.init().then(function () {
 		return self.getData(qs.match);

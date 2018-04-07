@@ -45,6 +45,8 @@
 			<span data-bind="text:'Start: ' + gameTimeInfo.startTimeString()"></span>
 			<span data-bind="text:'Duration (Real Time): ' + gameTimeInfo.durationString()"></span>
 			<span data-bind="text:'Duration (Game Time): ' + gameTimeInfo.gameDurationString()"></span>
+			<a href="javascript:void(0);" data-bind="event:{dblclick:destroyGame},visible:showGameDestroy">Delete
+				Game</a>
 		</div>
 		<div class="game-icons">
 			<img class="game-icon-image" data-bind="visible:!gameInfo.isTitans()"
@@ -66,7 +68,11 @@
 		</div>
 		<div class="casts-tournaments">
 			<div class="casts" data-bind="foreach:casts">
-				<a data-bind="attr:{href:link},text:user" class="cast-link"></a>
+				<span>
+					<a data-bind="attr:{href:link},text:user" class="cast-link"></a>
+					<span class="clicky" data-bind="event:{dblclick:$root.removeCast},visible:$root.showCastRemove"
+						  style="color:red;">X</span>
+				</span>
 			</div>
 		</div>
 		<div class="winner" data-bind="text:'Winner: ' + winnerString()"></div>
@@ -111,7 +117,8 @@
 	<div class="parent">
 		<div class="sidebar">
 			<div class="cast-tournament-btns">
-				<a data-bind="visible:tournamentInfo().isTournament,href:'./tournaments.html#' + tournamentInfo().identifier">Tournament
+				<a class="pa_btn"
+				   data-bind="visible:tournamentInfo().isTournament,attr:{href:'./tournaments.html#' + tournamentInfo().identifier}">Tournament
 					Page</a>
 				<a data-bind="visible:showCastButton,attr:{href:'./cast_add.html?lobbyId=' + gameInfo.lobbyId()}"
 				   class="pa_btn">Add Cast</a>

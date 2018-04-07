@@ -110,3 +110,8 @@ input[type=text], input[type=password], input[type=number], input[type=time] {
 	border: 1px solid #666666;
 	font-size: 18px;
 }
+
+select {
+	background-color: #343434;
+	color: #ffffff;
+}

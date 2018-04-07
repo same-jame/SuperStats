@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Super Stats</title>
+	<link rel="stylesheet" href="./lib/pa.css"/>
+	<link rel="stylesheet" href="./global.css"/>
+	<link rel="stylesheet" href="./tournaments_casts.css"/>
+	<script src="./lib/jquery-3.3.1.min.js"></script>
+	<script src="./lib/lodash.min.js"></script>
+	<script src="./lib/knockout-3.5.0beta.js"></script>
+	<script src="./lib/knockout.mapping.js"></script>
+	<script src="./remote.js"></script>
+	<script src="./blockip.js"></script>
+</head>
+<body>
+<div class="header" data-bind="remote:'./header.html'"></div>
+<div class="main">
+	<h3 data-bind="visible:!canBan">You don't have permission to do this.</h3>
+	<div>
+		<input type="text" data-bind="textInput:ip" placeholder="IP"/>
+		<span class="pa_btn submit">Block</span>
+	</div>
+	<div data-bind="foreach:blockedIps">
+		<span data-bind="text:$data"></span><span class="pa_btn" data-bind="click:$root.unblockIp">Unblock</span><br/>
+	</div>
+</div>
+<div class="footer" data-bind="remote:'./footer.html'"></div>
+</body>
+</html>

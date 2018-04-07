@@ -19,3 +19,8 @@
 	max-width: 1200px;
 	box-sizing: border-box;
 }
+
+.info {
+	font-size: 18px;
+	text-align: left;
+}

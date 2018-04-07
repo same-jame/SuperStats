@@ -7,7 +7,6 @@ var model = new (function () {
 	});
 	self.link = ko.observable('');
 	self.username = ko.observable(localStorage.getItem('username') || '');
-	// the fallback to an empty string is for testing purposes
 	self.submitted = ko.observable(false);
 	self.msg = ko.observable('');
 	self.canSubmit = ko.computed(function () {

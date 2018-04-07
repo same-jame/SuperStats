@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Super Stats</title>
+	<link rel="stylesheet" href="./lib/pa.css"/>
+	<link rel="stylesheet" href="./global.css"/>
+	<link rel="stylesheet" href="./roles.css"/>
+	<script src="./lib/jquery-3.3.1.min.js"></script>
+	<script src="./lib/lodash.min.js"></script>
+	<script src="./lib/knockout-3.5.0beta.js"></script>
+	<script src="./lib/knockout.mapping.js"></script>
+	<script src="./remote.js"></script>
+	<script src="./roles.js"></script>
+</head>
+<body>
+<div class="header" data-bind="remote:'./header.html'"></div>
+<div class="main">
+	<div class="users">
+		<!-- ko foreach: linkedUsers -->
+		<div class="user">
+			<span data-bind="text:username"></span><a href="javascript:void(0);" data-bind="event:{dblclick:$root.deleteUser}">Delete</a><br data-bind="display:apiKey().length"/>
+			<span data-bind="text:apiKey"></span>
+		</div>
+		<!-- /ko -->
+	</div>
+	<div class="keys">
+		<div class="make-key">
+			<input type="text" placeholder="Info" data-bind="textInput:info"/>
+			<span data-bind="click:makeKey" class="submit pa_btn">Make Key</span>
+		</div>
+		<div class="modify-keys">
+			<select data-bind="options:keys,optionsText:'info',optionsValue:'apiKey',value:selectedKey"></select><br/><br/>
+			<select multiple data-bind="options:permissions,selectedOptions:selectedPermissions"></select><br/><br/>
+			<input type="text" data-bind="textInput:modifiedInfo" placeholder="Tag"/><br/><br/>
+			<div class="pa_btn submit">Apply</div>
+		</div>
+		<div class="link-keys">
+			<select data-bind="options:users,optionsText:'username',optionsValue:'username',value:selectedLinkUser"></select><br/><br/>
+			<select data-bind="options:keys,optionsText:'info',optionsValue:'apiKey',value:selectedLinkKey"></select><br/><br/>
+			<div data-bind="click:linkKeyAndUser" class="pa_btn submit">Link</div>
+		</div>
+		<div class="key-list">
+			<div data-bind="click:toggleShowKeyList" class="pa_btn submit" style="width:200px;">Show/hide key list</div>
+			<div data-bind="foreach:keys,visible:showKeyList">
+				<div class="key-in-list">
+					<span data-bind="text:info"></span>
+					<span data-bind="text:apiKey"></span><br/>
+					<div data-bind="foreach:permissions">
+						<span data-bind="text:$data"></span><span data-bind="visible:$index < permissions().length - 1">,</span>
+					</div>
+					<a href="javascript:void(0);" data-bind="event:{dblclick:$root.deleteKey}">Delete</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="footer" data-bind="remote:'./footer.html'"></div>
+</body>
+</html>
