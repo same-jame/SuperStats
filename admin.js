@@ -286,4 +286,25 @@ module.exports = function (self) {
 			res.json({success:true,lobbyId:req.params.game});
 		});
 	});
+	self.app.use('/api/tournaments/delete',self.permissionMiddleware('community-mod'));
+	self.app.post('/api/tournaments/delete',function(req,res){
+		var data = req.body;
+		if(!(data && data.tournament && data.tournament.constructor===String && data.tournament.length < 50)){
+			res.json({error:'malformed-query'});
+			return;
+		}
+		var p = [];
+		p[0] = self.database.collection('tournaments').removeOne({identifier:data.tournament});
+		p[1] = self.database.collection('matches').update({'tournamentInfo.identifier':data.tournament},{$set:{'tournamentInfo.identifier':false,'tournamentInfo.isTournament':false}});
+		Promise.all(p).then(function(q){
+			console.log(q[0]);
+			if(!q[0].result.n){
+				res.json({error:'no-tournament'});
+				return;
+			}
+			res.json({success:'true'});
+		})
+		
+		
+	});
 };
