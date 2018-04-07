@@ -237,7 +237,7 @@ module.exports = function (self) {
 			return;
 		}
 		var user = d.username;
-		if(user.constructor !== String){
+		if(user && user.constructor !== String){
 			res.json({error:'malformed-query'});
 			return;
 		}
@@ -255,12 +255,12 @@ module.exports = function (self) {
 			res.json({error:'malformed-query'});
 			return;
 		}
-		self.database.collection('matches').updateOne({lobbyId:g},{'$pull':{link:req.body.link}}).then(function(r){
-			if(!r.results.n){
+		self.database.collection('matches').updateOne({lobbyId:g},{'$pull':{casts:{link:l}}}).then(function(r){
+			if(!r.result.n){
 				res.json({error:'not-real-match'});
 				return;
 			}
-			if(!r.results.nModified){
+			if(!r.result.nModified){
 				res.json({error:'not-real-link'});
 				return;
 			}

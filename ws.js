@@ -73,7 +73,7 @@ module.exports = function (self) {
 					},
 					slots: {
 						type: "array",
-						items: {type: "string", maxLength: 20}
+						items: {type: "string", maxLength: 50}
 					},
 					ai:{type:"boolean"},
 					econ_rate:{type:"number"},

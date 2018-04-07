@@ -11,11 +11,6 @@ module.exports = function (r, converter) {
 		x.dataPointsUnit = {};
 		x.dataPointsStats = {};
 		x.death = false;
-		if (x.ai) {
-			for (var y in x.slots) {
-				x.slots[y] = 'AI ' + x.slots[y];
-			}
-		}
 	}
 	self.socks = [];
 	self.extendedPlayerMap = {};
@@ -236,7 +231,7 @@ module.exports = function (r, converter) {
 			if (!self.socks.length) {
 				self.dcTimeout = setTimeout(function () {
 					self.endGame();
-				}, 3 * 60 * 60);
+				}, 5 * 60 * 1000);
 			}
 
 		});
