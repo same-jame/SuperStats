@@ -54,8 +54,9 @@ var model = new (function () {
 					return;
 				}
 				localStorage.setItem('permissions', JSON.stringify(e.permissions));
+				window.location.href = self.redirectUrl;
 			});
-			window.location.href = self.redirectUrl;
+
 		}).catch(function (e) {
 			switch (e.status) {
 				case 404:
