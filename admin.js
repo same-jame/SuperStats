@@ -160,7 +160,7 @@ module.exports = function (self) {
 		delete self.apiKeys[apiKey];
 		self.synchronizeWithInfoDB('apiKeys').then(function(){
 			res.json({success:true,error:false,apiKey:newKey});
-		})
+		});
 	});
 	self.app.use('/api/admin/keys/add', self.permissionMiddleware('roles'));
 	self.app.post('/api/admin/keys/add', function (req, res) {
@@ -197,6 +197,12 @@ module.exports = function (self) {
 		self.synchronizeWithInfoDB('apiKeys').then(function(){
 			res.json({success:true,error:false,apiKey:newKey});
 		});
+	});
+	self.app.use('/api/admin/users/list', self.permissionMiddleware('roles'));
+	self.app.post('/api/admin/users/list', function (req, res) {
+		res.json(Object.keys(self.users).map(function(q){
+			return {username:q,apiKey:self.users[q].apiKey};
+		}));
 	});
 	self.app.use('/api/admin/users/linkapi',self.permissionMiddleware('roles'));
 	self.app.post('/api/admin/users/linkapi',function(req,res){
