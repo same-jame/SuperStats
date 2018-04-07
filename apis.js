@@ -31,7 +31,7 @@ module.exports = function (self) {
 		});
 	});
 	self.app.get('/api/matches/time', function (req, res) {
-		var max = parseInt(req.query.max);
+		var max = req.query.max ? parseInt(req.query.max) : Date.now();
 		var min = parseInt(req.query.min);
 		if (!(req.query.min && (max > 0) && (min > 0))) {
 			res.json({
