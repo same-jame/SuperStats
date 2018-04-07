@@ -173,6 +173,7 @@ module.exports = function (r, converter) {
 			var schema = {
 				"id": "/DataPoint",
 				"type": "object",
+				"additionalProperties": false,
 				"required": ["metalProd", "metalLoss", "metalStorage", "metalStored", "energyProd", "energyLoss", "energyStorage", "energyStored", "simSpeed", "time", "realTime"],
 				"properties": {
 					"metalProd": {type: "integer"},
@@ -202,6 +203,7 @@ module.exports = function (r, converter) {
 				"type": "array",
 				"items": {
 					"type": "object",
+					"additionalProperties": false,
 					//the required flag didn't work here from testing. 
 					//Switched to this version and it worked but it is inconsistent with other pieces of validation code.
 					"properties": {

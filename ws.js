@@ -9,6 +9,7 @@ module.exports = function (self) {
 			id: "topSchema",
 			type: "object",
 			required: ["uberId", "displayName", "armyId", "teamId", "armies", "isCustomServer", "lobbyId", "isRanked", "serverMods"],
+			"additionalProperties": false,
 			properties: {
 				uberId: {
 					type: "string",
@@ -35,6 +36,7 @@ module.exports = function (self) {
 			type: "array",
 			items: {
 				type: "object",
+				"additionalProperties": false,
 				required: ["identifier", "display_name", "version"],
 				properties: {
 					identifier: {
@@ -58,6 +60,7 @@ module.exports = function (self) {
 			items: {
 				type: "object",
 				required: ["primaryColor", "secondaryColor", "slots", "ai", "econ_rate", "armyId", "teamId"],
+				"additionalProperties": false,
 				properties: {
 					primaryColor: {
 						type: "string",
@@ -115,8 +118,6 @@ module.exports = function (self) {
 					}
 					var valid = self.validateGameStartPacket(r);
 					if (valid.errors.length) {
-						console.log(valid.errors);
-						console.log(new Date().toUTCString() + ' Invalid game request from '+IP);
 						return;
 					}
 					r.lobbyId = r.lobbyId.toLowerCase();
