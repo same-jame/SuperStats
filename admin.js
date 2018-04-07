@@ -118,12 +118,12 @@ module.exports = function (self) {
 			res.json({success:true});
 		});
 	});
-	self.app.use('/api/admin/roles/listkeys', self.permissionMiddleware('roles'));
-	self.app.post('/api/admin/roles/listkeys', function (req, res) {
+	self.app.use('/api/admin/keys/list', self.permissionMiddleware('roles'));
+	self.app.post('/api/admin/keys/list', function (req, res) {
 		res.json(self.apiKeys);
 	});
-	self.app.use('/api/admin/roles/modify', self.permissionMiddleware('roles'));
-	self.app.post('/api/admin/roles/modify', function (req, res) {
+	self.app.use('/api/admin/keys/modify', self.permissionMiddleware('roles'));
+	self.app.post('/api/admin/keys/modify', function (req, res) {
 		var apiKey = req.body ? req.body.key : false;
 		if(!(apiKey && (apiKey.constructor === String))){
 			res.json({error:'malformed-query'});
@@ -145,10 +145,9 @@ module.exports = function (self) {
 		self.synchronizeWithInfoDB('apiKeys').then(function(){
 			res.json(out);
 		})
-
 	});
-	self.app.use('/api/admin/key/remove', self.permissionMiddleware('roles'));
-	self.app.post('/api/admin/key/remove', function (req, res) {
+	self.app.use('/api/admin/keys/remove', self.permissionMiddleware('roles'));
+	self.app.post('/api/admin/keys/remove', function (req, res) {
 		var apiKey = req.body ? req.body.key : false;
 		if(!(apiKey && (apiKey.constructor === String))){
 			res.json({error:'malformed-query'});
