@@ -21,7 +21,7 @@ module.exports = function (self) {
 	self.app.use('/api/admin/banUser', self.permissionMiddleware('ban'));
 	self.app.post('/api/admin/banUser', function (req, res) {
 		var victim = req.body.id;
-		if (!(victim && (victim.constructor.name === "String"))) {
+		if (!(victim && (victim.constructor === String))) {
 			res.json({error: 'malformed-query'});
 			return;
 		}
@@ -37,7 +37,7 @@ module.exports = function (self) {
 	self.app.use('/api/admin/banIP', self.permissionMiddleware('ban'));
 	self.app.post('/api/admin/banIP', function (req, res) {
 		var victim = req.body.ip;
-		if (!(victim && (victim.constructor.name === "String"))) {
+		if (!(victim && (victim.constructor === String))) {
 			res.json({error: 'malformed-query'});
 			return;
 		}
@@ -53,7 +53,7 @@ module.exports = function (self) {
 	self.app.use('/api/admin/unbanUser', self.permissionMiddleware('ban'));
 	self.app.post('/api/admin/unbanUser', function (req, res) {
 		var victim = req.body.id;
-		if (!(victim && (victim.constructor.name === "String"))) {
+		if (!(victim && (victim.constructor === String))) {
 			res.json({error: 'malformed-query'});
 			return;
 		}
@@ -69,7 +69,7 @@ module.exports = function (self) {
 	self.app.use('/api/admin/unbanIP', self.permissionMiddleware('ban'));
 	self.app.post('/api/admin/unbanIP', function (req, res) {
 		var victim = req.body.ip;
-		if (!(victim && (victim.constructor.name === "String"))) {
+		if (!(victim && (victim.constructor === String))) {
 			res.json({error: 'malformed-query'});
 			return;
 		}
@@ -86,7 +86,7 @@ module.exports = function (self) {
 	self.app.use('/api/admin/game/end', self.permissionMiddleware('alter-matches'));
 	self.app.post('/api/admin/game/end', function (req, res) {
 		var game = req.body ? req.body.game : false;
-		if (!(game && (game.constructor.name === "String"))) {
+		if (!(game && (game.constructor === String))) {
 			res.json({error: 'malformed-query'});
 			return;
 		}
@@ -105,7 +105,7 @@ module.exports = function (self) {
 	self.app.use('/api/admin/game/purge', self.permissionMiddleware('alter-matches'));
 	self.app.post('/api/admin/game/purge', function (req, res) {
 		var game = req.body ? req.body.game : false;
-		if (!(game && (game.constructor.name === "String"))) {
+		if (!(game && (game.constructor === String))) {
 			res.json({error: 'malformed-query'});
 			return;
 		}
