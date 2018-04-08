@@ -23,16 +23,16 @@ var model = new (function () {
 		}).then(self.getUsers);
 	};
 	self.keys = ko.observableArray();
-	self.linkedUsers = ko.computed(function(){
+	self.linkedUsers = ko.computed(function () {
 		var n = [];
-		for(var x of self.users()){
-			var app = {username:x.username};
-			for(var y of self.keys()){
-				if(y.apiKey() === x.apiKey()){
+		for (var x of self.users()) {
+			var app = {username: x.username};
+			for (var y of self.keys()) {
+				if (y.apiKey() === x.apiKey()) {
 					app.info = y.info();
 				}
 			}
-			if(!app.info){
+			if (!app.info) {
 				app.info = '';
 			}
 			n.push(app);
@@ -110,7 +110,7 @@ var model = new (function () {
 	};
 	self.selectedLinkKey = ko.observable('');
 	self.selectedLinkUser = ko.observable('');
-	self.linkKeyAndUser = function(){
+	self.linkKeyAndUser = function () {
 		var k = self.selectedLinkKey();
 		var u = self.selectedLinkUser();
 		$.ajax({
@@ -120,10 +120,10 @@ var model = new (function () {
 			dataType: 'json',
 			data: JSON.stringify({
 				apiKey: localStorage.getItem('apiKey'),
-				key:k,
-				user:u
+				key: k,
+				user: u
 			})
-		}).then(function(){
+		}).then(function () {
 			self.getUsers();
 			self.getKeys();
 		});

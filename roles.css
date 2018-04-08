@@ -33,23 +33,26 @@ select {
 
 .key-list {
 	margin-top: 30px;
-	border:1px solid #00d0ff;
-	padding:6px;
-	min-width:500px;
-	display:flex;
-	align-items:center;
-	flex-direction:column
+	border: 1px solid #00d0ff;
+	padding: 6px;
+	min-width: 500px;
+	display: flex;
+	align-items: center;
+	flex-direction: column
 }
-.make-key,.link-keys{
-	border:1px solid #00d0ff;
-	padding:6px;
+
+.make-key, .link-keys {
+	border: 1px solid #00d0ff;
+	padding: 6px;
 }
-.link-keys{
-	margin-top:30px;
+
+.link-keys {
+	margin-top: 30px;
 }
+
 .modify-keys {
-	border:1px solid #00d0ff;
-	padding:4px;
+	border: 1px solid #00d0ff;
+	padding: 4px;
 	margin-top: 30px;
 }
 
@@ -57,6 +60,6 @@ select {
 	width: 250px;
 }
 
-.key-in-list:hover,.user:hover {
+.key-in-list:hover, .user:hover {
 	background-color: #00d0ff;
 }

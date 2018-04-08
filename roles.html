@@ -19,7 +19,9 @@
 	<div class="users">
 		<!-- ko foreach: linkedUsers -->
 		<div class="user">
-			<span data-bind="text:username"></span><a href="javascript:void(0);" data-bind="event:{dblclick:$root.deleteUser}">Delete</a><br data-bind="display:apiKey().length"/>
+			<span data-bind="text:username"></span><a href="javascript:void(0);"
+													  data-bind="event:{dblclick:$root.deleteUser}">Delete</a><br
+				data-bind="display:apiKey().length"/>
 			<span data-bind="text:info"></span>
 		</div>
 		<!-- /ko -->
@@ -47,7 +49,8 @@
 					<span data-bind="text:info"></span>
 					<span data-bind="text:apiKey"></span><br/>
 					<div data-bind="foreach:permissions">
-						<span data-bind="text:$data"></span><span data-bind="visible:$index < $parent.permissions().length - 1">,</span>
+						<span data-bind="text:$data"></span><span
+							data-bind="visible:$index < $parent.permissions().length - 1">,</span>
 					</div>
 					<a href="javascript:void(0);" data-bind="event:{dblclick:$root.deleteKey}">Delete</a>
 				</div>

@@ -35,7 +35,7 @@ var model = new (function () {
 				n.push(x);
 			}
 		}
-		n.sort(function(a,b){
+		n.sort(function (a, b) {
 			return a.displayName.toLowerCase().localeCompare(b.displayName.toLowerCase());
 		});
 		return ko.mapping.fromJS(n)();
@@ -52,7 +52,7 @@ var model = new (function () {
 			if (r.error) {
 				return;
 			}
-			self.getBanData().then(function(r){
+			self.getBanData().then(function (r) {
 				self.banned(r);
 			});
 		})
@@ -69,7 +69,7 @@ var model = new (function () {
 			if (r.error) {
 				return;
 			}
-			self.getBanData().then(function(r){
+			self.getBanData().then(function (r) {
 				self.banned(r);
 			});
 		})

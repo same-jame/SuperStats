@@ -662,16 +662,16 @@ var model = new (function () {
 	self.generateUnitDbUrl = function (unit) {
 		var u = unit.split('/').pop().replace('.json', '');
 		var url = 'https://flubbateios.com/unitdb/unit/' + u + '?version=current';
-		if(self.gameInfo.equilibrium()){
-			url+= ':com.pa.n30n.equilibrium';
+		if (self.gameInfo.equilibrium()) {
+			url += ':com.pa.n30n.equilibrium';
 		}
-		if(self.gameInfo.legion()){
-			url+= ':com.pa.legion-expansion-server';
+		if (self.gameInfo.legion()) {
+			url += ':com.pa.legion-expansion-server';
 		}
-		if(!self.gameInfo.isTitans()){
-			url+= ':com.pa.classic';
+		if (!self.gameInfo.isTitans()) {
+			url += ':com.pa.classic';
 		}
-		return url ;
+		return url;
 	};
 	self.currentUnits = ko.computed(function () {
 		var out = [];
