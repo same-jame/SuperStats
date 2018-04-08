@@ -227,11 +227,9 @@ var model = new (function () {
 				A.currentMetalWastage = (A.metalStored >= (A.metalStorage * 0.98)) ? (A.metalProd - A.metalLoss) : 0;
 				//A.currentMetalWastage = (A.metalStored === A.metalStorage) ? (A.metalProd - A.metalLoss) : 0;
 				A.metalWasted = Math.round(B.metalWasted + ((B.currentMetalWastage + A.currentMetalWastage) * 0.5 * (A.time - B.time)));
-				delete B.currentMetalWastage;
 				A.currentEnergyWastage = (A.energyStored >= (A.energyStorage * 0.98)) ? (A.energyProd - A.energyLoss) : 0;
 				//A.currentEnergyWastage = (A.energyStored ===A.energyStorage ) ? (A.energyProd - A.energyLoss) : 0;
 				A.energyWasted = Math.round(B.energyWasted + ((B.currentEnergyWastage + A.currentEnergyWastage) * 0.5 * (A.time - B.time)));
-				delete B.currentEnergyWastage;
 
 				var BMetalUse = (B.metalStored <= (B.metalStorage * 0.02)) ? Math.min(B.metalLoss, B.metalProd) : B.metalLoss;
 				var AMetalUse = (A.metalStored <= (A.metalStorage * 0.02)) ? Math.min(A.metalLoss, A.metalProd) : A.metalLoss;
@@ -336,16 +334,15 @@ var model = new (function () {
 		if (!self.data()) {
 			return false;
 		}
+		var out = '';
 		for (var x of self.data().armies) {
 			if (x.teamId === self.data().winner) {
-				var dnames = [];
 				for (var y of x.extendedPlayers) {
-					dnames.push(y.displayName);
+					out += y.displayName + ', ';
 				}
-				return dnames.join(', ');
 			}
 		}
-		return 'unkown';
+		return out.length ? out.substring(0, out.length - 2) : 'unknown';
 	});
 	self.casts = ko.computed(function () {
 		return ko.mapping.fromJS(self.data().casts)() || [];
@@ -664,7 +661,17 @@ var model = new (function () {
 	};
 	self.generateUnitDbUrl = function (unit) {
 		var u = unit.split('/').pop().replace('.json', '');
-		return 'https://flubbateios.com/equilibrium/db/unit/' + u;
+		var url = 'https://flubbateios.com/unitdb/unit/' + u + '?version=current';
+		if(self.gameInfo.equilibrium()){
+			url+= ':com.pa.n30n.equilibrium';
+		}
+		if(self.gameInfo.legion()){
+			url+= ':com.pa.legion-expansion-server';
+		}
+		if(!self.gameInfo.isTitans()){
+			url+= ':com.pa.classic';
+		}
+		return url ;
 	};
 	self.currentUnits = ko.computed(function () {
 		var out = [];

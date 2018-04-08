@@ -30,11 +30,14 @@ var model = new (function () {
 		var n = [];
 		for (var x of d) {
 			x.banned = self.banned().includes(x.uberId);
-			var search_test = x.displayName.replace(/[^A-Za-z0-9]/g, '').toLowerCase();
-			if (search_test.includes(self.searchStringProcessed())) {
+			x.search_test = x.displayName.replace(/[^A-Za-z0-9]/g, '').toLowerCase();
+			if (x.search_test.includes(self.searchStringProcessed())) {
 				n.push(x);
 			}
 		}
+		n.sort(function(a,b){
+			return a.displayName.toLowerCase().localeCompare(b.displayName.toLowerCase());
+		});
 		return ko.mapping.fromJS(n)();
 	});
 	self.ban = function () {

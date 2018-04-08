@@ -215,16 +215,15 @@ var model = new (function () {
 				return out.substring(0, out.length - 1);
 			})(x.armies);
 			x.winnerString = (function (match) {
+				var out = '';
 				for (var x of match.armies) {
 					if (x.teamId === match.winner) {
-						var dnames = [];
 						for (var y of x.extendedPlayers) {
-							dnames.push(y.displayName);
+							out += y.displayName + ', ';
 						}
-						return dnames.join(', ');
 					}
 				}
-				return 'unkown';
+				return out.length ? out.substring(0, out.length - 2) : 'unknown';
 			})(x);
 			x.info = new (function (match) {
 				var that = this;
