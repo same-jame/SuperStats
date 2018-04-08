@@ -12,11 +12,11 @@ var randomString = function (len, chars) {
 module.exports = function (self) {
 	self.app.use('/api/admin/bans/ids', self.permissionMiddleware('ban'));
 	self.app.post('/api/admin/bans/ids', function (req, res) {
-		res.json(self.bannedIds)
+		res.json(self.bannedIds);
 	});
 	self.app.use('/api/admin/bans/ips', self.permissionMiddleware('ban'));
 	self.app.post('/api/admin/bans/ips', function (req, res) {
-		res.json(self.bannedIPs)
+		res.json(self.bannedIPs);
 	});
 	self.app.use('/api/admin/banUser', self.permissionMiddleware('ban'));
 	self.app.post('/api/admin/banUser', function (req, res) {
@@ -190,7 +190,7 @@ module.exports = function (self) {
 			}
 		}
 		var newKey = randomString(32);
-		self.apiKeys[newkey] = {
+		self.apiKeys[newKey] = {
 			info:req.body.info,
 			permissions:req.body.permissions || []
 		};

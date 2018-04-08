@@ -9,7 +9,6 @@ module.exports = function (self) {
 			id: "topSchema",
 			type: "object",
 			required: ["uberId", "displayName", "armyId", "teamId", "armies", "isCustomServer", "lobbyId", "isRanked", "serverMods"],
-			"additionalProperties": false,
 			properties: {
 				uberId: {
 					type: "string",
