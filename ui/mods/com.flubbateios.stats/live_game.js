@@ -240,11 +240,11 @@ window.superStats = new(function () {
 		};
 		var OldArmy = handlers.army || function () {};
 		handlers.army = function (p) {
-			stats.metalProd = p.metal.production;
+			stats.metalProd = p.metal.production + p.metal.shared;
 			stats.metalLoss = p.metal.demand;
 			stats.metalStorage = p.metal.storage;
 			stats.metalStored = p.metal.current;
-			stats.energyProd = p.energy.production;
+			stats.energyProd = p.energy.production + p.energy.shared;
 			stats.energyLoss = p.energy.demand;
 			stats.energyStorage = p.energy.storage;
 			stats.energyStored = p.energy.current;
