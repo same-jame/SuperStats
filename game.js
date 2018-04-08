@@ -133,7 +133,7 @@ module.exports = function (r, converter) {
 		for (var x of plist) {
 			(function (r) {
 				converter.convertUser(r, 'TitleDisplayName').then(function (p) {
-					if(!self.extendedPlayerMap[r].fromPlayer){
+					if (!self.extendedPlayerMap[r].fromPlayer) {
 						self.extendedPlayerMap[r].uberId = p || '-1';
 					}
 					var done = true;
@@ -176,7 +176,7 @@ module.exports = function (r, converter) {
 				"type": "object",
 				"required": ["metalProd", "metalLoss", "metalStorage", "metalStored", "energyProd", "energyLoss", "energyStorage", "energyStored", "simSpeed", "time", "realTime"],
 				"properties": {
-					"apm":{type:"number"},
+					"apm": {type: "number"},
 					"metalProd": {type: "integer"},
 					"metalLoss": {type: "integer"},
 					"metalStorage": {type: "integer"},
@@ -207,10 +207,10 @@ module.exports = function (r, converter) {
 					//the required flag didn't work here from testing. 
 					//Switched to this version and it worked but it is inconsistent with other pieces of validation code.
 					"properties": {
-						"delta": {type: "integer",required:true},
-						"unit":{type:"string",maxLength:180,required:true},
-						"realTime":{type:"integer",required:true},
-						"time":{type:"integer",required:true}
+						"delta": {type: "integer", required: true},
+						"unit": {type: "string", maxLength: 180, required: true},
+						"realTime": {type: "integer", required: true},
+						"time": {type: "integer", required: true}
 					},
 					"additionalProperties": false
 				}

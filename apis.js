@@ -154,7 +154,7 @@ module.exports = function (self) {
 		self.database.collection('matches').findOne({
 			lobbyId: match
 		}).then(function (r) {
-			if(!r){
+			if (!r) {
 				res.json({
 					error: "not-a-real-lobby-id"
 				});
@@ -235,7 +235,7 @@ module.exports = function (self) {
 					}));
 				})(x)
 			}
-			Promise.all(promises).then(function(){
+			Promise.all(promises).then(function () {
 				res.json(r);
 			})
 		})

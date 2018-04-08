@@ -5,10 +5,10 @@ const scrypt = require('scrypt-async');
 module.exports = function (self) {
 	//one user per day
 	var userLimiter = new RateLimit({
-			windowMS: 24 * 60 * 60 * 1000,
-			max: 1,
-			message: JSON.stringify({error:'too-many-requests'})
-		});
+		windowMS: 24 * 60 * 60 * 1000,
+		max: 1,
+		message: JSON.stringify({error: 'too-many-requests'})
+	});
 	self.app.post('/api/users/create', userLimiter, function (req, res) {
 		var packet = req.body;
 		var v = new Validator();
@@ -53,16 +53,16 @@ module.exports = function (self) {
 			p: 1
 		}, function (q) {
 			self.users[packet.username].hash = q;
-			self.synchronizeWithInfoDB('users').then(function(){
-				res.json({success:true});
+			self.synchronizeWithInfoDB('users').then(function () {
+				res.json({success: true});
 			})
 		});
 	});
 	var getKeyLimiter = new RateLimit({
-			windowMS: 60 * 1000,
-			max: 10,
-			message: JSON.stringify({error:'too-many-requests'})
-		});
+		windowMS: 60 * 1000,
+		max: 10,
+		message: JSON.stringify({error: 'too-many-requests'})
+	});
 	self.app.post('/api/users/getkey', getKeyLimiter, function (req, res) {
 		var packet = req.body;
 		var v = new Validator();
@@ -106,7 +106,7 @@ module.exports = function (self) {
 			p: 1
 		}, function (q) {
 			var hash = self.users[username].hash;
-			
+
 			if (hash !== q) {
 				res.json({
 					error: 'wrong-password'
@@ -134,6 +134,6 @@ module.exports = function (self) {
 			});
 			return;
 		}
-		res.json({permissions:user.permissions});
+		res.json({permissions: user.permissions});
 	})
 };
