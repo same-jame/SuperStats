@@ -159,7 +159,7 @@ module.exports = function (self) {
 		}
 		delete self.apiKeys[apiKey];
 		self.synchronizeWithInfoDB('apiKeys').then(function () {
-			res.json({success: true, error: false, apiKey: newKey});
+			res.json({success: true, error: false});
 		});
 	});
 	self.app.use('/api/admin/keys/add', self.permissionMiddleware('roles'));
