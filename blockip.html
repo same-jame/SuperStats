@@ -19,7 +19,7 @@
 	<h3 data-bind="visible:!canBan">You don't have permission to do this.</h3>
 	<div>
 		<input type="text" data-bind="textInput:ip" placeholder="IP"/>
-		<span class="pa_btn submit">Block</span>
+		<span class="pa_btn submit" data-bind="click:blockIp">Block</span>
 	</div>
 	<div data-bind="foreach:blockedIps">
 		<span data-bind="text:$data"></span><span class="pa_btn" data-bind="click:$root.unblockIp">Unblock</span><br/>
