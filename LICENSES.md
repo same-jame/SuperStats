@@ -16,7 +16,7 @@ Javascript libraries
 ### Client Mod
 
 *   socket.io - [MIT](https://github.com/socketio/socket.io/blob/master/LICENSE)
-*   jshashes - [BSD 3-Clause](https://github.com/socketio/socket.io/blob/master/LICENSE)
+*   jshashes - [BSD 3-Clause](https://github.com/h2non/jshashes/blob/master/LICENSE)
 
 ### Server
 
