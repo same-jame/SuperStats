@@ -14,7 +14,8 @@
   "forum": "do_this_later",
   "identifier": "com.flubbateios.stats",
   "signature": "DontLetYourMemesBeDreams",
-  "version": "0.1",
+  "version": "1.0.0",
+  "icon":"https://flubbateios.com/stats/assets/img/logo.png",
   "priority": 101,
   "scenes": {
 	"live_game": [
