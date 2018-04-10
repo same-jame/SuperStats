@@ -31,7 +31,6 @@ window.superStats = new (function () {
 	var lobbyId = model.lobbyId();
 	model.lobbyId.subscribe(function (r) {
 		lobbyId = r;
-		api.Panel.message('game_over_panel', r);
 	});
 	self.willReport = true;
 	var wsURL = 'https://flubbateios.com';
@@ -289,7 +288,7 @@ window.superStats = new (function () {
 	});
 	self.startReporting = function () {
 		api.Panel.message("message", 'superStatsCheckbox', false);
-		api.Panel.message('game_over_panel', 'lobbyId', lobbyId);
+		
 		api.Panel.message('game_over_panel', 'superStatsInfo', {reported: self.willReport && model.superStatsCanReport()});
 		if (self.reporting) {
 			return;
@@ -312,6 +311,7 @@ window.superStats = new (function () {
 		self.startingRealTime = Date.now();
 		self.reporting = true;
 		self.compileInitialPacket().done(function (r) {
+			api.Panel.message('game_over_panel', 'lobbyId', r.lobbyId);
 			self.socket.emit('gameStart', r);
 		});
 		for (var x in model.players()) {
