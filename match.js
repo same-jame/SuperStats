@@ -712,7 +712,7 @@ var model = new (function () {
 		self.selectedPlanetName(that.name())
 	};
 	self.planets.subscribe(function () {
-		self.selectedPlanetName(self.planets()[0].name());
+		self.selectedPlanetName(self.planets()[0] ? self.planets()[0].name : {});
 	});
 	self.selectedPlanet = ko.computed(function () {
 		for (var x of self.planets()) {
