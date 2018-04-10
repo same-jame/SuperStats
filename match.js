@@ -224,15 +224,15 @@ var model = new (function () {
 					metalProduced: 0,
 					energyProduced: 0
 				};
-				A.currentMetalWastage = (A.metalStored >= (A.metalStorage * 0.98)) ? (A.metalProd - A.metalLoss) : 0;
+				A.currentMetalWastage = (A.metalStored >= A.metalStorage) ? (A.metalProd - A.metalLoss) : 0;
 				//A.currentMetalWastage = (A.metalStored === A.metalStorage) ? (A.metalProd - A.metalLoss) : 0;
 				A.metalWasted = Math.round(B.metalWasted + ((B.currentMetalWastage + A.currentMetalWastage) * 0.5 * (A.time - B.time)));
-				A.currentEnergyWastage = (A.energyStored >= (A.energyStorage * 0.98)) ? (A.energyProd - A.energyLoss) : 0;
+				A.currentEnergyWastage = (A.energyStored >= A.energyStorage) ? (A.energyProd - A.energyLoss) : 0;
 				//A.currentEnergyWastage = (A.energyStored ===A.energyStorage ) ? (A.energyProd - A.energyLoss) : 0;
 				A.energyWasted = Math.round(B.energyWasted + ((B.currentEnergyWastage + A.currentEnergyWastage) * 0.5 * (A.time - B.time)));
 
-				var BMetalUse = (B.metalStored <= (B.metalStorage * 0.02)) ? Math.min(B.metalLoss, B.metalProd) : B.metalLoss;
-				var AMetalUse = (A.metalStored <= (A.metalStorage * 0.02)) ? Math.min(A.metalLoss, A.metalProd) : A.metalLoss;
+				var BMetalUse = (B.metalStored <= 100) ? Math.min(B.metalLoss, B.metalProd) : B.metalLoss;
+				var AMetalUse = (A.metalStored <= 100) ? Math.min(A.metalLoss, A.metalProd) : A.metalLoss;
 
 				A.metalSpent = Math.round(B.metalSpent + (BMetalUse + AMetalUse) * 0.5 * (A.time - B.time));
 				var BEnergyUse = Math.min(B.energyLoss, B.energyProd);
@@ -244,8 +244,8 @@ var model = new (function () {
 
 				A.netMetal = A.metalProd - A.metalLoss;
 				A.netEnergy = A.energyProd - A.energyLoss;
-				var mEff = A.metalStored >= (A.metalStorage * 0.02) ? 1 : Math.min(1, Math.max(A.metalProd / A.metalLoss, 0));
-				var eEff = A.energyStored >= (A.energyStorage * 0.02) ? 1 : Math.min(1, Math.max(A.energyProd / A.energyLoss, 0));
+				var mEff = A.metalStored >= 100 ? 1 : Math.min(1, Math.max(A.metalProd / A.metalLoss, 0));
+				var eEff = A.energyStored >= 100 ? 1 : Math.min(1, Math.max(A.energyProd / A.energyLoss, 0));
 				var eff = eEff * mEff;
 				A.mEff = Math.round(mEff * 10000) / 100;
 				A.eEff = Math.round(eEff * 10000) / 100;
