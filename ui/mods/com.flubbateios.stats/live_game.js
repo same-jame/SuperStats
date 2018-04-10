@@ -170,6 +170,7 @@ window.superStats = new (function () {
 	handlers.watch_list = function (pay) {
 		var data = pay.list;
 		if (!data) {
+			OldWatchList(pay);
 			return;
 		}
 		for (var x in data) {
@@ -194,7 +195,6 @@ window.superStats = new (function () {
 
 		}
 		OldWatchList(pay);
-
 	};
 	var OldHandlersArmyState = handlers.army_state;
 	self.dead = false;
