@@ -8,6 +8,13 @@ var model = new (function () {
 	var self = this;
 	self.perRequest = ko.observable(392);
 	self.perPage = ko.observable(14);
+	self.page = ko.observable(1);
+	self.incrementPage = function (s) {
+		self.page(self.page() + s);
+	};
+	self.skip = ko.computed(function () {
+		return (self.page() - 1) * self.perPage();
+	});
 	self.data = ko.observable(false);
 	self.getData = function (skip) {
 		return $.getJSON('./api/matches/mostrecent?' + $.param({min: skip, max: self.perRequest()})).done(function (r) {
@@ -80,13 +87,6 @@ var model = new (function () {
 	});
 	self.matchLength = ko.computed(function () {
 		return self.skippedMatches() ? self.skippedMatches().length : 0;
-	});
-	self.page = ko.observable(1);
-	self.incrementPage = function (s) {
-		self.page(self.page() + s);
-	};
-	self.skip = ko.computed(function () {
-		return (self.page() - 1) * self.perPage();
 	});
 	self.matchQuotient.subscribe(self.getData);
 	self.getData(0);
