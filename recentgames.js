@@ -80,7 +80,7 @@ var model = new (function () {
 		return ko.mapping.fromJS(n)();
 	});
 	self.skippedMatches = ko.computed(function(){
-		return self.matches() ? self.matches().slice(self.skip() % self.perRequest(),self.skip() + self.perPage() - 1) : false;
+		return self.matches() ? self.matches().slice(self.skip() % self.perRequest(),self.skip() + self.perPage()) : false;
 	});
 	self.matchQuotient = ko.computed(function(){
 		return Math.floor(self.skip() / self.perRequest()) * self.perRequest();
