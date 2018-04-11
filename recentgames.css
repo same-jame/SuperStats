@@ -4,6 +4,7 @@
 	box-sizing: border-box;
 	flex-direction: column;
 	margin: 40px auto 20px auto;
+	min-height: 800px;
 }
 
 .match-list {
