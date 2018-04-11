@@ -6,7 +6,7 @@ ko.bindingHandlers.visibility = {
 };
 var model = new (function () {
 	var self = this;
-	self.perPage = ko.observable(Math.round((window.innerHeight * 0.75)/65));
+	self.perPage = ko.observable(Math.round((window.innerHeight * 0.75)/40));
 	self.data = ko.observable(false);
 	self.getData = function (skip) {
 		return $.getJSON('./api/matches/mostrecent?' + $.param({min: skip, max: self.perPage()})).done(function (r) {
