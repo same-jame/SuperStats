@@ -5,6 +5,8 @@
 	box-sizing: border-box;
 	flex-direction: column;
 	margin: 40px auto 20px auto;
+	height: 75vh;
+	overflow-y: scroll;
 }
 
 .top {
