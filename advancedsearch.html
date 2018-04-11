@@ -77,7 +77,7 @@
 		<div class="page">
 			<div class="backbutton" data-bind="visibility:page() > 1,click:incrementPage.bind(null,-1)"></div>
 			<div data-bind="text:page" style="font-size:20px;font-weight:bold;"></div>
-			<div class="forwardbutton" data-bind="visibility:matchLength() === perPage()"></div>
+			<div class="forwardbutton" data-bind="visibility:matchLength() === perPage(),click:incrementPage.bind(null,1)"></div>
 		</div>
 		<!-- /ko -->
 	</div>
