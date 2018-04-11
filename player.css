@@ -5,8 +5,6 @@
 	box-sizing: border-box;
 	flex-direction: column;
 	margin: 40px auto 20px auto;
-	height: 75vh;
-	overflow-y: scroll;
 }
 
 .top {
@@ -57,6 +55,11 @@
 .match-list {
 	text-align: center;
 	margin-top: 20px;
+}
+
+.match-list-games {
+	height: 67.5vh;
+	overflow-y: auto;
 }
 
 .match-in-list {
