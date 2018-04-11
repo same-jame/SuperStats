@@ -1,7 +1,6 @@
 .main {
 	width: 80%;
 	background-color: rgba(0, 0, 0, 0.90);
-	min-height: 800px;
 	box-sizing: border-box;
 	flex-direction: column;
 	margin: 40px auto 20px auto;
