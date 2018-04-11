@@ -6,10 +6,11 @@ ko.bindingHandlers.visibility = {
 };
 var model = new (function () {
 	var self = this;
+	self.perRequest = ko.observable(392);
 	self.perPage = ko.observable(14);
 	self.data = ko.observable(false);
 	self.getData = function (skip) {
-		return $.getJSON('./api/matches/mostrecent?' + $.param({min: skip, max: self.perPage()})).done(function (r) {
+		return $.getJSON('./api/matches/mostrecent?' + $.param({min: skip, max: self.perRequest()})).done(function (r) {
 			self.data(r);
 		});
 	};
@@ -71,8 +72,14 @@ var model = new (function () {
 		}
 		return ko.mapping.fromJS(n)();
 	});
+	self.skippedMatches = ko.computed(function(){
+		return self.matches() ? false : self.matches().slice(self.skip() % self.perRequest());
+	});
+	self.matchQuotient = ko.computed(function(){
+		return Math.floor(self.skip() / self.perRequest()) * self.perRequest();
+	});
 	self.matchLength = ko.computed(function () {
-		return self.matches() ? self.matches().length : 0;
+		return self.skippedMatches() ? self.skippedMatches().length : 0;
 	});
 	self.page = ko.observable(1);
 	self.incrementPage = function (s) {
@@ -81,7 +88,7 @@ var model = new (function () {
 	self.skip = ko.computed(function () {
 		return (self.page() - 1) * self.perPage();
 	});
-	self.skip.subscribe(self.getData);
+	self.matchQuotient.subscribe(self.getData);
 	self.getData(0);
 })();
 $(document).ready(function () {
