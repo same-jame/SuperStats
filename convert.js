@@ -15,38 +15,38 @@ module.exports = function (u, p) {
 			body: self.data,
 			json: true
 		}, function (a, b, response) {
-			if(typeof response === "object"){
+			if (typeof response === "object") {
 				self.sessionToken = response.SessionTicket || self.sessionToken;
 			}
 			setTimeout(self.authenticate, 5 * 60 * 1000);
 		});
 	};
-	self.convertUser = function (e,t) {
+	self.convertUser = function (e, t) {
 		return new Promise(function (res, rej) {
-			if(!self.sessionToken){
+			if (!self.sessionToken) {
 				res(false);
 				return;
 			}
 			var frm = {};
-			frm[t]=e;
+			frm[t] = e;
 			request({
 				url: 'https://4.uberent.com/GameClient/UserId',
 				method: 'GET',
 				headers: {
 					'X-Authorization': self.sessionToken
 				},
-				form:frm
-				
+				form: frm
+
 			}, function (a, b, r) {
-				if(!r){
+				if (!r) {
 					res(false);
 					return;
 				}
 				var re = JSON.parse(r);
 
-				if(re.ErrorCode){
+				if (re.ErrorCode) {
 					res(false)
-				}else{
+				} else {
 					res(re.UberId)
 				}
 			})

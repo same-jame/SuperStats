@@ -9,7 +9,6 @@ module.exports = function (self) {
 			id: "topSchema",
 			type: "object",
 			required: ["uberId", "displayName", "armyId", "teamId", "armies", "isCustomServer", "lobbyId", "isRanked", "serverMods"],
-			"additionalProperties": false,
 			properties: {
 				uberId: {
 					type: "string",
@@ -78,16 +77,16 @@ module.exports = function (self) {
 						type: "array",
 						items: {type: "string", maxLength: 50}
 					},
-					ai:{type:"boolean"},
-					econ_rate:{type:"number"},
-					armyId:{type:"integer"},
-					teamId:{type:"integer"}
+					ai: {type: "boolean"},
+					econ_rate: {type: "number"},
+					armyId: {type: "integer"},
+					teamId: {type: "integer"}
 				}
 			}
 		};
-		v.addSchema(armySchema,'/armySchema');
-		v.addSchema(serverModSchema,'/serverModSchema');
-		return v.validate(p,topSchema);
+		v.addSchema(armySchema, '/armySchema');
+		v.addSchema(serverModSchema, '/serverModSchema');
+		return v.validate(p, topSchema);
 	};
 	self.sendToApis = function (ev, msg) {
 		for (var x of self.apis) {
@@ -143,12 +142,12 @@ module.exports = function (self) {
 							}
 						}
 						var ng = new Game(r, self.converter);
-						ng.onResolve(function(){
-							self.sendToApis('gameStart',ng.compileStartInfo().game)
+						ng.onResolve(function () {
+							self.sendToApis('gameStart', ng.compileStartInfo().game)
 						});
 						ng.onGameEnd(function (info) {
 							self.activeGames.splice(self.activeGames.indexOf(ng), 1);
-							if(ng.nodb){
+							if (ng.nodb) {
 								return;
 							}
 							self.sendToApis('gameOver', info);
@@ -156,7 +155,7 @@ module.exports = function (self) {
 						});
 						//handle player profiles
 						ng.onGameEnd(function (q) {
-							if(ng.nodb){
+							if (ng.nodb) {
 								return;
 							}
 							var info = q.game;
