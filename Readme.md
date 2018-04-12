@@ -1,7 +1,4 @@
 # Super Stats Server
+Release branch
 
-DEV branch
-
-Commits here are likely to be very short. They could be reversed. This branch is used to test new changes.
-
-Likely broken.
+Used on the server
