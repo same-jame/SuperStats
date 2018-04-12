@@ -170,6 +170,7 @@ window.superStats = new (function () {
 	handlers.watch_list = function (pay) {
 		var data = pay.list;
 		if (!data) {
+			OldWatchList(pay);
 			return;
 		}
 		for (var x in data) {
@@ -194,7 +195,6 @@ window.superStats = new (function () {
 
 		}
 		OldWatchList(pay);
-
 	};
 	var OldHandlersArmyState = handlers.army_state;
 	self.dead = false;
@@ -232,7 +232,7 @@ window.superStats = new (function () {
 	var OldTime = handlers.time || function () {
 	};
 	handlers.time = function (pay) {
-		var time = pay.current_time;
+		var time = pay.end_time;
 		stats.time = Math.floor(time);
 		stats.simSpeed = pay.server_rate * 100;
 		if (((stats.time % self.sendFrequency) === 0) && (stats.time !== currentTime) && self.reporting) {
