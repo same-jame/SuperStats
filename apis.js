@@ -1,6 +1,40 @@
 const Validator = require('jsonschema').Validator;
 const request = require('request');
+const rPush = function (a, b) {
+	a.push(b);
+	return a;
+};
 module.exports = function (self) {
+	var matchFilters = {
+		$project: {
+			"_id": 0,
+			"armies": {
+				"$map": {
+					"input": "$armies",
+					"as": "x",
+					"in": {
+						ai: "$$x.ai",
+						armyId: "$$x.armyId",
+						econ_rate: "$$x.econ_rate",
+						extendedPlayers: "$$x.extendedPlayers",
+						teamId: "$$x.teamId"
+					}
+				}
+			},
+			gameEndTime: 1,
+			gameStartTime: 1,
+			isCustomServer: 1,
+			serverMods: 1,
+			participatingIds: 1,
+			casts: 1,
+			isTitans: 1,
+			isRanked: 1,
+			lobbyId: 1,
+			tournamentInfo: 1,
+			systemInfo: 1,
+			winner: 1
+		}
+	};
 	self.app.get('/api/matches/mostrecent', function (req, res) {
 		var max = req.query.max ? parseInt(req.query.max) : 50;
 		var min = req.query.min ? parseInt(req.query.min) : 0;
@@ -16,22 +50,19 @@ module.exports = function (self) {
 			});
 			return;
 		}
-		self.database.collection('matches').find().sort({
-			gameStartTime: -1
-		}).skip(min).limit(max).toArray().then(function (q) {
-			for (var x of q) {
-				for (var y of x.armies) {
-					delete y.dataPointsUnit;
-					delete y.dataPointsStats;
-					delete y.dataPointsApm;
+		self.database.collection('matches').aggregate(rPush([
+			{$skip: min},
+			{$limit: max},
+			{
+				$sort: {
+					gameStartTime: -1
 				}
-				delete x._id;
-			}
-			res.json(q)
+			}], matchFilters)).toArray().then(function (q) {
+			res.json(q);
 		});
 	});
 	self.app.get('/api/matches/time', function (req, res) {
-		var max = parseInt(req.query.max);
+		var max = req.query.max ? parseInt(req.query.max) : Date.now();
 		var min = parseInt(req.query.min);
 		if (!(req.query.min && (max > 0) && (min > 0))) {
 			res.json({
@@ -45,19 +76,13 @@ module.exports = function (self) {
 		if (req.query.max) {
 			query["$lt"] = max;
 		}
-		self.database.collection('matches').find({
-			gameStartTime: query
-		}).sort({
-			gameStartTime: -1
-		}).toArray().then(function (q) {
-			for (var x of q) {
-				for (var y of x.armies) {
-					delete y.dataPointsUnit;
-					delete y.dataPointsStats;
-					delete y.dataPointsApm;
+		self.database.collection('matches').aggregate(rPush([
+			{$match: query},
+			{
+				$sort: {
+					gameStartTime: -1
 				}
-				delete x._id;
-			}
+			}], matchFilters)).toArray().then(function (q) {
 			res.json(q);
 		});
 	});
@@ -129,17 +154,16 @@ module.exports = function (self) {
 		}
 		var min = req.body.min ? req.body.min : 0;
 		var max = req.body.max ? req.body.max : 100;
-		self.database.collection('matches').find(query).sort({
-			gameStartTime: -1
-		}).skip(min).limit(max).toArray().then(function (q) {
-			for (var x of q) {
-				for (var y of x.armies) {
-					delete y.dataPointsUnit;
-					delete y.dataPointsStats;
-					delete y.dataPointsApm;
+		self.database.collection('matches').aggregate(rPush([
+			{$match: query},
+			{$skip: min},
+			{$limit: max},
+			{
+				$sort: {
+					gameStartTime: -1
 				}
-				delete x._id;
 			}
+		], matchFilters)).toArray().then(function (q) {
 			res.json(q);
 		})
 	});
@@ -154,7 +178,7 @@ module.exports = function (self) {
 		self.database.collection('matches').findOne({
 			lobbyId: match
 		}).then(function (r) {
-			if(!r){
+			if (!r) {
 				res.json({
 					error: "not-a-real-lobby-id"
 				});
@@ -170,7 +194,6 @@ module.exports = function (self) {
 			for (var x of r) {
 				x.displayName = x.knownDisplayNames[x.knownDisplayNames.length - 1].name;
 				delete x.knownDisplayNames;
-				delete x.matches;
 				delete x._id;
 			}
 			res.json(r);
@@ -190,19 +213,11 @@ module.exports = function (self) {
 		}).then(function (r) {
 			if (r) {
 				delete r._id;
-				self.database.collection('matches').find({
-					participatingIds: player
-				}).sort({
-					gameStartTime: -1
-				}).toArray().then(function (q) {
-					for (var x of q) {
-						for (var y of x.armies) {
-							delete y.dataPointsUnit;
-							delete y.dataPointsStats;
-							delete y.dataPointsApm;
-						}
-						delete x._id;
+				self.database.collection('matches').aggregate(rPush([{
+					$match: {
+						participatingIds: player
 					}
+				}, {$sort: {gameStartTime: -1}}],matchFilters)).toArray().then(function (q) {
 					r.matches = q ? q : [];
 					res.json(r);
 				});
@@ -220,56 +235,16 @@ module.exports = function (self) {
 				delete x._id;
 				(function (X) {
 					promises.push(new Promise(function (res, rej) {
-						self.database.collection('matches').find({'tournamentInfo.identifier': x.identifier}).toArray().then(function (q) {
-							for (var z of q) {
-								for (var y of z.armies) {
-									delete y.dataPointsUnit;
-									delete y.dataPointsStats;
-									delete y.dataPointsApm;
-								}
-							}
-							delete q._id;
+						self.database.collection('matches').aggregate(rPush([{$match: {'tournamentInfo.identifier': x.identifier}}, {$sort: {gameStartTime: -1}}], matchFilters)).toArray().then(function (q) {
 							X.matches = q;
 							res()
 						})
 					}));
 				})(x)
 			}
-			Promise.all(promises).then(function(){
+			Promise.all(promises).then(function () {
 				res.json(r);
 			})
 		})
 	});
-	/*
-	self.app.post('/api/misc/proxyUserNames', function (req, res) {
-		var v = new Validator();
-		var schema = {
-			type: "array",
-			items: {
-				type: 'string',
-				minLength: 15,
-				maxLength: 22
-			}
-		};
-		var valid = v.validate(req.body, schema);
-		if (!valid.errors.length) {
-			var q = 'http://4.uberent.com/GameClient/UserNames?TitleId=4&UberIds=' + req.body.join('&UberIds=');
-			request({
-				url: q,
-				method: "GET"
-			}, function (a, b, resp) {
-				var k = JSON.parse(resp);
-				if (resp.ErrorCode) {
-					res.json(false);
-				} else {
-					res.json(k.Users);
-				}
-			});
-		} else {
-			res.json({
-				error: 'malformed-query'
-			});
-		}
-	});
-	*/
 };
