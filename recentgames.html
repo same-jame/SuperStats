@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Super Stats - Recent</title>
+	<link rel="icon" type="image/png" href="./favicon.png"/>
 	<link rel="stylesheet" href="./lib/pa.css"/>
 	<link rel="stylesheet" href="./global.css"/>
 	<link rel="stylesheet" href="./recentgames.css"/>
@@ -22,7 +23,7 @@
 		<div class="page">
 			<div class="backbutton" data-bind="visibility:page() > 1,click:incrementPage.bind(null,-1)"></div>
 			<div data-bind="text:page" style="font-size:20px;font-weight:bold;"></div>
-			<div class="forwardbutton" data-bind="visibility:matchLength() === perPage()"></div>
+			<div class="forwardbutton" data-bind="visibility:matchLength() === perPage(),click:incrementPage.bind(null,1)"></div>
 		</div>
 	</div>
 	<div class="match-list">
