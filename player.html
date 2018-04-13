@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<!-- knockout doesn't apply bindings to head so we need a big hack -->
 	<title></title>
+	<link rel="icon" type="image/png" href="./favicon.png"/>
 	<link rel="stylesheet" href="./lib/pa.css"/>
 	<link rel="stylesheet" href="./global.css"/>
 	<link rel="stylesheet" href="./player.css"/>
@@ -44,7 +45,7 @@
 				<td>Duration</td>
 			</tr>
 			</thead>
-			<tbody data-bind="foreach:matches">
+			<tbody data-bind="foreach:matches" class="match-list-games">
 			<tr class="match-in-list">
 				<!-- the alternative to repeating all these databinds is using a click binding which means no open in new tab -->
 				<td>

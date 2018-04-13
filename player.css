@@ -57,6 +57,11 @@
 	margin-top: 20px;
 }
 
+.match-list-games {
+	height: 67.5vh;
+	overflow-y: auto;
+}
+
 .match-in-list {
 	font-size: 16px;
 	transition-duration: .3s;

@@ -7,7 +7,8 @@ ko.bindingHandlers.visibility = {
 var model = new (function () {
 	var self = this;
 	//The search criteria will not actually change from the model input. Instead, clicking apply will redirect to the same page with GET parameters so the link can be shared.
-	self.perPage = ko.observable(100);
+	self.perRequest = ko.observable(392);
+	self.perPage = ko.observable(14);
 	self.data = ko.observable(false);
 	self.searchData = ko.observable(false);
 	self.searchCriteria = new (function () {
@@ -162,6 +163,13 @@ var model = new (function () {
 			*/
 		};
 	});
+	self.page = ko.observable(1);
+	self.incrementPage = function (s) {
+		self.page(self.page() + s);
+	};
+	self.skip = ko.computed(function () {
+		return (self.page() - 1) * self.perPage();
+	});
 	self.getData = function (skip) {
 		var info = false;
 		try {
@@ -173,7 +181,7 @@ var model = new (function () {
 		}
 		var postItem = {
 			min: skip,
-			max: self.perPage()
+			max: self.perRequest()
 		};
 		$.extend(postItem, info);
 		$.ajax({
@@ -244,17 +252,17 @@ var model = new (function () {
 		}
 		return ko.mapping.fromJS(n)();
 	});
+	self.skippedMatches = ko.computed(function () {
+		return self.matches() ? self.matches().slice(self.skip() % self.perRequest(),self.skip() + self.perPage()) : false;
+	});
+	self.matchQuotient = ko.computed(function () {
+		return Math.floor(self.skip() / self.perRequest()) * self.perRequest();
+	});
 	self.matchLength = ko.computed(function () {
-		return self.matches() ? self.matches().length : 0;
+		return self.skippedMatches() ? self.skippedMatches().length : 0;
 	});
-	self.page = ko.observable(1);
-	self.incrementPage = function (s) {
-		self.page(self.page() + s);
-	};
-	self.skip = ko.computed(function () {
-		return (self.page() - 1) * self.perPage();
-	});
-	self.skip.subscribe(self.getData);
+
+	self.matchQuotient.subscribe(self.getData);
 	self.searchCriteria.getSearchData();
 	self.getData(0);
 })();
