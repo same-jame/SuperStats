@@ -51,13 +51,14 @@ module.exports = function (self) {
 			return;
 		}
 		self.database.collection('matches').aggregate(rPush([
-			{$skip: min},
-			{$limit: max},
 			{
 				$sort: {
 					gameStartTime: -1
 				}
-			}], matchFilters)).toArray().then(function (q) {
+			},
+			{$skip: min},
+			{$limit: max}
+		], matchFilters), {allowDiskUse: true}).toArray().then(function (q) {
 			res.json(q);
 		});
 	});
@@ -82,7 +83,7 @@ module.exports = function (self) {
 				$sort: {
 					gameStartTime: -1
 				}
-			}], matchFilters)).toArray().then(function (q) {
+			}], matchFilters), {allowDiskUse: true}).toArray().then(function (q) {
 			res.json(q);
 		});
 	});
@@ -155,15 +156,15 @@ module.exports = function (self) {
 		var min = req.body.min ? req.body.min : 0;
 		var max = req.body.max ? req.body.max : 100;
 		self.database.collection('matches').aggregate(rPush([
-			{$match: query},
-			{$skip: min},
-			{$limit: max},
 			{
 				$sort: {
 					gameStartTime: -1
 				}
-			}
-		], matchFilters)).toArray().then(function (q) {
+			},
+			{$match: query},
+			{$skip: min},
+			{$limit: max}
+		], matchFilters), {allowDiskUse: true}).toArray().then(function (q) {
 			res.json(q);
 		})
 	});
@@ -217,7 +218,7 @@ module.exports = function (self) {
 					$match: {
 						participatingIds: player
 					}
-				}, {$sort: {gameStartTime: -1}}],matchFilters)).toArray().then(function (q) {
+				}, {$sort: {gameStartTime: -1}}], matchFilters), {allowDiskUse: true}).toArray().then(function (q) {
 					r.matches = q ? q : [];
 					res.json(r);
 				});
@@ -235,7 +236,7 @@ module.exports = function (self) {
 				delete x._id;
 				(function (X) {
 					promises.push(new Promise(function (res, rej) {
-						self.database.collection('matches').aggregate(rPush([{$match: {'tournamentInfo.identifier': x.identifier}}, {$sort: {gameStartTime: -1}}], matchFilters)).toArray().then(function (q) {
+						self.database.collection('matches').aggregate(rPush([{$match: {'tournamentInfo.identifier': x.identifier}}, {$sort: {gameStartTime: -1}}], matchFilters), {allowDiskUse: true}).toArray().then(function (q) {
 							X.matches = q;
 							res()
 						})
