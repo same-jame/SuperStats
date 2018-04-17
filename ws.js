@@ -117,6 +117,7 @@ module.exports = function (self) {
 					}
 					var valid = self.validateGameStartPacket(r);
 					if (valid.errors.length) {
+						console.log(valid.errors);
 						return;
 					}
 					r.lobbyId = r.lobbyId.toLowerCase();
