@@ -80,15 +80,17 @@ var model = new (function () {
 		return ko.mapping.fromJS(n)();
 	});
 	self.skippedMatches = ko.computed(function(){
-		return self.matches() ? self.matches().slice(self.skip() % self.perRequest(),self.skip() + self.perPage()) : false;
+		return self.matches() ? self.matches().slice(self.skip() % self.perRequest(),self.skip() % self.perRequest() + self.perPage()) : false;
 	});
 	self.matchQuotient = ko.computed(function(){
-		return Math.floor(self.skip() / self.perRequest()) * self.perRequest();
+		return Math.floor(self.skip() / self.perRequest());
 	});
 	self.matchLength = ko.computed(function () {
 		return self.skippedMatches() ? self.skippedMatches().length : 0;
 	});
-	self.matchQuotient.subscribe(self.getData);
+	self.matchQuotient.subscribe(function(){
+		self.getData(self.matchQuotient () * self.perRequest());
+	});
 	self.getData(0);
 })();
 $(document).ready(function () {
