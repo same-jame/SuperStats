@@ -78,7 +78,7 @@ module.exports = function (self) {
 			query["$lt"] = max;
 		}
 		self.database.collection('matches').aggregate(rPush([
-			{$match: query},
+			{$match: {gameStartTime:query}},
 			{
 				$sort: {
 					gameStartTime: -1
