@@ -67,10 +67,6 @@
 			var items = [];
 
 			items.push(isGameCreator ? 'Hosting' : 'Joined');
-
-			if (!requiredContent) {
-				items.push('classic');
-			}
 			//Legion and Equilibrium
 			_.includes(_.map(model.serverMods(),function(r){
 				return _.includes(r.identifier.toLowerCase(),'com.pa.n30n.equilibrium');

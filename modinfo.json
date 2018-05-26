@@ -19,7 +19,8 @@
   "priority": 101,
   "scenes": {
 	"live_game": [
-	  "coui://ui/mods/com.flubbateios.stats/stats/live_game.js"
+	  "coui://ui/mods/com.flubbateios.stats/stats/live_game.js",
+	  "coui://ui/mods/com.flubbateios.stats/presence/live_game.js"
 	],
 	"live_game_unit_alert": [
 	  "coui://ui/mods/com.flubbateios.stats/stats/unit_alert.js"
@@ -59,9 +60,6 @@
 	],
 	"new_game":[
 		"coui://ui/mods/com.flubbateios.stats/presence/new_game.js"
-	],
-	"live_game":[
-		"coui://ui/mods/com.flubbateios.stats/presence/live_game.js"
 	],
 	"load_planet":[
 		"coui://ui/mods/com.flubbateios.stats/presence/load_planet.js"
