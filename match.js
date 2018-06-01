@@ -244,8 +244,8 @@ var model = new (function () {
 
 				A.netMetal = A.metalProd - A.metalLoss;
 				A.netEnergy = A.energyProd - A.energyLoss;
-				var mEff = A.metalStored >= 100 ? 1 : Math.min(1, Math.max(A.metalProd / A.metalLoss, 0));
-				var eEff = A.energyStored >= 100 ? 1 : Math.min(1, Math.max(A.energyProd / A.energyLoss, 0));
+				var mEff = A.metalStored >= 100 ? 1 : Math.min(1, Math.max(isNaN(A.metalProd / A.metalLoss) ? 1 : A.metalProd / A.metalLoss, 0));
+				var eEff = A.energyStored >= 100 ? 1 : Math.min(1, Math.max(isNaN(A.energyProd / A.energyLoss) ? 1 : A.energyProd / A.energyLoss, 0));
 				var eff = eEff * mEff;
 				A.mEff = Math.round(mEff * 10000) / 100;
 				A.eEff = Math.round(eEff * 10000) / 100;
