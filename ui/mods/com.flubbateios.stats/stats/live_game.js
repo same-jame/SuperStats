@@ -232,6 +232,7 @@ window.superStats = new (function () {
 	var OldTime = handlers.time || function () {
 	};
 	handlers.time = function (pay) {
+		OldTime(pay);
 		var time = pay.end_time;
 		stats.time = Math.floor(time);
 		stats.simSpeed = pay.server_rate * 100;
@@ -240,7 +241,6 @@ window.superStats = new (function () {
 			self.sendUnitData();
 		}
 		currentTime = stats.time;
-		OldTime(pay);
 	};
 	var OldArmy = handlers.army || function () {
 	};
