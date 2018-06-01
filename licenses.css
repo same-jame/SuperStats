@@ -3,6 +3,8 @@
 	background-color: rgba(0, 0, 0, 0.90);
 	padding: 3px 0 3px 10px;
 	max-width: 1200px;
+	height:920px;
+	overflow-y:auto;
 	box-sizing: border-box;
 	margin: 10px auto 10px auto;
 }
