@@ -26,7 +26,7 @@
 	  "coui://ui/mods/com.flubbateios.stats/stats/unit_alert.js"
 	],
 	"live_game_time_bar": [
-	  "coui://ui/mods/com.flubbateios.stats/unit_alert.js"
+	  "coui://ui/mods/com.flubbateios.stats/stats/unit_alert.js"
 	],
 	"live_game_message": [
 	  "coui://ui/mods/com.flubbateios.stats/stats/live_game_message.js"
