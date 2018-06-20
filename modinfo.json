@@ -1,6 +1,6 @@
 {
   "author": "flubb",
-  "build": 108271,
+  "build": 110069,
   "category": [
 	"classic",
 	"titans",
@@ -8,13 +8,13 @@
 	"ui"
   ],
   "context": "client",
-  "date": "2018-04-09",
+  "date": "2018-06-20",
   "description": "The community stats tracker for PA Titans & Classic. Check the forum post for more info.",
   "display_name": "Super Stats",
   "forum": "https://forums.uberent.com/threads/rel-super-stats.72858/",
   "identifier": "com.flubbateios.stats",
   "signature": "DontLetYourMemesBeDreams",
-  "version": "1.0.3",
+  "version": "1.1.4",
   "icon":"https://flubbateios.com/stats/assets/img/logo.png",
   "priority": 101,
   "scenes": {
