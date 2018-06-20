@@ -1,6 +1,6 @@
 {
   "author": "flubb",
-  "build": 110552,
+  "build": 110069,
   "category": [
 	"classic",
 	"titans",
@@ -8,64 +8,30 @@
 	"ui"
   ],
   "context": "client",
-  "date": "2018-05-26",
+  "date": "2018-06-20",
   "description": "The community stats tracker for PA Titans & Classic. Check the forum post for more info.",
   "display_name": "Super Stats",
   "forum": "https://forums.uberent.com/threads/rel-super-stats.72858/",
   "identifier": "com.flubbateios.stats",
   "signature": "DontLetYourMemesBeDreams",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "icon":"https://flubbateios.com/stats/assets/img/logo.png",
   "priority": 101,
   "scenes": {
 	"live_game": [
-	  "coui://ui/mods/com.flubbateios.stats/stats/live_game.js",
-	  "coui://ui/mods/com.flubbateios.stats/presence/live_game.js"
+	  "coui://ui/mods/com.flubbateios.stats/live_game.js"
 	],
 	"live_game_unit_alert": [
-	  "coui://ui/mods/com.flubbateios.stats/stats/unit_alert.js"
+	  "coui://ui/mods/com.flubbateios.stats/unit_alert.js"
 	],
 	"live_game_time_bar": [
-	  "coui://ui/mods/com.flubbateios.stats/stats/unit_alert.js"
+	  "coui://ui/mods/com.flubbateios.stats/unit_alert.js"
 	],
 	"live_game_message": [
-	  "coui://ui/mods/com.flubbateios.stats/stats/live_game_message.js"
+	  "coui://ui/mods/com.flubbateios.stats/live_game_message.js"
 	],
 	"game_over": [
-	  "coui://ui/mods/com.flubbateios.stats/stats/game_over.js"
-	],
-	"uberbar":[
-		"coui://ui/mods/com.flubbateios.stats/presence/uberbar.js"
-	],
-	"settings":[
-		"coui://ui/mods/com.flubbateios.stats/presence/settings.js"
-	],
-	"matchmaking":[
-		"coui://ui/mods/com.flubbateios.stats/presence/ranked.js"
-	],
-	"start":[
-		"coui://ui/mods/com.flubbateios.stats/presence/start.js"
-	],
-	"system_editor":[
-		"coui://ui/mods/com.flubbateios.stats/presence/system_editor.js"
-	],
-	"leaderboard":[
-		"coui://ui/mods/com.flubbateios.stats/presence/leaderboards.js"
-	],
-	"server_browser":[
-		"coui://ui/mods/com.flubbateios.stats/presence/server_browser.js"
-	],
-	"replay_browser":[
-		"coui://ui/mods/com.flubbateios.stats/presence/replay_browser.js"
-	],
-	"connect_to_game":[
-		"coui://ui/mods/com.flubbateios.stats/presence/connect_to_game.js"
-	],
-	"new_game":[
-		"coui://ui/mods/com.flubbateios.stats/presence/new_game.js"
-	],
-	"load_planet":[
-		"coui://ui/mods/com.flubbateios.stats/presence/load_planet.js"
+	  "coui://ui/mods/com.flubbateios.stats/game_over.js"
 	]
   }
 }
