@@ -7,6 +7,8 @@
 
 body {
 	background-image: url('./assets/img/background.png');
+	background-repeat:no-repeat;
+	background-color: #000304;
 	color: #fff;
 	padding: 0;
 	margin: 0;
