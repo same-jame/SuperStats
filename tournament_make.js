@@ -44,7 +44,7 @@ var model = new (function () {
 				that.minute(that.getUTCMinutes());
 			}
 		});
-		self.urlData.time && that.date(self.urlData.time);
+		self.urlData.date && that.date(self.urlData.date);
 	})();
 	self.live = ko.observable(self.urlData.live === undefined ? false : self.urlData.live);
 	self.canSubmit = ko.computed(function () {
