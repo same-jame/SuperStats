@@ -26,7 +26,7 @@ var model = new (function () {
 		if (!self.data()) {
 			return false;
 		}
-		var e = this.data().map(function(x){
+		var e = self.data().map(function(x){
 			return Object.assign(x,{
 				banned:self.banned().includes(x.uberId),
 				searchTest:x.displayName.replace(/[^A-Za-z0-9]/g, '').toLowerCase()
@@ -42,7 +42,7 @@ var model = new (function () {
 			return false;
 		}
 		return _.filter(self.processedData(),function(e){
-			return e.searchTest.includes(this.searchStringProcessed());
+			return e.searchTest.includes(self.searchStringProcessed());
 		});
 	});
 	self.ban = function () {
