@@ -1,7 +1,4 @@
 # Super Stats Server
+Release branch
 
-DEV branch
-
-Not tested
-
-More info on the forums
+Used on the server
