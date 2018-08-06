@@ -10,7 +10,6 @@
 	<script src="./lib/jquery-3.3.1.min.js"></script>
 	<script src="./lib/lodash.min.js"></script>
 	<script src="./lib/knockout-3.5.0beta.js"></script>
-	<script src="./lib/knockout.mapping.js"></script>
 	<script src="./remote.js"></script>
 	<script src="./listplayers.js"></script>
 </head>
@@ -18,18 +17,18 @@
 <div class="header" data-bind="remote:'./header.html'"></div>
 <div class="main" data-bind="if:data">
 	<div class="opts">
-		<input type="text" data-bind="textInput:searchString" placeholder="Search"/>
+		<input type="text" data-bind="value:searchString" placeholder="Search"/>
 		<label>Show Uber Ids</label>
 		<input type="checkbox" data-bind="checked:showUberIds"/>
 	</div>
 	<div class="player-list-parent" data-bind="foreach:sortedData">
 		<div class="player">
 			<a style="display:block;color:#fff;"
-			   data-bind="text:displayName,attr:{href:'./player.html?player=' + uberId()}"
+			   data-bind="text:displayName,attr:{href:'./player.html?player=' + uberId}"
 			   class="clicky"></a>
 			<div data-bind="text:uberId,visible:$root.showUberIds" class="player-uberid"></div>
-			<a href="javascript:void(0);" data-bind="visible:(!banned()) && $root.canBan,event:{dblclick:$root.ban}">Block</a>
-			<a href="javascript:void(0);" data-bind="visible:banned() && $root.canBan,event:{dblclick:$root.unban}">Unblock</a>
+			<a href="javascript:void(0);" data-bind="visible:(!banned) && $root.canBan,event:{dblclick:$root.ban}">Block</a>
+			<a href="javascript:void(0);" data-bind="visible:banned && $root.canBan,event:{dblclick:$root.unban}">Unblock</a>
 		</div>
 	</div>
 </div>

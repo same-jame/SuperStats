@@ -22,23 +22,28 @@ var model = new (function () {
 	});
 	self.canBan = localStorage.getItem('apiKey') ? JSON.parse(localStorage.getItem('permissions')).includes('ban') || JSON.parse(localStorage.getItem('permissions')).includes('root') : false;
 	self.banned = ko.observableArray();
-	self.sortedData = ko.computed(function () {
+	self.processedData = ko.computed(function(){
 		if (!self.data()) {
 			return false;
 		}
-		var d = _.cloneDeep(self.data());
-		var n = [];
-		for (var x of d) {
-			x.banned = self.banned().includes(x.uberId);
-			x.search_test = x.displayName.replace(/[^A-Za-z0-9]/g, '').toLowerCase();
-			if (x.search_test.includes(self.searchStringProcessed())) {
-				n.push(x);
-			}
-		}
-		n.sort(function (a, b) {
+		var e = self.data().map(function(x){
+			return Object.assign(x,{
+				banned:self.banned().includes(x.uberId),
+				searchTest:x.displayName.replace(/[^A-Za-z0-9]/g, '').toLowerCase()
+			});
+		});
+		e.sort(function (a, b) {
 			return a.displayName.toLowerCase().localeCompare(b.displayName.toLowerCase());
 		});
-		return ko.mapping.fromJS(n)();
+		return e;
+	});
+	self.sortedData = ko.computed(function () {
+		if (!self.processedData()) {
+			return false;
+		}
+		return _.filter(self.processedData(),function(e){
+			return e.searchTest.includes(self.searchStringProcessed());
+		});
 	});
 	self.ban = function () {
 		var that = this;
@@ -47,7 +52,7 @@ var model = new (function () {
 			method: 'POST',
 			contentType: 'application/json',
 			dataType: 'json',
-			data: JSON.stringify({apiKey: localStorage.getItem('apiKey'), id: that.uberId()})
+			data: JSON.stringify({apiKey: localStorage.getItem('apiKey'), id: that.uberId})
 		}).then(function (r) {
 			if (r.error) {
 				return;
@@ -64,7 +69,7 @@ var model = new (function () {
 			method: 'POST',
 			contentType: 'application/json',
 			dataType: 'json',
-			data: JSON.stringify({apiKey: localStorage.getItem('apiKey'), id: that.uberId()})
+			data: JSON.stringify({apiKey: localStorage.getItem('apiKey'), id: that.uberId})
 		}).then(function (r) {
 			if (r.error) {
 				return;
