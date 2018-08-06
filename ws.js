@@ -144,7 +144,7 @@ module.exports = function (self) {
 						}
 						var ng = new Game(r, self.converter);
 						ng.onResolve(function () {
-							self.sendToApis('gameStart', ng.compileStartInfo().game)
+							self.sendToApis('gameStart', ng.compileStartInfo().game);
 						});
 						ng.onGameEnd(function (info) {
 							self.activeGames.splice(self.activeGames.indexOf(ng), 1);

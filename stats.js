@@ -28,8 +28,7 @@ module.exports = function (data) {
 	self.app.use(bodyParser.json());
 	self.server = http.createServer(self.app);
 	self.wServer = new io(self.server, {
-		path: '/api/ws',
-		wsEngine: 'uws'
+		path: '/api/ws'
 	});
 	self.connectedAPIs = [];
 	self.connectToDatabase = function () {

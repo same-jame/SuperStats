@@ -1,22 +1,21 @@
 {
-  "name": "stats-server",
-  "version": "1.0.0",
-  "description": "super stats reporting server side",
-  "main": "stats.js",
-  "scripts": {
-	"test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "flubb",
-  "license": "MPL-2.0",
-  "dependencies": {
-	"express": "^4.16.2",
-	"express-rate-limit": "^2.11.0",
-	"jsonschema": "^1.2.2",
-	"lodash": "^4.17.5",
-	"mongodb": "^2.2.33",
-	"request": "^2.83.0",
-	"scrypt-async": "^2.0.0",
-	"socket.io": "^2.0.4",
-	"uws": "^8.14.1"
-  }
+	"name": "stats-server",
+	"version": "1.0.0",
+	"description": "super stats reporting server side",
+	"main": "stats.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "flubb",
+	"license": "MPL-2.0",
+	"dependencies": {
+		"express": "^4.16.3",
+		"express-rate-limit": "^2.12.1",
+		"jsonschema": "^1.2.4",
+		"lodash": "^4.17.10",
+		"mongodb": "2.2.36",
+		"request": "^2.87.0",
+		"scrypt-async": "^2.0.0",
+		"socket.io": "^2.1.1"
+	}
 }
