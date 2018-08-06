@@ -41,7 +41,7 @@ var model = new (function () {
 				that.month(e.getUTCMonth() + 1);
 				that.day(e.getUTCDate());
 				that.hour(e.getUTCHours());
-				that.minute(that.getUTCMinutes());
+				that.minute(e.getUTCMinutes());
 			}
 		});
 		self.urlData.date && that.date(self.urlData.date);
