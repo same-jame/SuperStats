@@ -28,7 +28,7 @@ window.superStats = new (function () {
 
 	var displayName = decode(sessionStorage.displayName);
 	var uberId = decode(sessionStorage.uberId);
-	var lobbyId = model.lobbyId();
+	var lobbyId = model.lobbyId() || '';
 	model.lobbyId.subscribe(function (r) {
 		lobbyId = r;
 	});
@@ -160,7 +160,6 @@ window.superStats = new (function () {
 	};
 	self.stopReporting = function () {
 		self.reporting = false;
-
 	};
 	self.reporting = false;
 	var stats = self.currentStats;
@@ -235,7 +234,9 @@ window.superStats = new (function () {
 		OldTime(pay);
 		var time = pay.end_time;
 		stats.time = Math.floor(time);
-		stats.simSpeed = pay.server_rate * 100;
+		if(pay.server_rate){
+			stats.simSpeed = Math.round(pay.server_rate * 100);
+		}
 		if (((stats.time % self.sendFrequency) === 0) && (stats.time !== currentTime) && self.reporting) {
 			self.addDataPoint();
 			self.sendUnitData();
@@ -266,13 +267,16 @@ window.superStats = new (function () {
 	});*/
 	//serverMode is assigned before all the gameOptions so they will all be false if there is a reconnect so the player won't actually report.
 	//We need to figure out whether to start reporting after everything has been assigned.
-	var OldServerState = handlers.server_state;
-	handlers.server_state = function (r) {
-		OldServerState(r);
-		if (model.serverMode() === "playing") {
+	//Full check implemented using observables instead.
+	model.superStatsInitialInfoFound = ko.computed(function(){
+		return model.serverMode() === 'playing' && model.players() && model.players().length && model.lobbyId() && model.lobbyId().length && model.planetListState().planets.length && model.gameOptions.game_type();
+	});
+	//could be in the computed but adhering to the pureComputed spec.
+	model.superStatsInitialInfoFound.subscribe(function(n){
+		if(n){
 			self.startReporting();
 		}
-	};
+	});
 	model.superStatsCanReport = ko.computed(function () {
 		var isLocalServer = model.serverType() === 'local';
 		return !(model.sandbox() || model.gameOptions.dynamic_alliances() || isLocalServer || model.gameOptions.isGalaticWar() || model.isSpectator());
