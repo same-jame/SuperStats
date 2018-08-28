@@ -171,7 +171,6 @@ module.exports = function (r, converter) {
 		socket.emit('in-game', true);
 		socket.on('dataPoint', function (point) {
 			var a = self.getArmyById(socket.shake.armyId);
-			var v = new Validator();
 			var schema = {
 				"type": "object",
 				"required": ["metalProd", "metalLoss", "metalStorage", "metalStored", "energyProd", "energyLoss", "energyStorage", "energyStored", "simSpeed", "time", "realTime"],
