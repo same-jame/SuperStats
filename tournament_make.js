@@ -33,7 +33,7 @@ var model = new (function () {
 		});
 		that.date = ko.computed({
 			read: function () {
-				return new Date(that.year(), that.month() - 1, that.day(), that.hour(), that.minute()).getTime();
+				return Date.UTC(that.year(), that.month() - 1, that.day(), that.hour(), that.minute());
 			},
 			write: function (q) {
 				var e = new Date(q);
