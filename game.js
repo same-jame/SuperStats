@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var Validator = require('jsonschema').Validator;
+var validate = require('jsonschema').validate;
 module.exports = function (r, converter) {
 	var self = this;
 	self.endTimeout = setTimeout(function () {
@@ -171,27 +171,26 @@ module.exports = function (r, converter) {
 		socket.emit('in-game', true);
 		socket.on('dataPoint', function (point) {
 			var a = self.getArmyById(socket.shake.armyId);
-			var v = new Validator();
 			var schema = {
 				"type": "object",
 				"required": ["metalProd", "metalLoss", "metalStorage", "metalStored", "energyProd", "energyLoss", "energyStorage", "energyStored", "simSpeed", "time", "realTime"],
 				"properties": {
 					"apm": {type: "number"},
-					"metalProd": {type: "integer"},
-					"metalLoss": {type: "integer"},
-					"metalStorage": {type: "integer"},
-					"metalStored": {type: "integer"},
-					"energyProd": {type: "integer"},
-					"energyLoss": {type: "integer"},
-					"energyStorage": {type: "integer"},
-					"energyStored": {type: "integer"},
-					"simSpeed": {type: "integer"},
-					"time": {type: "integer"},
-					"realTime": {type: "integer"}
+					"metalProd": {type: "number"},
+					"metalLoss": {type: "number"},
+					"metalStorage": {type: "number"},
+					"metalStored": {type: "number"},
+					"energyProd": {type: "number"},
+					"energyLoss": {type: "number"},
+					"energyStorage": {type: "number"},
+					"energyStored": {type: "number"},
+					"simSpeed": {type: "number"},
+					"time": {type: "number"},
+					"realTime": {type: "number"}
 				},
 				"additionalProperties": false
 			};
-			if (v.validate(point, schema).errors.length) {
+			if (validate(point, schema).errors.length) {
 				return;
 			}
 			point.realTime -= self.gameStartTime;
@@ -199,7 +198,6 @@ module.exports = function (r, converter) {
 		});
 		socket.on('unitDataPoint', function (point) {
 			var a = self.getArmyById(socket.shake.armyId);
-			var v = new Validator();
 			var schema = {
 				"type": "array",
 				"items": {
@@ -209,13 +207,13 @@ module.exports = function (r, converter) {
 					"properties": {
 						"delta": {type: "integer", required: true},
 						"unit": {type: "string", maxLength: 180, required: true},
-						"realTime": {type: "integer", required: true},
-						"time": {type: "integer", required: true}
+						"realTime": {type: "number", required: true},
+						"time": {type: "number", required: true}
 					},
 					"additionalProperties": false
 				}
 			};
-			var invalid = v.validate(point, schema).errors.length;
+			var invalid = validate(point, schema).errors.length;
 			if (invalid) {
 				return;
 			}

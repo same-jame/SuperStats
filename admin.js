@@ -253,7 +253,7 @@ module.exports = function (self) {
 	self.app.post('/api/matches/:game/cast/delete', function (req, res) {
 		var g = req.params.game;
 		var l = req.body.link;
-		if (!(g && g.constructor === String && g.length > 5 && g.length < 40 && l && l.constructor === String)) {
+		if (!(g && g.constructor === String && g.length > 5 && g.length < 50 && l && l.constructor === String)) {
 			res.json({error: 'malformed-query'});
 			return;
 		}
@@ -272,7 +272,7 @@ module.exports = function (self) {
 	self.app.use('/api/matches/:game/tournament/delete', self.permissionMiddleware('community-mod'));
 	self.app.use('/api/matches/:game/tournament/delete', function (req, res) {
 		var g = req.params.game;
-		if (!(g && g.constructor === String && g.length > 5 && g.length < 40 && l && l.constructor === String)) {
+		if (!(g && g.constructor === String && g.length > 5 && g.length < 50 && l && l.constructor === String)) {
 			res.json({error: 'malformed-query'});
 			return;
 		}
