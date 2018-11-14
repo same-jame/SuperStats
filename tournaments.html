@@ -31,6 +31,7 @@
 			</div>
 			<div class="tournament-top-row-b">
 				<span data-bind="text:timeString"></span>
+				<span data-bind="text:identifier,visible:$root.showTournamentMakeButton"></span>
 				<a data-bind="visible:link,attr:{href:link}">More Info</a>
 				<a data-bind="visible:cast,attr:{href:cast}">Cast</a>
 				<a data-bind="visible:$root.showTournamentMakeButton,attr:{href:addLink}">Modify Tournament</a>
