@@ -7,7 +7,7 @@ ko.bindingHandlers.visibility = {
 var model = new (function () {
 	var self = this;
 	//The search criteria will not actually change from the model input. Instead, clicking apply will redirect to the same page with GET parameters so the link can be shared.
-	self.perRequest = ko.observable(392);
+	self.perRequest = ko.observable(140);
 	self.perPage = ko.observable(14);
 	self.data = ko.observable(false);
 	self.searchData = ko.observable(false);

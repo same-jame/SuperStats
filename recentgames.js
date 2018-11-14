@@ -6,7 +6,7 @@ ko.bindingHandlers.visibility = {
 };
 var model = new (function () {
 	var self = this;
-	self.perRequest = ko.observable(392);
+	self.perRequest = ko.observable(140);
 	self.perPage = ko.observable(14);
 	self.page = ko.observable(1);
 	self.incrementPage = function (s) {
