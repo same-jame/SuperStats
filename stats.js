@@ -108,7 +108,7 @@ module.exports = function (data) {
 				self.bannedIPs = r ? r.content : [];
 			});
 		});
-		self.converter.authenticate();
+		self.converter.start();
 		self.server.listen(self.webServerInfo.hostport, self.webServerInfo.hostname);
 	}
 };

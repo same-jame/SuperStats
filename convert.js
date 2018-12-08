@@ -8,6 +8,10 @@ module.exports = function (u, p) {
 		"Password": p
 	};
 	self.sessionToken = '';
+	self.start = function(){
+		self.authenticate();
+		self.authenticateInterval = setInterval(self.authenticate,10 * 60 * 1000);
+	}
 	self.authenticate = function () {
 		request({
 			url: 'https://4.uberent.com/GC/Authenticate',
@@ -18,7 +22,6 @@ module.exports = function (u, p) {
 			if (typeof response === "object") {
 				self.sessionToken = response.SessionTicket || self.sessionToken;
 			}
-			setTimeout(self.authenticate, 5 * 60 * 1000);
 		});
 	};
 	self.convertUser = function (e, t) {
