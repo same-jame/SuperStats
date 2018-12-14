@@ -87,6 +87,31 @@ module.exports = function (self) {
 			res.json(q);
 		});
 	});
+	self.app.get('/api/matches/endtime', function (req, res) {
+		var max = req.query.max ? parseInt(req.query.max) : Date.now();
+		var min = parseInt(req.query.min);
+		if (!(req.query.min && (max > 0) && (min > 0))) {
+			res.json({
+				error: "malformed-query"
+			});
+			return;
+		}
+		var query = {
+			"$gte": min,
+		};
+		if (req.query.max) {
+			query["$lt"] = max;
+		}
+		self.database.collection('matches').aggregate(rPush([
+			{$match: {gameEndTime:query}},
+			{
+				$sort: {
+					gameEndTime: -1
+				}
+			}], matchFilters), {allowDiskUse: true}).toArray().then(function (q) {
+			res.json(q);
+		});
+	});
 	self.app.post('/api/matches/advancedsearch', function (req, res) {
 		var v = new Validator();
 		var schema = {
