@@ -17,11 +17,20 @@ body {
 }
 
 .footer {
-	width: 100%;
 	font-size: 16px;
 	height: 20px;
 	text-align: center;
+	padding: 10px;
+	display: table;
+	margin: 0 auto;
+	margin-top: 10px;
+	background-color: rgba(0, 0, 0, 0.80);
 }
+
+.footer-link {
+	margin-left: 20px;
+}
+
 
 a:active {
 	color: #00c8ff;
@@ -116,4 +125,7 @@ input[type=text], input[type=password], input[type=number], input[type=time] {
 select {
 	background-color: #343434;
 	color: #ffffff;
+}
+
+.main {
 }

@@ -545,7 +545,7 @@ var model = new (function () {
 					tick: {
 						format: '%M : %S'
 					},
-					label: {position: 'outer-center', text: "Time"},
+					label: {position: 'outer-left', text: "Time"},
 
 				},
 				y: {
@@ -614,7 +614,7 @@ var model = new (function () {
 		var button = this;
 		self.selectedGraphKey(button.id());
 	};
-	self.usingStrategicIcons = ko.observable(true);
+	self.usingStrategicIcons = ko.observable(false);
 	self.currentUnitTime = ko.observable(0);
 	self.searchTime = ko.computed(function () {
 		return self.usingGameTime() ? self.currentUnitTime() : self.currentUnitTime() * 1000;
