@@ -14,8 +14,8 @@
 
 .content {
 	width: 70%;
-	background-color: rgba(0, 0, 0, 0.90);
-	padding: 3px;
+	background-color: rgba(0, 0, 0, 0.80);
+	padding: 30px;
 	max-width: 1200px;
 	box-sizing: border-box;
 }
@@ -23,4 +23,8 @@
 .info {
 	font-size: 18px;
 	text-align: left;
+}
+
+.header { 
+	margin-top: 0px;
 }
