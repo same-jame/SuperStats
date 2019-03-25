@@ -78,6 +78,10 @@ module.exports = function (self) {
 						items: {type: "string", maxLength: 50}
 					},
 					ai: {type: "boolean"},
+					aiDiff:{
+						type:"string",
+						maxLength:50
+					},
 					econ_rate: {type: "number"},
 					armyId: {type: "integer"},
 					teamId: {type: "integer"}
