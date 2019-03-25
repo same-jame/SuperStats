@@ -17,7 +17,8 @@ module.exports = function (self) {
 						armyId: "$$x.armyId",
 						econ_rate: "$$x.econ_rate",
 						extendedPlayers: "$$x.extendedPlayers",
-						teamId: "$$x.teamId"
+						teamId: "$$x.teamId",
+						aiDiff:{$ifNull:["$$x.aiDiff",false]}
 					}
 				}
 			},
