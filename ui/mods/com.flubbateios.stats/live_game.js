@@ -111,6 +111,7 @@ window.superStats = new (function () {
 				secondaryColor: rgbToHex.apply(rgbToHex, army.secondary_color),
 				slots: army.slots,
 				ai: !!army.ai,
+				aiDiff: army.ai ? army.personality.name : '',
 				econ_rate: army.econ_rate,
 				armyId: army.id,
 				teamId: army.alliance_group || army.id
