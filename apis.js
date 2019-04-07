@@ -244,7 +244,7 @@ module.exports = function (self) {
 					$match: {
 						participatingIds: player
 					}
-				}, {$sort: {gameStartTime: -1}}], matchFilters), {allowDiskUse: true}).toArray().then(function (q) {
+				}, {$sort: {gameStartTime: -1}},{$limit:60}], matchFilters), {allowDiskUse: true}).toArray().then(function (q) {
 					r.matches = q ? q : [];
 					res.json(r);
 				});
