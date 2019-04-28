@@ -14,7 +14,7 @@
   "forum": "https://forums.uberent.com/threads/rel-super-stats.72858/",
   "identifier": "com.flubbateios.stats",
   "signature": "DontLetYourMemesBeDreams",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "icon":"https://flubbateios.com/stats/assets/img/logo.png",
   "priority": 101,
   "scenes": {
@@ -32,6 +32,9 @@
 	],
 	"game_over": [
 	  "coui://ui/mods/com.flubbateios.stats/game_over.js"
+	],
+	"uberbar":[
+		"coui://ui/mods/com.flubbateios.stats/uberbar.js"
 	]
   }
 }
