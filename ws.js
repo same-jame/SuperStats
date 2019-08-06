@@ -181,6 +181,8 @@ module.exports = function (self) {
 										var currentName = profile.knownDisplayNames[profile.knownDisplayNames.length - 1] ? profile.knownDisplayNames[profile.knownDisplayNames.length - 1].name : false;
 										if (x === "-2") {
 											name = 'AI';
+										}else if(x === "-1"){
+											name = 'Unknown';
 										} else {
 											var k = Object.keys(playerMap);
 											for (var y of k) {
