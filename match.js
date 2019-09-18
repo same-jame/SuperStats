@@ -12,6 +12,10 @@ ko.bindingHandlers.graph = {
 		el.graph = bb.generate(d2);
 	}
 };
+var hexToRgb = function(h) {
+	var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(h);
+	return [parseInt(result[1], 16),parseInt(result[2], 16),parseInt(result[1], 16)]
+};
 var model = new (function () {
 	var self = this;
 	self.getData = function (q) {
@@ -290,7 +294,8 @@ var model = new (function () {
 			x.energyUsedPerc = x.dataPointsStats.length ? Math.min(100, euPercByProd, euPercByWaste) + '%' : 0;
 			x.playersString = x.extendedPlayers.map((r) => {
 				return r.displayName
-			}).join(', ')
+			}).join(', ');
+			x.SIFilterId = 'si-army-filter-' + armies.indexOf(x);
 		}
 		return armies;
 
@@ -545,7 +550,7 @@ var model = new (function () {
 					tick: {
 						format: '%M : %S'
 					},
-					label: {position: 'outer-left', text: "Time"},
+					label: {position: 'outer-center', text: "Time"},
 
 				},
 				y: {
@@ -614,7 +619,7 @@ var model = new (function () {
 		var button = this;
 		self.selectedGraphKey(button.id());
 	};
-	self.usingStrategicIcons = ko.observable(false);
+	self.usingStrategicIcons = ko.observable(true);
 	self.currentUnitTime = ko.observable(0);
 	self.searchTime = ko.computed(function () {
 		return self.usingGameTime() ? self.currentUnitTime() : self.currentUnitTime() * 1000;
@@ -629,7 +634,7 @@ var model = new (function () {
 		return moment(self.currentUnitTime() * 1000).format('mm:ss')
 	});
 	self.strategicIconOverrides = {
-		'com.pa.n30n.equilibrium': {base: 'equilibrium_', units: ['orbital_probe']}
+		'com.pa.n30n.equilibrium': {base: 'equilibrium', units: ['orbital_probe']}
 	};
 	self.generateStrategicIconUrl = function (unit) {
 		var url = './assets/strategic_icons/';
@@ -641,10 +646,25 @@ var model = new (function () {
 				}
 			}
 		}
-		var p_url = url + 'primary/icon_si_' + u + '.png';
-		var s_url = url + 'shadow/icon_si_' + u + '.png';
-		return {primary: p_url, shadow: s_url};
+		return url + '/icon_si_' + u + '.png';
 	};
+	self.strategicIconFilters = ko.computed(function(){
+		return self.rawArmies().map(function(army){
+			var rgbValues = hexToRgb(army.primaryColor).map(function(q){
+				return q/255;
+			});
+			return {
+				matrixValues:`
+				0 ${rgbValues[0]} 0 0 0
+				0 ${rgbValues[1]} 0 0 0
+				0 ${rgbValues[2]} 0 0 0
+				0 0 0 1 0
+				0 0 0 0 1
+				`,
+				id:army.SIFilterId
+			};
+		});
+	});
 	self.buildBarIconOverrides = {};
 	self.generateBuildBarIconUrl = function (unit) {
 		var u = unit.split('/').pop().replace('.json', '');
@@ -690,10 +710,7 @@ var model = new (function () {
 			}
 			for (var z of highest.units) {
 				z.buildBarUrl = self.generateBuildBarIconUrl(z.unit);
-				var k = self.generateStrategicIconUrl(z.unit);
-				z.shadowUrl = k.shadow;
-				//this gets used in a CSS mask so we need a url() wrapper
-				z.primaryUrl = 'url(' + k.primary + ')';
+				z.SIUrl = self.generateStrategicIconUrl(z.unit);
 				z.unitDb = self.generateUnitDbUrl(z.unit);
 			}
 			out.push({
@@ -701,7 +718,8 @@ var model = new (function () {
 				primaryColor: x.primaryColor,
 				secondaryColor: x.secondaryColor,
 				playersString: x.playersString,
-				exact: equal
+				exact: equal,
+				SIFilterId:x.SIFilterId
 			});
 		}
 		return ko.mapping.fromJS(out)();

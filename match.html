@@ -24,6 +24,17 @@
 
 </head>
 <body>
+<div class="svg-filter-container">
+	<svg xmlns="http://www.w3.org/2000/svg" version="1.1" x="0" y="0" width="0" height="0">
+		<defs>
+			<!-- ko foreach:strategicIconFilters-->
+			<filter data-bind="attr:{id:SIFilterId}">
+					<feColorMatrix in="SourceGraphic" type="matrix" data-bind="attr:{values:matrixValues}"/>
+			</filter>
+			<!-- /ko-->
+		</defs>
+	</svg>
+</div>
 <div class="header" data-bind="remote:'./header.html'">
 </div>
 <div class="error404" data-bind="visible:show404">Match Not Found</div>
@@ -147,13 +158,14 @@
 			</div>
 			<div class="multi-button strategic-icon-switcher">
 				<div class="strategic-icon-selector"
+					data-bind="css:{pa_btn:!usingStrategicIcons(), pa_btn_active:usingStrategicIcons},click:usingStrategicIcons.bind(null,true)">
+					Strategic Icons
+			   	</div>
+				<div class="strategic-icon-selector"
 					 data-bind="css:{pa_btn:usingStrategicIcons, pa_btn_active:!usingStrategicIcons()},click:usingStrategicIcons.bind(null,false)">
 					Build Bar Icons
 				</div>
-				<div class="strategic-icon-selector"
-					 data-bind="css:{pa_btn:!usingStrategicIcons(), pa_btn_active:usingStrategicIcons},click:usingStrategicIcons.bind(null,true)">
-					Strategic Icons
-				</div>
+				
 			</div>
 			<div class="system-viewer">
 				<div class="planet-list">
@@ -218,9 +230,8 @@
 						<!-- ko foreach: data -->
 						<a class="unit-list-unit" data-bind="attr:{href:unitDb}" target="_blank">
 							<!-- ko if: $root.usingStrategicIcons -->
-							<img data-bind="attr:{src:shadowUrl}"/>
-							<div class="unit-list-unit-mask"
-								 data-bind="style:{'background-color':$parent.primaryColor,'mask-image':primaryUrl}"></div>
+							<img data-bind="attr:{src:SIUrl},style:{filter:'url(#'+$parent.SIFilterId+')'}"/>
+							
 							<!-- /ko -->
 							<!-- ko if: !$root.usingStrategicIcons() -->
 							<img data-bind="attr:{src:buildBarUrl}"/>

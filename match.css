@@ -178,11 +178,6 @@
 	position: relative;
 }
 
-.unit-list-unit-mask {
-	position: absolute;
-	width: 52px;
-	height: 52px;
-}
 
 .unit-list-unit > img {
 	position: absolute;
@@ -281,4 +276,8 @@
 
 tr.army:nth-child(even) {
 	background-color: #59595980;
+}
+.svg-filter-container{
+	width:0px;
+	height:0px;
 }
