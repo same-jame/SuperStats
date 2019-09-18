@@ -661,7 +661,7 @@ var model = new (function () {
 				0 0 0 1 0
 				0 0 0 0 1
 				`,
-				id:army.SIFilterId
+				SIFilterId:army.SIFilterId
 			};
 		});
 	});
