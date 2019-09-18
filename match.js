@@ -637,11 +637,12 @@ var model = new (function () {
 		'com.pa.n30n.equilibrium': {base: 'equilibrium', units: ['orbital_probe']}
 	};
 	self.generateStrategicIconUrl = function (unit) {
-		var url = './assets/strategic_icons/';
+		var url = './assets/strategic_icons/default';
 		var u = unit.split('/').pop().replace('.json', '');
 		for (var x of self.data().serverMods) {
 			if (self.strategicIconOverrides[x.identifier]) {
 				if (self.strategicIconOverrides[x.identifier]['units'].includes(u)) {
+					url = url.replace('/default' , '/');
 					url += self.strategicIconOverrides[x.identifier].base;
 				}
 			}
