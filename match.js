@@ -12,6 +12,13 @@ ko.bindingHandlers.graph = {
 		el.graph = bb.generate(d2);
 	}
 };
+var hexToRgb = function(h) {
+    var bg = parseInt(h.replace('#',''), 16);
+    var r = (bg >> 16) & 255;
+    var g = (bg >> 8) & 255;
+    var b = bg & 255;
+    return [r,g,b];
+}
 var model = new (function () {
 	var self = this;
 	self.getData = function (q) {
@@ -290,7 +297,7 @@ var model = new (function () {
 			x.energyUsedPerc = x.dataPointsStats.length ? Math.min(100, euPercByProd, euPercByWaste) + '%' : 0;
 			x.playersString = x.extendedPlayers.map((r) => {
 				return r.displayName
-			}).join(', ')
+			}).join(', ');
 		}
 		return armies;
 
@@ -629,21 +636,20 @@ var model = new (function () {
 		return moment(self.currentUnitTime() * 1000).format('mm:ss')
 	});
 	self.strategicIconOverrides = {
-		'com.pa.n30n.equilibrium': {base: 'equilibrium_', units: ['orbital_probe']}
+		'com.pa.n30n.equilibrium': {base: 'equilibrium', units: ['orbital_probe']}
 	};
 	self.generateStrategicIconUrl = function (unit) {
-		var url = './assets/strategic_icons/';
+		var url = './assets/strategic_icons/default';
 		var u = unit.split('/').pop().replace('.json', '');
 		for (var x of self.data().serverMods) {
 			if (self.strategicIconOverrides[x.identifier]) {
 				if (self.strategicIconOverrides[x.identifier]['units'].includes(u)) {
+					url = url.replace('/default' , '/');
 					url += self.strategicIconOverrides[x.identifier].base;
 				}
 			}
 		}
-		var p_url = url + 'primary/icon_si_' + u + '.png';
-		var s_url = url + 'shadow/icon_si_' + u + '.png';
-		return {primary: p_url, shadow: s_url};
+		return url + '/icon_si_' + u + '.png';
 	};
 	self.buildBarIconOverrides = {};
 	self.generateBuildBarIconUrl = function (unit) {
@@ -690,19 +696,27 @@ var model = new (function () {
 			}
 			for (var z of highest.units) {
 				z.buildBarUrl = self.generateBuildBarIconUrl(z.unit);
-				var k = self.generateStrategicIconUrl(z.unit);
-				z.shadowUrl = k.shadow;
-				//this gets used in a CSS mask so we need a url() wrapper
-				z.primaryUrl = 'url(' + k.primary + ')';
+				z.SIUrl = self.generateStrategicIconUrl(z.unit);
 				z.unitDb = self.generateUnitDbUrl(z.unit);
 			}
+			var rgbValues = hexToRgb(x.primaryColor).map(function(colour){
+				return colour/255;
+			});
+			var matrixValues = `
+			0 ${rgbValues[0]} 0 0 0
+			0 ${rgbValues[1]} 0 0 0
+			0 ${rgbValues[2]} 0 0 0
+			0 0 0 1 0` ;
 			out.push({
 				data: highest.units,
 				primaryColor: x.primaryColor,
 				secondaryColor: x.secondaryColor,
 				playersString: x.playersString,
-				exact: equal
+				exact: equal,
+				matrixValues:matrixValues,
+				filterId:ko.observable(x.primaryColor.replace('#',''))
 			});
+			
 		}
 		return ko.mapping.fromJS(out)();
 	});

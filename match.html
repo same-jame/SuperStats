@@ -21,7 +21,6 @@
 	<script src="./lib/moment.min.js"></script>
 	<script src="./remote.js"></script>
 	<script src="./match.js"></script>
-
 </head>
 <body>
 <div class="header" data-bind="remote:'./header.html'">
@@ -147,13 +146,14 @@
 			</div>
 			<div class="multi-button strategic-icon-switcher">
 				<div class="strategic-icon-selector"
-					 data-bind="css:{pa_btn:!usingStrategicIcons(), pa_btn_active:usingStrategicIcons},click:usingStrategicIcons.bind(null,true)">
+					data-bind="css:{pa_btn:!usingStrategicIcons(), pa_btn_active:usingStrategicIcons},click:usingStrategicIcons.bind(null,true)">
 					Strategic Icons
-				</div>
+			   	</div>
 				<div class="strategic-icon-selector"
 					 data-bind="css:{pa_btn:usingStrategicIcons, pa_btn_active:!usingStrategicIcons()},click:usingStrategicIcons.bind(null,false)">
 					Build Bar Icons
 				</div>
+				
 			</div>
 			<div class="system-viewer">
 				<div class="planet-list">
@@ -218,9 +218,15 @@
 						<!-- ko foreach: data -->
 						<a class="unit-list-unit" data-bind="attr:{href:unitDb}" target="_blank">
 							<!-- ko if: $root.usingStrategicIcons -->
-							<img data-bind="attr:{src:shadowUrl}"/>
-							<div class="unit-list-unit-mask"
-								 data-bind="style:{'background-color':$parent.primaryColor,'mask-image':primaryUrl}"></div>
+							<svg width="52" height="52" xmlns="http://www.w3.org/2000/svg">
+								<defs>
+									<filter data-bind="attr:{id:$parent.filterId}">
+											<feColorMatrix in="SourceGraphic" type="matrix" data-bind="attr:{values:$parent.matrixValues}"/>
+									</filter>
+								</defs>
+								<image width="52" height="52" data-bind="attr:{href:SIUrl,filter:`url(#${$parent.filterId()})`}"/>
+							</svg>
+							
 							<!-- /ko -->
 							<!-- ko if: !$root.usingStrategicIcons() -->
 							<img data-bind="attr:{src:buildBarUrl}"/>

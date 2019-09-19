@@ -1,11 +1,12 @@
 .main {
-	width: 100%;
+	width: 90%;
 	display: flex;
-	background-color: rgba(0, 0, 0, 0.90);
+	background-color: rgba(0, 0, 0, 0.80);
 	min-height: 800px;
 	box-sizing: border-box;
 	flex-direction: column;
-	margin: 40px 0 20px 0;
+	margin: 40px auto 20px auto;
+	padding: 10px;
 }
 
 .sidebar {
@@ -30,6 +31,7 @@
 
 .playerinfo {
 	font-size: 0;
+	margin-top: 15px;
 }
 
 .playerinfo > a, .playerinfo > span {
@@ -85,6 +87,7 @@
 
 .army-list {
 	width: 100%;
+	margin-bottom: 30px;
 }
 
 .army {
@@ -111,12 +114,13 @@
 .army-players-and-color {
 	display: flex;
 	flex-direction: row;
-	justify-content: center;
+	justify-content: left;
 }
 
 .army-table {
-	width: 100%;
-	margin: 20px 0 14px 0;
+	width: 90%;
+	margin: 20px auto 14px auto;
+	border-spacing: 0px;
 }
 
 .army-table > thead {
@@ -174,11 +178,6 @@
 	position: relative;
 }
 
-.unit-list-unit-mask {
-	position: absolute;
-	width: 52px;
-	height: 52px;
-}
 
 .unit-list-unit > img {
 	position: absolute;
@@ -273,4 +272,12 @@
 	padding: 2px;
 	box-sizing: border-box;
 	text-align: center;
+}
+
+tr.army:nth-child(even) {
+	background-color: #59595980;
+}
+.svg-filter-container{
+	width:0px;
+	height:0px;
 }
