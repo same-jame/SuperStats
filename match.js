@@ -13,9 +13,12 @@ ko.bindingHandlers.graph = {
 	}
 };
 var hexToRgb = function(h) {
-	var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(h);
-	return [parseInt(result[1], 16),parseInt(result[2], 16),parseInt(result[1], 16)]
-};
+    var bg = parseInt(h.replace('#',''), 16);
+    var r = (bg >> 16) & 255;
+    var g = (bg >> 8) & 255;
+    var b = bg & 255;
+    return [r,g,b];
+}
 var model = new (function () {
 	var self = this;
 	self.getData = function (q) {
@@ -295,7 +298,6 @@ var model = new (function () {
 			x.playersString = x.extendedPlayers.map((r) => {
 				return r.displayName
 			}).join(', ');
-			x.SIFilterId = 'si-army-filter-' + armies.indexOf(x);
 		}
 		return armies;
 
@@ -649,23 +651,6 @@ var model = new (function () {
 		}
 		return url + '/icon_si_' + u + '.png';
 	};
-	self.strategicIconFilters = ko.computed(function(){
-		return self.rawArmies().map(function(army){
-			var rgbValues = hexToRgb(army.primaryColor).map(function(q){
-				return q/255;
-			});
-			return {
-				matrixValues:`
-				0 ${rgbValues[0]} 0 0 0
-				0 ${rgbValues[1]} 0 0 0
-				0 ${rgbValues[2]} 0 0 0
-				0 0 0 1 0
-				0 0 0 0 1
-				`,
-				SIFilterId:army.SIFilterId
-			};
-		});
-	});
 	self.buildBarIconOverrides = {};
 	self.generateBuildBarIconUrl = function (unit) {
 		var u = unit.split('/').pop().replace('.json', '');
@@ -714,14 +699,24 @@ var model = new (function () {
 				z.SIUrl = self.generateStrategicIconUrl(z.unit);
 				z.unitDb = self.generateUnitDbUrl(z.unit);
 			}
+			var rgbValues = hexToRgb(x.primaryColor).map(function(colour){
+				return colour/255;
+			});
+			var matrixValues = `
+			0 ${rgbValues[0]} 0 0 0
+			0 ${rgbValues[1]} 0 0 0
+			0 ${rgbValues[2]} 0 0 0
+			0 0 0 1 0` ;
 			out.push({
 				data: highest.units,
 				primaryColor: x.primaryColor,
 				secondaryColor: x.secondaryColor,
 				playersString: x.playersString,
 				exact: equal,
-				SIFilterId:x.SIFilterId
+				matrixValues:matrixValues,
+				filterId:ko.observable(x.primaryColor.replace('#',''))
 			});
+			
 		}
 		return ko.mapping.fromJS(out)();
 	});

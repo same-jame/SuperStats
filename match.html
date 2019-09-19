@@ -21,20 +21,8 @@
 	<script src="./lib/moment.min.js"></script>
 	<script src="./remote.js"></script>
 	<script src="./match.js"></script>
-
 </head>
 <body>
-<div class="svg-filter-container">
-	<svg xmlns="http://www.w3.org/2000/svg" version="1.1" x="0" y="0" width="0" height="0">
-		<defs>
-			<!-- ko foreach:strategicIconFilters-->
-			<filter data-bind="attr:{id:SIFilterId}">
-					<feColorMatrix in="SourceGraphic" type="matrix" data-bind="attr:{values:matrixValues}"/>
-			</filter>
-			<!-- /ko-->
-		</defs>
-	</svg>
-</div>
 <div class="header" data-bind="remote:'./header.html'">
 </div>
 <div class="error404" data-bind="visible:show404">Match Not Found</div>
@@ -230,7 +218,14 @@
 						<!-- ko foreach: data -->
 						<a class="unit-list-unit" data-bind="attr:{href:unitDb}" target="_blank">
 							<!-- ko if: $root.usingStrategicIcons -->
-							<img data-bind="attr:{src:SIUrl},style:{filter:'url(#'+$parent.SIFilterId+')'}"/>
+							<svg width="52" height="52" xmlns="http://www.w3.org/2000/svg">
+								<defs>
+									<filter data-bind="attr:{id:$parent.filterId}">
+											<feColorMatrix in="SourceGraphic" type="matrix" data-bind="attr:{values:$parent.matrixValues}"/>
+									</filter>
+								</defs>
+								<image width="52" height="52" data-bind="attr:{href:SIUrl,filter:`url(#${$parent.filterId()})`}"/>
+							</svg>
 							
 							<!-- /ko -->
 							<!-- ko if: !$root.usingStrategicIcons() -->
