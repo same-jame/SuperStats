@@ -221,7 +221,7 @@
 							<svg width="52" height="52" xmlns="http://www.w3.org/2000/svg">
 								<defs>
 									<filter data-bind="attr:{id:$parent.filterId}">
-											<feColorMatrix in="SourceGraphic" type="matrix" data-bind="attr:{values:$parent.matrixValues}"/>
+											<feColorMatrix color-interpolation-filters="sRGB" in="SourceGraphic" type="matrix" data-bind="attr:{values:$parent.matrixValues}"/>
 									</filter>
 								</defs>
 								<image width="52" height="52" data-bind="attr:{href:SIUrl,filter:`url(#${$parent.filterId()})`}"/>

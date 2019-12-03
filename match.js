@@ -706,7 +706,7 @@ var model = new (function () {
 			0 ${rgbValues[0]} 0 0 0
 			0 ${rgbValues[1]} 0 0 0
 			0 ${rgbValues[2]} 0 0 0
-			0 0 0 1 0` ;
+			0 0 0 0 1` ;
 			out.push({
 				data: highest.units,
 				primaryColor: x.primaryColor,
